@@ -5,7 +5,8 @@
 
 enum class SpriteURI : u8
 {
-    Test = 0,
+    Rock = 0,
+    Player,
     COUNT
 };
 
@@ -28,6 +29,7 @@ private:
     SDL_Texture* m_sdlTexture;
 
     std::array<Sprite, AS(u8, SpriteURI::COUNT)> m_sprites {
-        { vec2i(0, 0), vec2i(128, 128) }
+        Sprite{ vec2i(0, 0), vec2i(128, 128) },
+        Sprite{ vec2i(128, 0), vec2i(128, 128) }
     };
 };

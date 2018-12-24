@@ -3,6 +3,7 @@
 #include "application.h"
 #include "SpriteAtlas.h"
 #include "Input.h"
+#include "Game/Game.h"
 
 #ifdef WIN32
 const u32 WinFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -54,9 +55,12 @@ void run()
 
     while (g_Running)
     {
-        Input::get().handleInput();
+        Input::handle_input();
+
+        Game::update();
 
         SDL_RenderClear(g_SDLRenderer);
+        Game::render();
         SDL_RenderPresent(g_SDLRenderer);
 
         ++fps;

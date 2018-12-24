@@ -18,6 +18,7 @@
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Input.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />

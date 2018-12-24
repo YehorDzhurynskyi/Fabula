@@ -4,15 +4,23 @@
 #include "SDL_events.h"
 #include "application.h"
 
+namespace
+{
 SDL_Event EventBuffer[4];
+}
 
-void Input::handleInput()
+namespace Input
+{
+bool MovedLeft = false;
+bool MovedRight = false;
+
+void handle_input()
 {
 #ifdef WIN32
     const u8 *keyboardState = SDL_GetKeyboardState(nullptr);
 
-    MoveLeft = keyboardState[SDL_SCANCODE_LEFT];
-    MoveRight = keyboardState[SDL_SCANCODE_RIGHT];
+    MovedLeft = keyboardState[SDL_SCANCODE_LEFT];
+    MovedRight = keyboardState[SDL_SCANCODE_RIGHT];
 #endif
 
     SDL_PumpEvents();
@@ -46,25 +54,26 @@ void Input::handleInput()
             {
                 if (event.tfinger.x < 0.35f)
                 {
-                    MoveLeft = true;
+                    MovedLeft = true;
                 }
                 else if (event.tfinger.x > 0.65f)
                 {
-                    MoveRight = true;
+                    MovedRight = true;
                 }
             } break;
             case SDL_FINGERUP:
             {
                 if (event.tfinger.x < 0.35f)
                 {
-                    MoveLeft = false;
+                    MovedLeft = false;
                 }
                 else if (event.tfinger.x > 0.65f)
                 {
-                    MoveRight = false;
+                    MovedRight = false;
                 }
             } break;
             }
         }
     }
+}
 }

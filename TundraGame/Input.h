@@ -1,21 +1,9 @@
 #pragma once
 
-class Input
+namespace Input
 {
-private:
-    Input() = default;
+    void handle_input();
 
-public:
-    static Input& get()
-    {
-        static Input instance;
-        return instance;
-    }
-
-public:
-    void handleInput();
-
-public:
-    bool MoveLeft = false;
-    bool MoveRight = false;
-};
+    extern bool MovedLeft;
+    extern bool MovedRight;
+}
