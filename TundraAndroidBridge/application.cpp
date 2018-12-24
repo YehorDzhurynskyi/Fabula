@@ -39,7 +39,7 @@ void run()
         REVEAL_SDL_ERROR("SDL window creation failed")
     }
 
-    g_SDLRenderer = SDL_CreateRenderer(g_SDLWindow, -1, SDL_RENDERER_ACCELERATED);
+    g_SDLRenderer = SDL_CreateRenderer(g_SDLWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (g_SDLRenderer == nullptr)
     {
         REVEAL_SDL_ERROR("SDL renderer creation failed")
@@ -53,11 +53,13 @@ void run()
     float elapsedTime = 0.0f;
     bool quit = false;
 
+    float totalElapsedTime = 0.0f;
+    SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
+
     while (!quit)
     {
         quit = Input::get().processInput();
 
-        SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
         SDL_RenderClear(g_SDLRenderer);
 
         FOR(5)
@@ -74,7 +76,8 @@ void run()
 
         {
             Transform t;
-            t.position = { 5.0f, 0.0f };
+            t.position.x = 2.0f * sin(2.0f * M_PI * totalElapsedTime);
+            t.position.y = 2.0f * cos(2.0f * M_PI * totalElapsedTime);
             t.size = { 1.0f, 1.0f };
             atlas.draw(SpriteURI::Test, t);
         }
@@ -85,6 +88,8 @@ void run()
         const u64 now = SDL_GetPerformanceCounter();
         g_DeltaTime = (now - lastPerfCounter) / (float)frequency;
         lastPerfCounter = now;
+
+        totalElapsedTime += g_DeltaTime;
 
         elapsedTime += g_DeltaTime;
         if (elapsedTime > 1.0f)
