@@ -12,8 +12,7 @@ public:
         return instance;
     }
 
-    static const float g_DesiredVisibleWorldWidth;
-    static const float g_MinimumWorldHeight;
+    static const float g_MinimumVisibleWorldHeight;
 
 public:
     vec2f getScreenSize() const;

@@ -6,11 +6,14 @@
 
 namespace
 {
+
 SDL_Event EventBuffer[4];
+
 }
 
 namespace Input
 {
+
 bool MovedLeft = false;
 bool MovedRight = false;
 
@@ -76,4 +79,5 @@ void handle_input()
         }
     }
 }
+
 }

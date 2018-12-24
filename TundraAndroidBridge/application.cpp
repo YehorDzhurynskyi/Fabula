@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "SDL.h"
 #include "application.h"
-#include "SpriteAtlas.h"
 #include "Input.h"
 #include "Game/Game.h"
 
@@ -44,8 +43,6 @@ void run()
         REVEAL_SDL_ERROR("SDL renderer creation failed")
     }
 
-    SpriteAtlas atlas("Assets/atlas.bmp");
-
     u64 lastPerfCounter = SDL_GetPerformanceCounter();
     u64 frequency = SDL_GetPerformanceFrequency();
     i32 fps = 0;
@@ -53,27 +50,30 @@ void run()
 
     SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
 
-    while (g_Running)
     {
-        Input::handle_input();
+        Game game;
 
-        Game::update();
-
-        SDL_RenderClear(g_SDLRenderer);
-        Game::render();
-        SDL_RenderPresent(g_SDLRenderer);
-
-        ++fps;
-        const u64 now = SDL_GetPerformanceCounter();
-        g_DeltaTime = (now - lastPerfCounter) / (float)frequency;
-        lastPerfCounter = now;
-
-        elapsedTime += g_DeltaTime;
-        if (elapsedTime > 1.0f)
+        while (g_Running)
         {
-            elapsedTime -= 1.0f;
-            SDL_Log("FPS: %i, %fms", fps, 1000.f / fps);
-            fps = 0;
+            Input::handle_input();
+            game.update();
+
+            SDL_RenderClear(g_SDLRenderer);
+            game.render();
+            SDL_RenderPresent(g_SDLRenderer);
+
+            ++fps;
+            const u64 now = SDL_GetPerformanceCounter();
+            g_DeltaTime = (now - lastPerfCounter) / (float)frequency;
+            lastPerfCounter = now;
+
+            elapsedTime += g_DeltaTime;
+            if (elapsedTime > 1.0f)
+            {
+                elapsedTime -= 1.0f;
+                SDL_Log("FPS: %i, %fms", fps, 1000.f / fps);
+                fps = 0;
+            }
         }
     }
 

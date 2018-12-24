@@ -2,8 +2,10 @@
 
 namespace Input
 {
-    void handle_input();
 
-    extern bool MovedLeft;
-    extern bool MovedRight;
+extern bool MovedLeft;
+extern bool MovedRight;
+
+void handle_input();
+
 }
