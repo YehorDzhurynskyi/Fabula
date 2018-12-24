@@ -1,0 +1,37 @@
+[Story]
+
+A resident of the tundra rests in the mountains
+and discovers that an avalanche moves on him,
+he immediately begins his descent down
+
+[Core Gameplay]
+
+Using simple controls, it is necessary to get
+away from the avalanche as far as possible,
+on the way there are both obstacles (hurricanes,
+stones, trees) and vehicles (licks, boats) that
+will speed up the descent. The game has several
+locations, such as: steep descent,
+lake, forest area, glade - some of which
+you need to go through the means of transport.
+
+[Player mechanics]
+
+ - move left
+ - move right
+
+[Assets]
+
+ textures:
+	- tundraman
+	- avalanche
+	- relief (plains, hills, rocks)
+	- tree
+	- stone
+	- lick
+	- tundraman on lick
+	- boat
+	- tundraman on boat
+	- water
+	- flora (grass, flowers, bushes)
+	- fauna ???
