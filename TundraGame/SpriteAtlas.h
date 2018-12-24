@@ -22,7 +22,7 @@ public:
     explicit SpriteAtlas(const char* filename);
     ~SpriteAtlas();
 
-    void draw(SpriteURI uri, const vec2f& position) const;
+    void draw(SpriteURI uri, const Transform& transform) const;
 
 private:
     SDL_Texture* m_sdlTexture;

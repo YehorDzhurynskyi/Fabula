@@ -12,11 +12,13 @@ public:
         return instance;
     }
 
-public:
-    void setViewPortSize(vec2i size);
-    vec2i getViewPortSize() const;
+    static const float VisibleWorldHeight;
 
-private:
-    vec2i m_viewportSize;
+public:
+    vec2f getScreenSize() const;
+    vec2f getVisibleWorldBounds() const;
+
+    Transform toWorldSpace(const Transform& screenSpace) const;
+    Transform toScreenSpace(const Transform& worldSpace) const;
 };
 

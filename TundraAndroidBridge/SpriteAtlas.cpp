@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "SpriteAtlas.h"
 #include "application.h"
-#include "SDL_filesystem.h"
-#include "SDL_system.h"
+#include "Camera.h"
 
 SpriteAtlas::SpriteAtlas(const char* filename)
 {
@@ -26,7 +25,7 @@ SpriteAtlas::~SpriteAtlas()
     SDL_DestroyTexture(m_sdlTexture);
 }
 
-void SpriteAtlas::draw(SpriteURI uri, const vec2f& position) const
+void SpriteAtlas::draw(SpriteURI uri, const Transform& transform) const
 {
     const Sprite& sprite = m_sprites[AS(u8, uri)];
     SDL_Rect srcRect;
@@ -35,11 +34,13 @@ void SpriteAtlas::draw(SpriteURI uri, const vec2f& position) const
     srcRect.w = sprite.size.x;
     srcRect.h = sprite.size.y;
 
+    const Transform screenTransform = Camera::get().toScreenSpace(transform);
+
     SDL_Rect destRect;
-    destRect.x = position.x;
-    destRect.y = position.y;
-    destRect.w = sprite.size.x;
-    destRect.h = sprite.size.y;
+    destRect.w = screenTransform.size.x;
+    destRect.h = screenTransform.size.y;
+    destRect.x = screenTransform.position.x;// -destRect.w / 2;
+    destRect.y = screenTransform.position.y;// -destRect.h / 2;
 
     const i32 res = SDL_RenderCopyEx(g_SDLRenderer,
                                      m_sdlTexture,

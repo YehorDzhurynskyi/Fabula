@@ -244,3 +244,9 @@ struct vec2
 
 using vec2f = vec2<float>;
 using vec2i = vec2<i32>;
+
+struct Transform
+{
+    vec2f position;
+    vec2f size;
+};
