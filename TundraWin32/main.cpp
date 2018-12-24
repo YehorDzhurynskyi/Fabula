@@ -1,5 +1,6 @@
 #include "pch.h"
-#include "run.h"
+#include "application.h"
+#undef main
 
 int main(int argc, char* argv[])
 {
