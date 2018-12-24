@@ -12,8 +12,8 @@ public:
         return instance;
     }
 
-    static const float DesiredVisibleWorldWidth;
-    static const float MinimumWorldHeight;
+    static const float g_DesiredVisibleWorldWidth;
+    static const float g_MinimumWorldHeight;
 
 public:
     vec2f getScreenSize() const;
@@ -22,7 +22,7 @@ public:
     Transform toWorldSpace(const Transform& screenSpace) const;
     Transform toScreenSpace(const Transform& worldSpace) const;
 
-private:
-    float m_zoom = 1.0f;
+    vec2f Position;
+    float Zoom = 1.0f;
 };
 

@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "application.h"
 #include "SpriteAtlas.h"
+#include "Input.h"
 
 #ifdef WIN32
 const u32 WinFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -9,11 +10,16 @@ const u32 WinFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 const u32 WinFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
 #endif
 
-SDL_Window* g_SDLWindow;
-SDL_Renderer* g_SDLRenderer;
+SDL_Window* g_SDLWindow = nullptr;
+SDL_Renderer* g_SDLRenderer = nullptr;
+float g_DeltaTime = 0.0f;
+
+Transform test;
 
 void run()
 {
+    test.size = { 1.0f, 1.0f };
+
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         REVEAL_SDL_ERROR("SDL Initialization failed")
@@ -49,25 +55,7 @@ void run()
 
     while (!quit)
     {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-            {
-                quit = true;
-            } break;
-
-            case SDL_KEYDOWN:
-            case SDL_KEYUP:
-            {
-                
-            } break;
-
-            default: break;
-            }
-        }
+        quit = Input::get().processInput();
 
         SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
         SDL_RenderClear(g_SDLRenderer);
@@ -81,10 +69,7 @@ void run()
         }
 
         {
-            Transform t;
-            t.position = { 0.0f, -5.0f };
-            t.size = { 1.0f, 1.0f };
-            atlas.draw(SpriteURI::Test, t);
+            atlas.draw(SpriteURI::Test, test);
         }
 
         {
@@ -98,10 +83,10 @@ void run()
 
         ++fps;
         const u64 now = SDL_GetPerformanceCounter();
-        const float SPF = (now - lastPerfCounter) / (float)frequency;
+        g_DeltaTime = (now - lastPerfCounter) / (float)frequency;
         lastPerfCounter = now;
 
-        elapsedTime += SPF;
+        elapsedTime += g_DeltaTime;
         if (elapsedTime > 1.0f)
         {
             elapsedTime -= 1.0f;
