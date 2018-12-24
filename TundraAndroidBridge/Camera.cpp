@@ -3,12 +3,14 @@
 
 #include "application.h"
 #include "SDL_video.h"
+#include <algorithm>
 
-const float Camera::VisibleWorldHeight = 10.0f;
+const float Camera::DesiredVisibleWorldWidth = 8.0f;
+const float Camera::MinimumWorldHeight = 10.0f;
 
 vec2f Camera::getScreenSize() const
 {
-    // TODO cache size value
+    // TODO cache
     int w, h;
     SDL_GetWindowSize(g_SDLWindow, &w, &h);
     return vec2f(w, h);
@@ -16,10 +18,13 @@ vec2f Camera::getScreenSize() const
 
 vec2f Camera::getVisibleWorldBounds() const
 {
+    // TODO cache
     const vec2f screenSize = getScreenSize();
     const float aspectRatio = screenSize.x / screenSize.y;
+    const float hBound = DesiredVisibleWorldWidth / aspectRatio;
+    const float scale = std::max<float>(MinimumWorldHeight / hBound, 1.0f / m_zoom);
 
-    return vec2f(VisibleWorldHeight * aspectRatio, VisibleWorldHeight);
+    return vec2f(DesiredVisibleWorldWidth, hBound) * scale;
 }
 
 Transform Camera::toWorldSpace(const Transform& screenSpace) const

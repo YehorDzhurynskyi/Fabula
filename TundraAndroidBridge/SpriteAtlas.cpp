@@ -39,8 +39,8 @@ void SpriteAtlas::draw(SpriteURI uri, const Transform& transform) const
     SDL_Rect destRect;
     destRect.w = screenTransform.size.x;
     destRect.h = screenTransform.size.y;
-    destRect.x = screenTransform.position.x;// -destRect.w / 2;
-    destRect.y = screenTransform.position.y;// -destRect.h / 2;
+    destRect.x = screenTransform.position.x - destRect.w / 2;
+    destRect.y = screenTransform.position.y - destRect.h / 2;
 
     const i32 res = SDL_RenderCopyEx(g_SDLRenderer,
                                      m_sdlTexture,
