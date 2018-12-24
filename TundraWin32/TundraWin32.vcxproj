@@ -68,6 +68,13 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <CustomBuildStep>
+      <Command>mkdir $(OutDir)Assets
+copy /y $(SolutionDir)Assets $(OutDir)Assets
+mkdir $(ProjectDir)Assets
+copy /y $(SolutionDir)Assets $(ProjectDir)Assets</Command>
+      <Outputs>$(OutDir)Assets;$(ProjectDir)Assets;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -88,6 +95,13 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <CustomBuildStep>
+      <Command>mkdir $(OutDir)Assets
+copy /y $(SolutionDir)Assets $(OutDir)Assets
+mkdir $(ProjectDir)Assets
+copy /y $(SolutionDir)Assets $(ProjectDir)Assets</Command>
+      <Outputs>$(OutDir)Assets;$(ProjectDir)Assets;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

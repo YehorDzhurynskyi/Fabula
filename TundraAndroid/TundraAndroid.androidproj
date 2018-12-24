@@ -124,6 +124,8 @@
     </AntPackage>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Content Include="assets\Assets\atlas.bmp" />
+    <Content Include="assets\Assets\atlas.pdn" />
     <Content Include="res\values\drawable-hdpi\ic_launcher.png" />
     <Content Include="res\values\drawable-mdpi\ic_launcher.png" />
     <Content Include="res\values\drawable-xhdpi\ic_launcher.png" />
