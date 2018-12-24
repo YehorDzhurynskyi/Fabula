@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SpriteAtlas.h"
+#include <vector>
 
 class Game;
 class Player
@@ -8,10 +9,14 @@ class Player
     friend Game;
 public:
     void update();
-    void render() const;
 
-private:
-    Transform m_transform;
+    Transform Transform;
+};
+
+class Obstacle
+{
+public:
+    Transform Transform;
 };
 
 class Game
@@ -28,4 +33,5 @@ public:
 private:
     Player m_player;
     SpriteAtlas m_atlas;
+    std::vector<Obstacle> m_obstacles;
 };
