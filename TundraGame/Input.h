@@ -13,7 +13,7 @@ public:
     }
 
 public:
-    bool processInput();
+    void handleInput();
 
 public:
     bool MoveLeft = false;

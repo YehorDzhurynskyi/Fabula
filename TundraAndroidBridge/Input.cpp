@@ -2,12 +2,11 @@
 #include "Input.h"
 #include "Camera.h"
 #include "SDL_events.h"
+#include "application.h"
 
-extern Transform test;
+SDL_Event EventBuffer[4];
 
-SDL_Event EventBuffer[8];
-
-bool Input::processInput()
+void Input::handleInput()
 {
 #ifdef WIN32
     const u8 *keyboardState = SDL_GetKeyboardState(nullptr);
@@ -41,7 +40,7 @@ bool Input::processInput()
             {
             case SDL_QUIT:
             {
-                return true;
+                g_Running = false;
             } break;
             case SDL_FINGERDOWN:
             {
@@ -68,11 +67,4 @@ bool Input::processInput()
             }
         }
     }
-
-    const float speed = 10.0f;
-    const float dx = speed * g_DeltaTime;
-    test.position.x += -dx * MoveLeft;
-    test.position.x += dx * MoveRight;
-
-    return false;
 }

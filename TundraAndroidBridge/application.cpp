@@ -12,14 +12,12 @@ const u32 WinFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDE
 
 SDL_Window* g_SDLWindow = nullptr;
 SDL_Renderer* g_SDLRenderer = nullptr;
-float g_DeltaTime = 0.0f;
+bool g_Running = true;
 
-Transform test;
+float g_DeltaTime = 0.0f;
 
 void run()
 {
-    test.size = { 1.0f, 1.0f };
-
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         REVEAL_SDL_ERROR("SDL Initialization failed")
@@ -51,45 +49,20 @@ void run()
     u64 frequency = SDL_GetPerformanceFrequency();
     i32 fps = 0;
     float elapsedTime = 0.0f;
-    bool quit = false;
 
-    float totalElapsedTime = 0.0f;
     SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
 
-    while (!quit)
+    while (g_Running)
     {
-        quit = Input::get().processInput();
+        Input::get().handleInput();
 
         SDL_RenderClear(g_SDLRenderer);
-
-        FOR(5)
-        {
-            Transform t;
-            t.position = { 0.0f, AS(float, index) };
-            t.size = { 1.0f, 1.0f };
-            atlas.draw(SpriteURI::Test, t);
-        }
-
-        {
-            atlas.draw(SpriteURI::Test, test);
-        }
-
-        {
-            Transform t;
-            t.position.x = 2.0f * sin(2.0f * M_PI * totalElapsedTime);
-            t.position.y = 2.0f * cos(2.0f * M_PI * totalElapsedTime);
-            t.size = { 1.0f, 1.0f };
-            atlas.draw(SpriteURI::Test, t);
-        }
-
         SDL_RenderPresent(g_SDLRenderer);
 
         ++fps;
         const u64 now = SDL_GetPerformanceCounter();
         g_DeltaTime = (now - lastPerfCounter) / (float)frequency;
         lastPerfCounter = now;
-
-        totalElapsedTime += g_DeltaTime;
 
         elapsedTime += g_DeltaTime;
         if (elapsedTime > 1.0f)
