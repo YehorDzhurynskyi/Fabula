@@ -119,7 +119,7 @@ void SpriteAtlas::draw(AnimatedSpriteURI uri, const Transform& transform, const 
     const AnimatedSprite& sprite = g_AnimatedSprites[AS(u8, uri)];
     const i32 sizeOfFrame = sprite.Size.x / sprite.Pitch;
 
-    const int frame = (int)time % sprite.NOfFrames;
+    const i32 frame = (i32)time % sprite.NOfFrames;
     assert(frame == clamp<i32>(frame, 0, sprite.NOfFrames - 1));
 
     SDL_Rect srcRect;

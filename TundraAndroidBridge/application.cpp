@@ -48,7 +48,7 @@ void run()
     i32 fps = 0;
     float elapsedTime = 0.0f;
 
-    SDL_SetRenderDrawColor(g_SDLRenderer, 0xff, 0x00, 0xff, 0x00);
+    SDL_SetRenderDrawColor(g_SDLRenderer, 0xf2, 0xf2, 0xf2, 0x00);
 
     {
         Game game;
