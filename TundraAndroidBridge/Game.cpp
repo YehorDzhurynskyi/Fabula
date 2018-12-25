@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 8.0f;
+const float Game::g_MapWidth = 9.0f;
 
 Game::Game()
     : m_atlas("Assets/atlas.bmp")
