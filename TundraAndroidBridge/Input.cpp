@@ -14,17 +14,11 @@ SDL_Event EventBuffer[4];
 namespace Input
 {
 
-bool MovedLeft = false;
-bool MovedRight = false;
+bool DirectionSwitched = false;
 
 void handle_input()
 {
-#ifdef WIN32
-    const u8 *keyboardState = SDL_GetKeyboardState(nullptr);
-
-    MovedLeft = keyboardState[SDL_SCANCODE_LEFT];
-    MovedRight = keyboardState[SDL_SCANCODE_RIGHT];
-#endif
+    DirectionSwitched = false;
 
     SDL_PumpEvents();
     while (true)
@@ -53,27 +47,13 @@ void handle_input()
             {
                 g_Running = false;
             } break;
+            case SDL_KEYDOWN:
+            {
+                DirectionSwitched = event.key.keysym.scancode == SDL_SCANCODE_SPACE;
+            } break;
             case SDL_FINGERDOWN:
             {
-                if (event.tfinger.x < 0.35f)
-                {
-                    MovedLeft = true;
-                }
-                else if (event.tfinger.x > 0.65f)
-                {
-                    MovedRight = true;
-                }
-            } break;
-            case SDL_FINGERUP:
-            {
-                if (event.tfinger.x < 0.35f)
-                {
-                    MovedLeft = false;
-                }
-                else if (event.tfinger.x > 0.65f)
-                {
-                    MovedRight = false;
-                }
+                DirectionSwitched = true;
             } break;
             }
         }

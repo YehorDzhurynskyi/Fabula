@@ -3,8 +3,7 @@
 namespace Input
 {
 
-extern bool MovedLeft;
-extern bool MovedRight;
+extern bool DirectionSwitched;
 
 void handle_input();
 

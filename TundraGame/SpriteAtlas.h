@@ -11,6 +11,8 @@ enum class SpriteURI : u8
     Tree1,
     Tree2,
     Tree3,
+    Tree4,
+    Stone,
     COUNT
 };
 

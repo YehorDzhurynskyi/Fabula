@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 8.0f;
+const float Game::g_MapWidth = 10.0f;
 
 Game::Game()
     : m_atlas("Assets/atlas.bmp")
@@ -24,19 +24,23 @@ void Game::update()
         Obstacle obstacle;
         obstacle.Transform.position = m_player.Transform.position;
         obstacle.Transform.position.y += Camera::get().getVisibleWorldBounds().y;
-        obstacle.SpriteURI = AS(SpriteURI, rand() % 6);
+        obstacle.SpriteURI = AS(SpriteURI, rand() % 8);
+
+        obstacle.SpriteURI = rand() % 2 == 0 ? SpriteURI::Tree4 : SpriteURI::Stone;
 
         switch (obstacle.SpriteURI)
         {
         case SpriteURI::Rock:
         case SpriteURI::Bush:
         case SpriteURI::Stump:
+        case SpriteURI::Stone:
         {
             obstacle.Transform.size = vec2f(0.75f, 0.75f);
         } break;
         case SpriteURI::Tree1:
         case SpriteURI::Tree2:
         case SpriteURI::Tree3:
+        case SpriteURI::Tree4:
         {
             obstacle.Transform.size = vec2f(1.5f, 1.5f); break;
         } break;
@@ -92,12 +96,18 @@ void Game::render()
 
 void Player::update()
 {
-    const float speed = 5.0f;
+    static bool left;
+    const float speed = 2.0f;
     const float dPos = speed * g_DeltaTime;
 
-    Transform.position.x -= dPos * Input::MovedLeft;
-    Transform.position.x += dPos * Input::MovedRight;
-    Transform.position.y += dPos;
+    if (Input::DirectionSwitched)
+    {
+        left = !left;
+    }
+
+    Transform.position.x -= dPos * left;
+    Transform.position.x += dPos * !left;
+    Transform.position.y += 2.0f * dPos;
 
     const float worldLimit = (Game::g_MapWidth - Transform.size.x) * 0.5f;
     Transform.position.x = clamp<float>(Transform.position.x, -worldLimit, worldLimit);
