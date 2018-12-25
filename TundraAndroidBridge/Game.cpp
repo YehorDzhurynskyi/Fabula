@@ -54,7 +54,11 @@ void Game::update()
 
 void Game::render()
 {
-    m_atlas.draw(SpriteURI::Player, m_player.Transform);
+    static float time;
+
+    time += g_DeltaTime;
+
+    m_atlas.draw(AnimatedSpriteURI::Player, m_player.Transform, time * 14.0f);
     for (const auto& obstacle : m_obstacles)
     {
         m_atlas.draw(obstacle.SpriteURI, obstacle.Transform);
