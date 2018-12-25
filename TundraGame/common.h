@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include "SDL_log.h"
 #include "SDL_assert.h"
 #include <algorithm>

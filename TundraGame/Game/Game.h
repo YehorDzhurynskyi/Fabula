@@ -16,6 +16,7 @@ public:
 class Obstacle
 {
 public:
+    SpriteURI SpriteURI;
     Transform Transform;
 };
 
