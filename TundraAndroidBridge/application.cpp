@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SDL.h"
+#include "SDL_image.h"
 #include "application.h"
 #include "Input.h"
 #include "Game/Game.h"
@@ -22,6 +23,8 @@ void run()
     {
         REVEAL_SDL_ERROR("SDL Initialization failed")
     }
+
+    IMG_Init(IMG_INIT_PNG);
 
     const i32 winWidth = 450;
     const i32 winHeight = 800;
@@ -79,5 +82,6 @@ void run()
 
     SDL_DestroyRenderer(g_SDLRenderer);
     SDL_DestroyWindow(g_SDLWindow);
+    IMG_Quit();
     SDL_Quit();
 }

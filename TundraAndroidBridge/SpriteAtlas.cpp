@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SpriteAtlas.h"
 #include "application.h"
+#include "SDL_image.h"
 #include "Camera.h"
 
 namespace
@@ -47,7 +48,7 @@ const SpriteAtlas::AnimatedSpriteArray SpriteAtlas::g_AnimatedSprites = initAnim
 
 SpriteAtlas::SpriteAtlas(const char* filename)
 {
-    SDL_Surface* sdlSurface = SDL_LoadBMP(filename);
+    SDL_Surface* sdlSurface = IMG_Load(filename);
     if (sdlSurface == nullptr)
     {
         REVEAL_SDL_ERROR("SDL failed to load sprite atlas")

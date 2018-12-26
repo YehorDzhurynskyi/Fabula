@@ -9,7 +9,7 @@
 const float Game::g_MapWidth = 9.0f;
 
 Game::Game()
-    : m_atlas("Assets/atlas.bmp")
+    : m_atlas("Assets/atlas.png")
 {
     m_obstacles.reserve(100);
     m_snowballs.reserve(100);
