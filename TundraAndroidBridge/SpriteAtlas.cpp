@@ -8,51 +8,31 @@ namespace
 SpriteAtlas::SpriteArray&& initSprites()
 {
     Sprite rock;
-    rock.Offset = vec2i(0, 0);
-    rock.Size = vec2i(128, 128);
-
-    Sprite bush;
-    bush.Offset = vec2i(128, 0);
-    bush.Size = vec2i(128, 128);
-
-    Sprite stump;
-    stump.Offset = vec2i(64, 128);
-    stump.Size = vec2i(64, 64);
+    rock.Offset = vec2i(1024, 512);
+    rock.Size = vec2i(512, 512);
 
     Sprite tree1;
-    tree1.Offset = vec2i(256, 0);
-    tree1.Size = vec2i(128, 128);
+    tree1.Offset = vec2i(0, 512);
+    tree1.Size = vec2i(512, 512);
 
     Sprite tree2;
-    tree2.Offset = vec2i(384, 0);
-    tree2.Size = vec2i(128, 128);
+    tree2.Offset = vec2i(512, 512);
+    tree2.Size = vec2i(512, 512);
 
-    Sprite tree3;
-    tree3.Offset = vec2i(0, 128);
-    tree3.Size = vec2i(64, 64);
-
-    Sprite tree4;
-    tree4.Offset = vec2i(512, 0);
-    tree4.Size = vec2i(128, 128);
-
-    Sprite stone;
-    stone.Offset = vec2i(640, 0);
-    stone.Size = vec2i(128, 128);
-
-    return SpriteAtlas::SpriteArray{ rock, bush, stump, tree1, tree2, tree3, tree4, stone };
+    return SpriteAtlas::SpriteArray{ rock, tree1, tree2 };
 }
 
 SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()
 {
     AnimatedSprite player;
-    player.Offset = vec2i(0, 256);
+    player.Offset = vec2i(0, 0);
     player.Pitch = 9;
     player.NOfFrames = 9;
     player.Size = vec2i(player.Pitch, (player.NOfFrames / player.Pitch));
     player.Size *= 128;
 
     AnimatedSprite snowball;
-    snowball.Offset = vec2i(0, 384);
+    snowball.Offset = vec2i(0, 128);
     snowball.Pitch = 8;
     snowball.NOfFrames = 8;
     snowball.Size = vec2i(snowball.Pitch, (snowball.NOfFrames / snowball.Pitch));

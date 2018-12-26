@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 10.0f;
+const float Game::g_MapWidth = 8.0f;
 
 Game::Game()
     : m_atlas("Assets/atlas.bmp")
@@ -24,25 +24,18 @@ void Game::update()
         Obstacle obstacle;
         obstacle.Transform.position = m_player.Transform.position;
         obstacle.Transform.position.y += Camera::get().getVisibleWorldBounds().y;
-        obstacle.SpriteURI = AS(SpriteURI, rand() % 8);
-
-        obstacle.SpriteURI = rand() % 2 == 0 ? SpriteURI::Tree4 : SpriteURI::Stone;
+        obstacle.SpriteURI = AS(SpriteURI, rand() % AS(u8, SpriteURI::COUNT));
 
         switch (obstacle.SpriteURI)
         {
         case SpriteURI::Rock:
-        case SpriteURI::Bush:
-        case SpriteURI::Stump:
-        case SpriteURI::Stone:
         {
             obstacle.Transform.size = vec2f(0.75f, 0.75f);
         } break;
         case SpriteURI::Tree1:
         case SpriteURI::Tree2:
-        case SpriteURI::Tree3:
-        case SpriteURI::Tree4:
         {
-            obstacle.Transform.size = vec2f(1.5f, 1.5f); break;
+            obstacle.Transform.size = vec2f(2.0f, 2.0f); break;
         } break;
         default:
         {

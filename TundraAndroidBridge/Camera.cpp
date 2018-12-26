@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "Game/Game.h"
 
-const float Camera::g_MinimumVisibleWorldHeight = 17.5f;
+const float Camera::g_MinimumVisibleWorldHeight = 12.0f;
 
 vec2f Camera::getScreenSize() const
 {
