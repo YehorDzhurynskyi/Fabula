@@ -1,9 +1,12 @@
 #include "pch.h"
+
 #include "Game/Game.h"
+#include "Game/Level.h"
+
 #include "Camera.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 8.0f;
+const float Game::g_MapWidth = 9.0f;
 
 Game::Game()
     : m_atlas("Assets/atlas.bmp")
@@ -14,48 +17,13 @@ Game::Game()
 
 void Game::update()
 {
-    static float timer = 0.0f;
-    static float ballTimer = 0.0f;
+    static float time;
 
-    timer -= g_DeltaTime;
-    ballTimer -= g_DeltaTime;
-    if (timer <= 0.0f)
+    time -= g_DeltaTime;
+    if (time <= 0.0f)
     {
-        Obstacle obstacle;
-        obstacle.Transform.position = m_player.Transform.position;
-        obstacle.Transform.position.y += Camera::get().getVisibleWorldBounds().y;
-        obstacle.SpriteURI = AS(SpriteURI, rand() % AS(u8, SpriteURI::COUNT));
-
-        switch (obstacle.SpriteURI)
-        {
-        case SpriteURI::Rock:
-        {
-            obstacle.Transform.size = vec2f(0.75f, 0.75f);
-        } break;
-        case SpriteURI::Tree1:
-        case SpriteURI::Tree2:
-        {
-            obstacle.Transform.size = vec2f(2.0f, 2.0f); break;
-        } break;
-        default:
-        {
-            assert(!"Unrecognized obstacle");
-        } break;
-        }
-
-        m_obstacles.push_back(obstacle);
-        timer = 2.0f;
-    }
-    if (ballTimer <= 0.0f)
-    {
-        Snowball ball;
-        ball.Transform.position = m_player.Transform.position;
-        ball.Transform.position.y -= Camera::get().getVisibleWorldBounds().y;
-        ball.Transform.size = vec2f(2.0f, 2.0f);
-        ball.Velocity = 12.0f * (vec2f(0.0f, m_player.Transform.position.y + Camera::get().getVisibleWorldBounds().y) - ball.Transform.position).normalize();
-
-        m_snowballs.push_back(ball);
-        ballTimer = 2.0f;
+        generateNextChunk();
+        time = 3.0f;
     }
 
     m_player.update();
@@ -84,6 +52,29 @@ void Game::render()
     for (const auto& obstacle : m_obstacles)
     {
         m_atlas.draw(obstacle.SpriteURI, obstacle.Transform);
+    }
+}
+
+void Game::generateNextChunk()
+{
+    switch (rand() % 3)
+    {
+    case 0:
+    {
+        generateChunk(Level::S_ChunkSelection[0]);
+    } break;
+    case 1:
+    {
+        generateChunk(Level::M_ChunkSelection[0]);
+    } break;
+    case 2:
+    {
+        generateChunk(Level::L_ChunkSelection[0]);
+    } break;
+    default:
+    {
+        assert(!"Shouldn't be here");
+    } break;
     }
 }
 
