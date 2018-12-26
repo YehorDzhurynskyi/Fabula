@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SpriteAtlas.h"
+#include "Camera.h"
 #include <vector>
 
 class Game;

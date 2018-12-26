@@ -3,7 +3,6 @@
 #include "Game/Game.h"
 #include "Game/Level.h"
 
-#include "Camera.h"
 #include "Input.h"
 
 const float Game::g_MapWidth = 9.0f;
