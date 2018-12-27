@@ -41,6 +41,11 @@ void Game::render()
     static float time;
     time += g_DeltaTime;
 
+    for (const auto& debug : m_Debug)
+    {
+        m_atlas.draw(debug.SpriteURI, debug.Transform);
+    }
+
     m_atlas.draw(AnimatedSpriteURI::Player, m_player.Transform, time * 14.0f);
 
     for (const auto& ball : m_snowballs)
@@ -56,6 +61,18 @@ void Game::render()
 
 void Game::generateNextChunk()
 {
+    static bool a;
+
+    a = !a;
+    Obstacle debugPanel;
+    debugPanel.Transform.size = vec2f(Game::g_MapWidth, Camera::g_MinimumVisibleWorldHeight);
+    debugPanel.SpriteURI = a ? SpriteURI::Debug1 : SpriteURI::Debug2;
+
+    const float globalYPos = m_player.Transform.position.y + Camera::g_MinimumVisibleWorldHeight;
+    debugPanel.Transform.position.y = globalYPos;
+
+    m_Debug.push_back(debugPanel);
+
     switch (rand() % 3)
     {
     case 0:

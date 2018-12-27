@@ -54,18 +54,19 @@ private:
             Obstacle obstacle;
             obstacle.Transform.position.x = Game::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
-            obstacle.SpriteURI = AS(SpriteURI, rand() % AS(u8, SpriteURI::COUNT));
+            obstacle.SpriteURI = AS(SpriteURI, rand() % (AS(u8, SpriteURI::COUNT) - 2));
 
             switch (obstacle.SpriteURI)
             {
             case SpriteURI::Rock:
             {
-                obstacle.Transform.size = vec2f(0.75f, 0.75f);
+                obstacle.Transform.size = vec2f(0.75f, 0.75f) + rand01() * vec2f(0.25f, 0.25f);
             } break;
             case SpriteURI::Tree1:
             case SpriteURI::Tree2:
+            case SpriteURI::Tree3:
             {
-                obstacle.Transform.size = vec2f(2.0f, 2.0f); break;
+                obstacle.Transform.size = vec2f(1.8f, 1.8f) + rand01() * vec2f(0.5f, 0.5f);
             } break;
             default:
             {
@@ -82,4 +83,6 @@ private:
     SpriteAtlas m_atlas;
     std::vector<Obstacle> m_obstacles;
     std::vector<Snowball> m_snowballs;
+
+    std::vector<Obstacle> m_Debug; // TODO delete
 };

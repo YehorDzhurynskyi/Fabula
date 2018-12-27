@@ -6,7 +6,7 @@ namespace Level
 
 const std::array<S_DensityChunk, 1> S_ChunkSelection
 {
-    { vec2f(-0.5f, -0.5f), vec2f(0.7f, 0.35f), vec2f(-0.15f, 0.9f) }
+    S_DensityChunk { vec2f(-0.5f, -0.5f), vec2f(0.7f, 0.35f), vec2f(-0.15f, 0.9f) }
 };
 
 const std::array<M_DensityChunk, 1> M_ChunkSelection

@@ -24,3 +24,5 @@ T clamp(const T& val, const T& min, const T& max)
 {
     return std::min<T>(max, std::max<T>(val, min));
 }
+
+float rand01();
