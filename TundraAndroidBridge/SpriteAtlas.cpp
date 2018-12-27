@@ -32,7 +32,11 @@ SpriteAtlas::SpriteArray&& initSprites()
     debug2.Offset = vec2i(512, 1536);
     debug2.Size = vec2i(512, 512);
 
-    return SpriteAtlas::SpriteArray{ rock, tree1, tree2, tree3, debug1, debug2 };
+    return SpriteAtlas::SpriteArray{
+        rock,
+        tree1, tree2, tree3,
+        debug1, debug2
+    };
 }
 
 SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()

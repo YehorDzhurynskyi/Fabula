@@ -6,6 +6,7 @@
 #include "Input.h"
 
 const float Game::g_MapWidth = 9.0f;
+const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
 
 Game::Game()
     : m_atlas("Assets/atlas.png")
@@ -16,13 +17,12 @@ Game::Game()
 
 void Game::update()
 {
-    static float time;
+    static float nextYPosToGenerate = g_ChunkGenerationOffset;
 
-    time -= g_DeltaTime;
-    if (time <= 0.0f)
+    if ((nextYPosToGenerate - g_ChunkGenerationOffset) <= m_player.Transform.position.y)
     {
         generateNextChunk();
-        time = 3.0f;
+        nextYPosToGenerate += Camera::g_MinimumVisibleWorldHeight;
     }
 
     m_player.update();
@@ -61,6 +61,7 @@ void Game::render()
 
 void Game::generateNextChunk()
 {
+#if 0
     static bool a;
 
     a = !a;
@@ -68,10 +69,13 @@ void Game::generateNextChunk()
     debugPanel.Transform.size = vec2f(Game::g_MapWidth, Camera::g_MinimumVisibleWorldHeight);
     debugPanel.SpriteURI = a ? SpriteURI::Debug1 : SpriteURI::Debug2;
 
-    const float globalYPos = m_player.Transform.position.y + Camera::g_MinimumVisibleWorldHeight;
-    debugPanel.Transform.position.y = globalYPos;
+    debugPanel.Transform.position.y =
+        m_player.Transform.position.y +
+        Camera::g_MinimumVisibleWorldHeight +
+        g_ChunkGenerationOffset;
 
     m_Debug.push_back(debugPanel);
+#endif
 
     switch (rand() % 3)
     {

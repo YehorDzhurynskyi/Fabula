@@ -34,6 +34,7 @@ class Game
 {
 public:
     static const float g_MapWidth;
+    static const float g_ChunkGenerationOffset;
 
 public:
     Game();
@@ -47,7 +48,10 @@ private:
     template<typename T>
     void generateChunk(const T& chunk)
     {
-        const float globalYPos = m_player.Transform.position.y + Camera::g_MinimumVisibleWorldHeight;
+        const float globalYPos =
+            m_player.Transform.position.y +
+            Camera::g_MinimumVisibleWorldHeight +
+            g_ChunkGenerationOffset;
 
         for (const auto& localPosition : chunk)
         {
@@ -66,7 +70,7 @@ private:
             case SpriteURI::Tree2:
             case SpriteURI::Tree3:
             {
-                obstacle.Transform.size = vec2f(1.8f, 1.8f) + rand01() * vec2f(0.5f, 0.5f);
+                obstacle.Transform.size = vec2f(1.75f, 1.75f) + rand01() * vec2f(0.5f, 0.5f);
             } break;
             default:
             {
