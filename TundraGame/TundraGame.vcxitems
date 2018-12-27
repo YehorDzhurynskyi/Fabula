@@ -21,6 +21,7 @@
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Input.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
@@ -31,5 +32,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Game.h" />
 	<ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
   </ItemGroup>
 </Project>

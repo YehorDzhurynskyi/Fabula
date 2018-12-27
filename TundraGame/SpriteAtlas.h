@@ -11,6 +11,7 @@ enum class SpriteURI : u8
     Tree3,
     Debug1,
     Debug2,
+    ColliderDebug,
     COUNT
 };
 

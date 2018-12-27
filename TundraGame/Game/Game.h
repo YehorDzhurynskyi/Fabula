@@ -58,7 +58,7 @@ private:
             Obstacle obstacle;
             obstacle.Transform.position.x = Game::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
-            obstacle.SpriteURI = AS(SpriteURI, rand() % (AS(u8, SpriteURI::COUNT) - 2));
+            obstacle.SpriteURI = AS(SpriteURI, rand() % (AS(u8, SpriteURI::COUNT) - 3));
 
             switch (obstacle.SpriteURI)
             {

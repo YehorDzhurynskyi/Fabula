@@ -32,10 +32,14 @@ SpriteAtlas::SpriteArray&& initSprites()
     debug2.Offset = vec2i(512, 1536);
     debug2.Size = vec2i(512, 512);
 
+    Sprite colliderDebug;
+    colliderDebug.Offset = vec2i(1024, 1536);
+    colliderDebug.Size = vec2i(512, 512);
+
     return SpriteAtlas::SpriteArray{
         rock,
         tree1, tree2, tree3,
-        debug1, debug2
+        debug1, debug2, colliderDebug
     };
 }
 

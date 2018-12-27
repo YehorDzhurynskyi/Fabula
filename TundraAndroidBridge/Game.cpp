@@ -61,7 +61,7 @@ void Game::render()
 
 void Game::generateNextChunk()
 {
-#if 0
+#if 1
     static bool a;
 
     a = !a;
