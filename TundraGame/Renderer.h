@@ -8,7 +8,7 @@ private:
     Renderer() = default;
 
 public:
-    static Renderer get()
+    static Renderer& get()
     {
         static Renderer instance;
         return instance;
@@ -25,4 +25,5 @@ private:
 
 private:
     u32 m_program;
+    u32 m_vbo;
 };

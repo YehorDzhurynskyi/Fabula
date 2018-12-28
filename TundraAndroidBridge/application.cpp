@@ -94,6 +94,7 @@ void run()
 
             glClear(GL_COLOR_BUFFER_BIT);
             game.render();
+            Renderer::get().render();
             SDL_GL_SwapWindow(g_SDLWindow);
 
             ++fps;

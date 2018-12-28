@@ -11,6 +11,13 @@
 namespace
 {
 
+const vec2f g_Vertices[] = {
+    vec2f(-1.0f, -1.0f),
+    vec2f(-1.0f, 1.0f),
+    vec2f(1.0f, -1.0f),
+    vec2f(1.0f, 1.0f)
+};
+
 const char* g_VertexShaderSource = ""
 "attribute vec2 a_vertex;\n"
 "void main(void)\n"
@@ -62,6 +69,12 @@ bool Renderer::init()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    glGenBuffers(1, &m_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_Vertices), &g_Vertices[0], GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
     return true;
 }
 
@@ -92,6 +105,12 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
 
 void Renderer::render()
 {
+    glUseProgram(m_program);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glEnableVertexAttribArray(0);
 
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    glDisableVertexAttribArray(0);
 }
 
