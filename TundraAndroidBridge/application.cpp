@@ -72,8 +72,6 @@ void run()
     assert(glewStatus == GLEW_OK);
 #endif
 
-    Renderer::get().init();
-
     SDL_GL_SetSwapInterval(1);
 
     u64 lastPerfCounter = SDL_GetPerformanceCounter();
@@ -85,6 +83,9 @@ void run()
 
     {
         Game game;
+        g_Running = Renderer::get().init();
+
+        assert(g_Running);
 
         while (g_Running)
         {
@@ -108,6 +109,8 @@ void run()
                 fps = 0;
             }
         }
+
+        Renderer::get().shutdown();
     }
 
     SDL_GL_DeleteContext(glContext);

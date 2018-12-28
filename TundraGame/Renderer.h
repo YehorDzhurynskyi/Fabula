@@ -15,9 +15,14 @@ public:
     }
 
 public:
-    void init();
+    bool init();
     void shutdown();
 
     void render();
 
+private:
+    u32 compileShader(i32 shaderType, const char* sourceCode);
+
+private:
+    u32 m_program;
 };
