@@ -113,6 +113,7 @@ void FontRenderer::renderText(const char* text, const vec2f position, const floa
             destRect.w = glyphWidth;
             destRect.h = glyphHeight;
 
+#if 0
             const i32 res = SDL_RenderCopy(g_SDLRenderer,
                                            m_atlas.getSDLTexture(),
                                            &srcRect,
@@ -121,6 +122,7 @@ void FontRenderer::renderText(const char* text, const vec2f position, const floa
             {
                 REVEAL_SDL_ERROR("SDL creating texture from surface failed")
             }
+#endif
         }
 
         pivotPosition.x += glyphWidth;

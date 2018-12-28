@@ -76,11 +76,13 @@ SpriteAtlas::SpriteAtlas(const char* filename)
         REVEAL_SDL_ERROR("SDL failed to load sprite atlas")
     }
 
+#if 0
     m_sdlTexture = SDL_CreateTextureFromSurface(g_SDLRenderer, sdlSurface);
     if (m_sdlTexture == nullptr)
     {
         REVEAL_SDL_ERROR("SDL creating texture from surface failed")
     }
+#endif
 
     SDL_FreeSurface(sdlSurface);
 }
@@ -105,6 +107,7 @@ void SpriteAtlas::draw(const SDL_Rect& srcRect, const Transform& transform) cons
     destRect.x = screenTransform.position.x - destRect.w / 2;
     destRect.y = screenTransform.position.y - destRect.h / 2;
 
+#if 0
     const i32 res = SDL_RenderCopyEx(g_SDLRenderer,
                                      m_sdlTexture,
                                      &srcRect,
@@ -116,6 +119,7 @@ void SpriteAtlas::draw(const SDL_Rect& srcRect, const Transform& transform) cons
     {
         REVEAL_SDL_ERROR("SDL creating texture from surface failed")
     }
+#endif
 }
 
 void SpriteAtlas::draw(SpriteURI uri, const Transform& transform) const

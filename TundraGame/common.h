@@ -5,6 +5,12 @@
 #include "SDL_assert.h"
 #include <algorithm>
 
+#ifdef WIN32
+# define FBL_WIN32
+#else
+# define FBL_ANDROID
+#endif
+
 extern float g_DeltaTime;
 
 #define FOR(_n) for (int index = 0; index < _n; ++index)

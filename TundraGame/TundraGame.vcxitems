@@ -23,6 +23,7 @@
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\FontRenderer.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
@@ -35,5 +36,6 @@
 	<ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
 	<ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
 	<ClInclude Include="$(MSBuildThisFileDirectory)Game/FontRenderer.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
   </ItemGroup>
 </Project>
