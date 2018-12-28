@@ -9,6 +9,7 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Renderer.h"
 
 #include "application.h"
 #include "Input.h"
@@ -69,7 +70,7 @@ void run()
     GLenum glewStatus = glewInit();
     assert(glewStatus == GLEW_OK);
 
-    glCreateShader(0);
+    Renderer::get().init();
 
     SDL_GL_SetSwapInterval(1);
 
