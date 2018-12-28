@@ -90,6 +90,11 @@ SpriteAtlas::~SpriteAtlas()
     SDL_DestroyTexture(m_sdlTexture);
 }
 
+SDL_Texture* SpriteAtlas::getSDLTexture()
+{
+    return m_sdlTexture;
+}
+
 void SpriteAtlas::draw(const SDL_Rect& srcRect, const Transform& transform) const
 {
     const Transform screenTransform = Camera::get().toScreenSpace(transform);

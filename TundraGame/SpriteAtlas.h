@@ -44,6 +44,8 @@ public:
     explicit SpriteAtlas(const char* filename);
     ~SpriteAtlas();
 
+    SDL_Texture* getSDLTexture();
+
     void draw(SpriteURI uri, const Transform& transform) const;
     void draw(AnimatedSpriteURI uri, const Transform& transform, const float time) const;
 

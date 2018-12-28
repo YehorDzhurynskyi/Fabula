@@ -2,13 +2,6 @@
 
 #include "SpriteAtlas.h"
 
-enum class TextAlignment : u8
-{
-    Left,
-    Right,
-    Center
-};
-
 class FontRenderer
 {
 private:
@@ -40,7 +33,13 @@ public:
     }
 
 public:
-    void renderText(const char* text, const vec2f rPosition, const float rHeight, TextAlignment aligment);
+    void renderText(const char* text, const vec2f position, const float rHeight);
+    void renderTextLeft(const char* text, const vec2f position, const float rHeight);
+    void renderTextRight(const char* text, const vec2f position, const float rHeight);
+    void renderTextCenter(const char* text, const vec2f position, const float rHeight);
+
+private:
+    float calculateTextRWidth(const char* text, const float rHeight);
 
 private:
     SpriteAtlas m_atlas;

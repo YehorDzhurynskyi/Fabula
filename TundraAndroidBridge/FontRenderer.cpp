@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Game/FontRenderer.h"
+
+#include "application.h"
 #include "Camera.h"
 
 #include <array>
@@ -68,23 +70,107 @@ FontRenderer::FontRenderer()
     : m_atlas("Assets/fontatlas.png")
 {}
 
-void FontRenderer::renderText(const char* text,
-                              const vec2f rPosition,
-                              const float rHeight,
-                              TextAlignment aligment)
+void FontRenderer::renderText(const char* text, const vec2f position, const float rHeight)
 {
     assert(rHeight >= 0.0f && rHeight <= 1.0f);
-    assert(rPosition.x >= -1.0f && rPosition.x <= 1.0f);
-    assert(rPosition.y >= -1.0f && rPosition.y <= 1.0f);
 
     const vec2f screenSize = Camera::get().getScreenSize();
-    const float textHeight = screenSize.y * rHeight;
-    const vec2f pivotPosition = rPosition * screenSize * 0.5f + screenSize * 0.5f;
+    const float glyphHeight = screenSize.y * rHeight;
+    vec2f pivotPosition = position;
 
-    const float totalWidth = 0.0f;
-    for (const char* ch = text; ch != '\0'; ++ch)
+    for (const char* ch = text; *ch != '\0'; ++ch)
     {
-        const i32 glyphIndex = *ch - '0';
+        const Sprite* glyphSprite = nullptr;
+        switch (*ch)
+        {
+        case ' ':
+        case 'm':
+        case 'M':
+        {
+            glyphSprite = &g_Glyphs[AS(u8, GlyphURI::Glyph_M)];
+        } break;
+        default:
+        {
+            glyphSprite = &g_Glyphs[*ch - '0'];
+        } break;
+        }
 
+        assert(glyphSprite != nullptr);
+        const float rWidth = (glyphSprite->Size.x * rHeight) / glyphSprite->Size.y;
+        const float glyphWidth = rWidth * screenSize.x;
+
+        if (*ch != ' ')
+        {
+            SDL_Rect srcRect;
+            srcRect.x = glyphSprite->Offset.x;
+            srcRect.y = glyphSprite->Offset.y;
+            srcRect.w = glyphSprite->Size.x;
+            srcRect.h = glyphSprite->Size.y;
+
+            SDL_Rect destRect;
+            destRect.x = pivotPosition.x;
+            destRect.y = pivotPosition.y;
+            destRect.w = glyphWidth;
+            destRect.h = glyphHeight;
+
+            const i32 res = SDL_RenderCopy(g_SDLRenderer,
+                                           m_atlas.getSDLTexture(),
+                                           &srcRect,
+                                           &destRect);
+            if (res < 0)
+            {
+                REVEAL_SDL_ERROR("SDL creating texture from surface failed")
+            }
+        }
+
+        pivotPosition.x += glyphWidth;
     }
+}
+
+void FontRenderer::renderTextLeft(const char* text, const vec2f position, const float rHeight)
+{
+    return renderText(text, position, rHeight);
+}
+
+void FontRenderer::renderTextRight(const char* text, const vec2f position, const float rHeight)
+{
+    vec2f newPos(position);
+    newPos.x -= Camera::get().getScreenSize().x * calculateTextRWidth(text, rHeight);
+
+    return renderText(text, newPos, rHeight);
+}
+
+void FontRenderer::renderTextCenter(const char* text, const vec2f position, const float rHeight)
+{
+    vec2f newPos(position);
+    newPos.x -= Camera::get().getScreenSize().x * calculateTextRWidth(text, rHeight) * 0.5f;
+
+    return renderText(text, newPos, rHeight);
+}
+
+float FontRenderer::calculateTextRWidth(const char* text, const float rHeight)
+{
+    float rTotalWidth = 0.0f;
+    for (const char* ch = text; *ch != '\0'; ++ch)
+    {
+        const Sprite* glyphSprite = nullptr;
+        switch (*ch)
+        {
+        case ' ':
+        case 'm':
+        case 'M':
+        {
+            glyphSprite = &g_Glyphs[AS(u8, GlyphURI::Glyph_M)];
+        } break;
+        default:
+        {
+            glyphSprite = &g_Glyphs[*ch - '0'];
+        } break;
+        }
+
+        assert(glyphSprite != nullptr);
+        rTotalWidth += (glyphSprite->Size.x * rHeight) / glyphSprite->Size.y;
+    }
+
+    return rTotalWidth;
 }

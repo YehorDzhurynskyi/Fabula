@@ -2,6 +2,7 @@
 
 #include "Game/Game.h"
 #include "Game/Level.h"
+#include "Game/FontRenderer.h"
 
 #include "Input.h"
 
@@ -57,11 +58,18 @@ void Game::render()
     {
         m_atlas.draw(obstacle.SpriteURI, obstacle.Transform);
     }
+
+    const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
+
+    FontRenderer::get().renderTextCenter("1024m", ppos, 0.025f);
+
+    const vec2f pos = vec2f(0.0f, -0.85f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
+    FontRenderer::get().renderTextCenter("1m", pos, 0.035f);
 }
 
 void Game::generateNextChunk()
 {
-#if 1
+#if 0
     static bool a;
 
     a = !a;
