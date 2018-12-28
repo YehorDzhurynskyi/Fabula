@@ -6,6 +6,7 @@
 
 namespace
 {
+
 SpriteAtlas::SpriteArray&& initSprites()
 {
     Sprite rock;
@@ -36,7 +37,7 @@ SpriteAtlas::SpriteArray&& initSprites()
     colliderDebug.Offset = vec2i(1024, 1536);
     colliderDebug.Size = vec2i(512, 512);
 
-    return SpriteAtlas::SpriteArray{
+    return SpriteAtlas::SpriteArray {
         rock,
         tree1, tree2, tree3,
         debug1, debug2, colliderDebug
@@ -61,6 +62,7 @@ SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()
 
     return SpriteAtlas::AnimatedSpriteArray{ player, snowball };
 }
+
 }
 
 const SpriteAtlas::SpriteArray SpriteAtlas::g_Sprites = initSprites();
