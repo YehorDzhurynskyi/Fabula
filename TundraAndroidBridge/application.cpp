@@ -1,8 +1,8 @@
 #include "pch.h"
 
 #ifdef FBL_ANDROID
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+#include "SDL_opengles2.h"
+#include "SDL_opengles2_gl2.h"
 #else
 #include "glew.h"
 #endif
@@ -67,8 +67,10 @@ void run()
 
     SDL_GLContext glContext = SDL_GL_CreateContext(g_SDLWindow);
 
+#ifdef FBL_WIN32
     GLenum glewStatus = glewInit();
     assert(glewStatus == GLEW_OK);
+#endif
 
     Renderer::get().init();
 

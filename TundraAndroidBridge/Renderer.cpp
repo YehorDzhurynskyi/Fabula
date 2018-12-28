@@ -2,8 +2,8 @@
 #include "Renderer.h"
 
 #ifdef FBL_ANDROID
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+#include "SDL_opengles2.h"
+#include "SDL_opengles2_gl2.h"
 #else
 #include "glew.h"
 #endif
