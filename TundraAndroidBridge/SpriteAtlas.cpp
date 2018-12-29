@@ -15,42 +15,42 @@ SpriteAtlas::SpriteArray&& initSprites()
 
     Sprite glyph_1;
     glyph_1.Offset = vec2f(88, 256);
-    glyph_1.Size = vec2f(32, 128);
+    glyph_1.Size = vec2f(64, 128);
 
     Sprite glyph_2;
-    glyph_2.Offset = vec2f(120, 256);
+    glyph_2.Offset = vec2f(152, 256);
     glyph_2.Size = vec2f(80, 128);
 
     Sprite glyph_3;
-    glyph_3.Offset = vec2f(200, 256);
+    glyph_3.Offset = vec2f(232, 256);
     glyph_3.Size = vec2f(80, 128);
 
     Sprite glyph_4;
-    glyph_4.Offset = vec2f(280, 256);
+    glyph_4.Offset = vec2f(312, 256);
     glyph_4.Size = vec2f(84, 128);
 
     Sprite glyph_5;
-    glyph_5.Offset = vec2f(364, 256);
+    glyph_5.Offset = vec2f(396, 256);
     glyph_5.Size = vec2f(80, 128);
 
     Sprite glyph_6;
-    glyph_6.Offset = vec2f(444, 256);
+    glyph_6.Offset = vec2f(476, 256);
     glyph_6.Size = vec2f(80, 128);
 
     Sprite glyph_7;
-    glyph_7.Offset = vec2f(524, 256);
+    glyph_7.Offset = vec2f(556, 256);
     glyph_7.Size = vec2f(80, 128);
 
     Sprite glyph_8;
-    glyph_8.Offset = vec2f(604, 256);
+    glyph_8.Offset = vec2f(636, 256);
     glyph_8.Size = vec2f(80, 128);
 
     Sprite glyph_9;
-    glyph_9.Offset = vec2f(684, 256);
+    glyph_9.Offset = vec2f(716, 256);
     glyph_9.Size = vec2f(80, 128);
 
     Sprite glyph_M;
-    glyph_M.Offset = vec2f(764, 256);
+    glyph_M.Offset = vec2f(796, 256);
     glyph_M.Size = vec2f(86, 128);
 
     Sprite plane;

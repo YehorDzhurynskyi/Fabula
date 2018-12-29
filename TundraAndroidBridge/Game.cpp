@@ -40,42 +40,50 @@ void Game::update()
 
 void Game::render()
 {
-    static float time;
-    time += g_DeltaTime;
-
     for (const auto& debug : m_Debug)
     {
-        Renderer::get().render(debug.SpriteURI, debug.Transform, debug.ColorTint);
+        Renderer::get().render(debug.SpriteURI,
+                               Camera::get().toNDCSpace(debug.Transform),
+                               debug.ColorTint);
     }
 
+    static float time;
+    time += g_DeltaTime;
     const i32 frame = (i32)(time * 14.0f) % SpriteAtlas::at(AnimatedSpriteURI::Player).NOfFrames;
-    Renderer::get().render(AnimatedSpriteURI::Player, frame, m_player.Transform, FBL_WHITE_COLOR);
+    Renderer::get().render(AnimatedSpriteURI::Player,
+                           frame,
+                           Camera::get().toNDCSpace(m_player.Transform),
+                           FBL_WHITE_COLOR);
 
     for (const auto& obstacle : m_obstacles)
     {
-        Renderer::get().render(obstacle.SpriteURI, obstacle.Transform, obstacle.ColorTint);
+        Renderer::get().render(obstacle.SpriteURI,
+                               Camera::get().toNDCSpace(obstacle.Transform),
+                               obstacle.ColorTint);
     }
 
     //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
 
     //FontRenderer::get().renderTextCenter("1024m", ppos, 0.025f);
 
-    //const vec2f pos = vec2f(0.0f, -0.85f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
-    //FontRenderer::get().renderTextCenter("1m", pos, 0.035f);
+    Renderer::get().renderTextLeft("1024m", vec2f(0.0f, 0.85f), 0.035f);
+    Renderer::get().renderTextCenter("mmmm   [RED]172m", vec2f(0.0f, 0.55f), 0.035f);
+    Renderer::get().renderTextRight("572m", vec2f(0.0f, -0.55f), 0.035f);
 }
 
 void Game::generateNextChunk()
 {
-#if 0
+#if 1
     static bool a;
 
     a = !a;
     Obstacle debugPanel;
-    debugPanel.Transform.size = vec2f(Game::g_MapWidth, Camera::g_MinimumVisibleWorldHeight);
-    debugPanel.SpriteURI = a ? SpriteURI::Debug1 : SpriteURI::Debug2;
+    debugPanel.Transform.Size = vec2f(Game::g_MapWidth, Camera::g_MinimumVisibleWorldHeight);
+    debugPanel.SpriteURI = SpriteURI::Plane;
+    debugPanel.ColorTint = a ? FBL_COLOR(0xff, 0x0, 0x0, 0x80) : FBL_COLOR(0x0, 0x0, 0xff, 0x80);
 
-    debugPanel.Transform.position.y =
-        m_player.Transform.position.y +
+    debugPanel.Transform.Position.y =
+        m_player.Transform.Position.y +
         Camera::g_MinimumVisibleWorldHeight +
         g_ChunkGenerationOffset;
 

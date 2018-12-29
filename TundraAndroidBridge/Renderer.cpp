@@ -178,18 +178,17 @@ void Renderer::render(const AnimatedSpriteURI uri, const int frame, const Transf
 
 void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint)
 {
-    const Transform ndcTransform = Camera::get().toNDCSpace(transform);
     const i32 offset = m_currentSpriteCount * 4;
 
     Vertex* vertices = &m_clientVertexBuffer[offset];
 
-    const float sx = ndcTransform.Size.x;
-    const float sy = ndcTransform.Size.y;
+    const float sx = transform.Size.x;
+    const float sy = transform.Size.y;
 
-    vertices[0].Position = vec2f(-sx, sy) + ndcTransform.Position;
-    vertices[1].Position = vec2f(-sx, -sy) + ndcTransform.Position;
-    vertices[2].Position = vec2f(sx, sy) + ndcTransform.Position;
-    vertices[3].Position = vec2f(sx, -sy) + ndcTransform.Position;
+    vertices[0].Position = vec2f(-sx, sy) + transform.Position;
+    vertices[1].Position = vec2f(-sx, -sy) + transform.Position;
+    vertices[2].Position = vec2f(sx, sy) + transform.Position;
+    vertices[3].Position = vec2f(sx, -sy) + transform.Position;
 
     vertices[0].UV = uvSize * vec2f(0.0f, 0.0f) + uvOffset;
     vertices[1].UV = uvSize * vec2f(0.0f, 1.0f) + uvOffset;
@@ -235,4 +234,137 @@ void Renderer::present()
     glDisableVertexAttribArray(2);
 
     m_currentSpriteCount = 0;
+}
+
+void Renderer::renderText(const char* text, const vec2f position, const float rHeight)
+{
+    assert(rHeight >= 0.0f && rHeight <= 1.0f);
+
+    const vec2f screenSize = Camera::get().getScreenSize();
+    vec2f pivotPosition = position;
+
+    u32 color = FBL_BLACK_COLOR;
+
+    for (const char* ch = text; ch != nullptr && *ch != '\0'; ++ch)
+    {
+        const Sprite* glyphSprite = nullptr;
+        switch (*ch)
+        {
+        case '[':
+        {
+            const char* commandEnd = strchr(ch, ']');
+            assert(commandEnd != nullptr);
+
+            if (strncmp(ch, "[RED", commandEnd - ch) == 0)
+            {
+                color = FBL_COLOR(0xff, 0x0, 0x0, 0xff);
+            }
+
+            ch = commandEnd;
+            continue;
+        } break;
+        case ' ':
+        case 'm':
+        case 'M':
+        {
+            glyphSprite = &SpriteAtlas::at(SpriteURI::Glyph_M);
+        } break;
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        {
+            glyphSprite = &SpriteAtlas::at(AS(SpriteURI, *ch - '0'));
+        } break;
+        default:
+        {
+            assert(!"Unrecognized symbol");
+        } break;
+        }
+
+        assert(glyphSprite != nullptr);
+        const float rWidth = (glyphSprite->Size.x * rHeight) / glyphSprite->Size.y;
+
+        if (*ch != ' ')
+        {
+            Transform transform;
+            transform.Position = pivotPosition;
+            transform.Size = vec2f(rWidth, rHeight);
+
+            render(glyphSprite->Offset, glyphSprite->Size, transform, color);
+        }
+
+        pivotPosition.x += rWidth * 2.0f;
+    }
+}
+
+void Renderer::renderTextLeft(const char* text, const vec2f position, const float rHeight)
+{
+    return renderText(text, position, rHeight);
+}
+
+void Renderer::renderTextRight(const char* text, const vec2f position, const float rHeight)
+{
+    vec2f newPos(position);
+    newPos.x -= calculateTextWidth(text, rHeight) * 2.0f;
+
+    return renderText(text, newPos, rHeight);
+}
+
+void Renderer::renderTextCenter(const char* text, const vec2f position, const float rHeight)
+{
+    vec2f newPos(position);
+    newPos.x -= calculateTextWidth(text, rHeight);
+
+    return renderText(text, newPos, rHeight);
+}
+
+float Renderer::calculateTextWidth(const char* text, const float rHeight)
+{
+    float rTotalWidth = 0.0f;
+    for (const char* ch = text; ch != nullptr && *ch != '\0'; ++ch)
+    {
+        const Sprite* glyphSprite = nullptr;
+        switch (*ch)
+        {
+        case '[':
+        {
+            ch = strchr(ch, ']');
+            continue;
+        } break;
+        case ' ':
+        case 'm':
+        {
+            glyphSprite = &SpriteAtlas::at(SpriteURI::Glyph_M);
+        } break;
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        {
+            glyphSprite = &SpriteAtlas::at(AS(SpriteURI, *ch - '0'));
+        } break;
+        default:
+        {
+            assert(!"Unrecognized symbol");
+        } break;
+        }
+
+        assert(glyphSprite != nullptr);
+        rTotalWidth += (glyphSprite->Size.x * rHeight) / glyphSprite->Size.y;
+    }
+
+    return rTotalWidth;
 }

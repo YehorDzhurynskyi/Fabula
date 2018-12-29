@@ -34,10 +34,16 @@ public:
     void render(const AnimatedSpriteURI uri, const int frame, const Transform& transform, const u32 colorTint);
     void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint);
 
+    void renderTextLeft(const char* text, const vec2f position, const float rHeight);
+    void renderTextCenter(const char* text, const vec2f position, const float rHeight);
+    void renderTextRight(const char* text, const vec2f position, const float rHeight);
+
     void present();
 
 private:
     u32 compileShader(i32 shaderType, const char* sourceCode);
+    void renderText(const char* text, const vec2f position, const float rHeight);
+    float calculateTextWidth(const char* text, const float rHeight);
 
 private:
     i32 m_currentSpriteCount = 0;
