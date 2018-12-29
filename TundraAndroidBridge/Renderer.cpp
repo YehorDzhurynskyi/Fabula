@@ -156,12 +156,12 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
     return shader;
 }
 
-void Renderer::render(SpriteURI uri, const Transform& transform)
+void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform)
 {
-    render(uri, transform, FBL_COLOR(0xff, 0xff, 0xff, 0xff));
+    render(uvOffset, uvSize, transform, FBL_COLOR(0xff, 0xff, 0xff, 0xff));
 }
 
-void Renderer::render(SpriteURI uri, const Transform& transform, const u32 colorTint)
+void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint)
 {
     const Transform ndcTransform = Camera::get().toNDCSpace(transform);
     const i32 offset = m_currentSpriteCount * 4;
@@ -176,10 +176,10 @@ void Renderer::render(SpriteURI uri, const Transform& transform, const u32 color
     vertices[2].Position = vec2f(sx, sy) + ndcTransform.Position;
     vertices[3].Position = vec2f(sx, -sy) + ndcTransform.Position;
 
-    vertices[0].UV = vec2f(0.0f, 0.0f);
-    vertices[1].UV = vec2f(0.0f, 1.0f);
-    vertices[2].UV = vec2f(1.0f, 0.0f);
-    vertices[3].UV = vec2f(1.0f, 1.0f);
+    vertices[0].UV = uvSize * vec2f(0.0f, 0.0f) + uvOffset;
+    vertices[1].UV = uvSize * vec2f(0.0f, 1.0f) + uvOffset;
+    vertices[2].UV = uvSize * vec2f(1.0f, 0.0f) + uvOffset;
+    vertices[3].UV = uvSize * vec2f(1.0f, 1.0f) + uvOffset;
 
     vertices[0].ColorTint = colorTint;
     vertices[1].ColorTint = colorTint;

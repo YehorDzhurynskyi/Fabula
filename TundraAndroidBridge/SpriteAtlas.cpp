@@ -9,56 +9,95 @@ namespace
 
 SpriteAtlas::SpriteArray&& initSprites()
 {
+    Sprite glyph_0;
+    glyph_0.Offset = vec2f(0, 256);
+    glyph_0.Size = vec2f(88, 128);
+
+    Sprite glyph_1;
+    glyph_1.Offset = vec2f(88, 256);
+    glyph_1.Size = vec2f(32, 128);
+
+    Sprite glyph_2;
+    glyph_2.Offset = vec2f(120, 256);
+    glyph_2.Size = vec2f(80, 128);
+
+    Sprite glyph_3;
+    glyph_3.Offset = vec2f(200, 256);
+    glyph_3.Size = vec2f(80, 128);
+
+    Sprite glyph_4;
+    glyph_4.Offset = vec2f(280, 256);
+    glyph_4.Size = vec2f(84, 128);
+
+    Sprite glyph_5;
+    glyph_5.Offset = vec2f(364, 256);
+    glyph_5.Size = vec2f(80, 128);
+
+    Sprite glyph_6;
+    glyph_6.Offset = vec2f(444, 256);
+    glyph_6.Size = vec2f(80, 128);
+
+    Sprite glyph_7;
+    glyph_7.Offset = vec2f(524, 256);
+    glyph_7.Size = vec2f(80, 128);
+
+    Sprite glyph_8;
+    glyph_8.Offset = vec2f(604, 256);
+    glyph_8.Size = vec2f(80, 128);
+
+    Sprite glyph_9;
+    glyph_9.Offset = vec2f(684, 256);
+    glyph_9.Size = vec2f(80, 128);
+
+    Sprite glyph_M;
+    glyph_M.Offset = vec2f(764, 256);
+    glyph_M.Size = vec2f(86, 128);
+
+    Sprite plane;
+    plane.Offset = vec2f(0, 1536);
+    plane.Size = vec2f(512, 512);
+
+    Sprite circle;
+    circle.Offset = vec2f(1024, 1536);
+    circle.Size = vec2f(512, 512);
+
+    Sprite tree;
+    tree.Offset = vec2f(0, 512);
+    tree.Size = vec2f(512, 512);
+
     Sprite rock;
-    rock.Offset = vec2i(1024, 512);
-    rock.Size = vec2i(512, 512);
+    rock.Offset = vec2f(512, 512);
+    rock.Size = vec2f(512, 512);
 
-    Sprite tree1;
-    tree1.Offset = vec2i(0, 512);
-    tree1.Size = vec2i(512, 512);
-
-    Sprite tree2;
-    tree2.Offset = vec2i(512, 512);
-    tree2.Size = vec2i(512, 512);
-
-    Sprite tree3;
-    tree3.Offset = vec2i(1536, 512);
-    tree3.Size = vec2i(512, 512);
-
-    Sprite debug1;
-    debug1.Offset = vec2i(0, 1536);
-    debug1.Size = vec2i(512, 512);
-
-    Sprite debug2;
-    debug2.Offset = vec2i(512, 1536);
-    debug2.Size = vec2i(512, 512);
-
-    Sprite colliderDebug;
-    colliderDebug.Offset = vec2i(1024, 1536);
-    colliderDebug.Size = vec2i(512, 512);
-
-    return SpriteAtlas::SpriteArray {
-        rock,
-        tree1, tree2, tree3,
-        debug1, debug2, colliderDebug
+    SpriteAtlas::SpriteArray result {
+        glyph_0, glyph_1, glyph_2, glyph_3, glyph_4,
+        glyph_5, glyph_6, glyph_7, glyph_8, glyph_9,
+        glyph_M,
+        plane, circle, tree, rock
     };
+
+    for (auto& el : result)
+    {
+        el.Offset /= 2048.0f;
+        el.Size /= 2048.0f;
+    }
+
+    return std::move(result);
 }
 
 SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()
 {
     AnimatedSprite player;
-    player.Offset = vec2i(0, 0);
+    player.Offset = vec2f(0, 0) / 2048.0f;
     player.Pitch = 9;
     player.NOfFrames = 9;
-    player.Size = vec2i(player.Pitch, (player.NOfFrames / player.Pitch));
-    player.Size *= 128;
+    player.Size = vec2f(player.Pitch, (player.NOfFrames / player.Pitch)) * (128.0f / 2048.0f);
 
     AnimatedSprite snowball;
-    snowball.Offset = vec2i(0, 128);
+    snowball.Offset = vec2f(0, 128) / 2048.0f;
     snowball.Pitch = 8;
     snowball.NOfFrames = 8;
-    snowball.Size = vec2i(snowball.Pitch, (snowball.NOfFrames / snowball.Pitch));
-    snowball.Size *= 128;
+    snowball.Size = vec2f(snowball.Pitch, (snowball.NOfFrames / snowball.Pitch)) * (128.0f / 2048.0f);
 
     return SpriteAtlas::AnimatedSpriteArray{ player, snowball };
 }
@@ -85,6 +124,16 @@ SpriteAtlas::SpriteAtlas(const char* filename)
 #endif
 
     SDL_FreeSurface(sdlSurface);
+}
+
+vec2f SpriteAtlas::uvOffsetOf(const SpriteURI uri)
+{
+    return g_Sprites[AS(u8, uri)].Offset;
+}
+
+vec2f SpriteAtlas::uvSizeOf(const SpriteURI uri)
+{
+    return g_Sprites[AS(u8, uri)].Size;
 }
 
 SpriteAtlas::~SpriteAtlas()

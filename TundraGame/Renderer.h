@@ -30,8 +30,8 @@ public:
     bool init();
     void shutdown();
 
-    void render(SpriteURI uri, const Transform& transform);
-    void render(SpriteURI uri, const Transform& transform, const u32 colorTint);
+    void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform);
+    void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint);
     void present();
 
 private:

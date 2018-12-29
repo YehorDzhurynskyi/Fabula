@@ -19,6 +19,7 @@ class Obstacle
 public:
     SpriteURI SpriteURI;
     Transform Transform;
+    u32 ColorTint;
 };
 
 class Snowball
@@ -58,19 +59,27 @@ private:
             Obstacle obstacle;
             obstacle.Transform.Position.x = Game::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.Position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
-            obstacle.SpriteURI = AS(SpriteURI, rand() % (AS(u8, SpriteURI::COUNT) - 3));
+            obstacle.SpriteURI = AS(SpriteURI, rand() % 2 ? SpriteURI::Tree : SpriteURI::Rock);
+            obstacle.ColorTint = FBL_COLOR(0xff, 0xff, 0xff, 0xff);
 
             switch (obstacle.SpriteURI)
             {
             case SpriteURI::Rock:
             {
-                obstacle.Transform.Size = vec2f(0.75f, 0.75f) + rand01() * vec2f(0.25f, 0.25f);
+                obstacle.Transform.Size = vec2f(1.75f, 1.75f) + rand01() * vec2f(1.0f, 1.0f);
             } break;
-            case SpriteURI::Tree1:
-            case SpriteURI::Tree2:
-            case SpriteURI::Tree3:
+            case SpriteURI::Tree:
             {
+                u32 treeColors[] {
+                    FBL_COLOR(0x5a, 0xaf, 0x24, 0xff),
+                    FBL_COLOR(0x19, 0x87, 0x60, 0xff),
+                    FBL_COLOR(0x6b, 0xa0, 0x00, 0xff),
+                    FBL_COLOR(0x62, 0x17, 0x75, 0xff),
+                    FBL_COLOR(0xef, 0x53, 0x7d, 0xff)
+                };
+
                 obstacle.Transform.Size = vec2f(1.75f, 1.75f) + rand01() * vec2f(0.5f, 0.5f);
+                obstacle.ColorTint = treeColors[rand() % ARRLEN(treeColors)];
             } break;
             default:
             {

@@ -55,11 +55,17 @@ void Game::render()
     //    m_atlas.draw(AnimatedSpriteURI::Snowball, ball.Transform, time * 30.0f);
     //}
 
-    Renderer::get().render(SpriteURI::Rock, m_player.Transform, FBL_COLOR(0xff, 0x0, 0xff, 0xff));
+    Renderer::get().render(SpriteAtlas::uvOffsetOf(SpriteURI::Rock),
+                           SpriteAtlas::uvSizeOf(SpriteURI::Rock),
+                           m_player.Transform,
+                           FBL_COLOR(0xff, 0x0, 0xff, 0xff));
 
     for (const auto& obstacle : m_obstacles)
     {
-        Renderer::get().render(obstacle.SpriteURI, obstacle.Transform);
+        Renderer::get().render(SpriteAtlas::uvOffsetOf(obstacle.SpriteURI),
+                               SpriteAtlas::uvSizeOf(obstacle.SpriteURI),
+                               obstacle.Transform,
+                               obstacle.ColorTint);
     }
 
     //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
