@@ -57,10 +57,10 @@ void Game::render()
 
     Renderer::get().render(SpriteURI::Rock, m_player.Transform);
 
-    //for (const auto& obstacle : m_obstacles)
-    //{
-    //    Renderer::get().render(obstacle.SpriteURI, obstacle.Transform);
-    //}
+    for (const auto& obstacle : m_obstacles)
+    {
+        Renderer::get().render(obstacle.SpriteURI, obstacle.Transform);
+    }
 
     //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
 

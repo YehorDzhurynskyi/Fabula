@@ -79,9 +79,13 @@ bool Renderer::init()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    glGenBuffers(1, &m_ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_MaxIndicesCount * sizeof(u16), nullptr, GL_DYNAMIC_DRAW);
+
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, g_VBOSize, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, g_MaxVerticesCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 
     const i32 positionLocation = glGetAttribLocation(m_program, "a_position");
     const i32 uvLocation = glGetAttribLocation(m_program, "a_uvtex");
@@ -150,7 +154,9 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
 void Renderer::render(SpriteURI uri, const Transform& transform)
 {
     const Transform ndcTransform = Camera::get().toNDCSpace(transform);
-    Vertex* vertices = &m_clientVertexBuffer[m_clientBufferVertexCount];
+    const i32 offset = m_currentSpriteCount * 4;
+
+    Vertex* vertices = &m_clientVertexBuffer[offset];
 
     const float sx = ndcTransform.size.x;
     const float sy = ndcTransform.size.y;
@@ -165,7 +171,15 @@ void Renderer::render(SpriteURI uri, const Transform& transform)
     vertices[2].uv = vec2f(1.0f, 0.0f);
     vertices[3].uv = vec2f(1.0f, 1.0f);
 
-    m_clientBufferVertexCount += 4;
+    u16* indices = &m_clientIndexBuffer[m_currentSpriteCount * 6];
+    indices[0] = 0 + offset;
+    indices[1] = 1 + offset;
+    indices[2] = 2 + offset;
+    indices[3] = 2 + offset;
+    indices[4] = 1 + offset;
+    indices[5] = 3 + offset;
+
+    ++m_currentSpriteCount;
 }
 
 void Renderer::present()
@@ -174,20 +188,19 @@ void Renderer::present()
     glBindTexture(GL_TEXTURE_2D, m_texture);
 
     glUseProgram(m_program);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
 
-    glBufferSubData(GL_ARRAY_BUFFER,
-                    0,
-                    m_clientBufferVertexCount * sizeof(Vertex),
-                    (void*)m_clientVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, m_currentSpriteCount * 4 * sizeof(Vertex), (void*)m_clientVertexBuffer);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, m_clientBufferVertexCount);
+    glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
 
-    m_clientBufferVertexCount = 0;
+    m_currentSpriteCount = 0;
 }

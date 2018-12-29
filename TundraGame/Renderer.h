@@ -15,7 +15,8 @@ public:
     }
 
 private:
-    static const size_t g_VBOSize = 1024 * 8;
+    static const size_t g_MaxVerticesCount = 512;
+    static const size_t g_MaxIndicesCount = g_MaxVerticesCount * 1.5;
 
     struct Vertex
     {
@@ -35,11 +36,13 @@ private:
     u32 compileShader(i32 shaderType, const char* sourceCode);
 
 private:
-    i32 m_clientBufferVertexCount = 0;
-    Vertex m_clientVertexBuffer[g_VBOSize / sizeof(Vertex)];
-    static_assert(ARRLEN(m_clientVertexBuffer) == 512, "Unexpected size of client vertex buffer");
+    i32 m_currentSpriteCount = 0;
+
+    Vertex m_clientVertexBuffer[g_MaxVerticesCount];
+    u16 m_clientIndexBuffer[g_MaxIndicesCount];
 
     u32 m_program;
+    u32 m_ibo;
     u32 m_vbo;
     u32 m_texture;
 };
