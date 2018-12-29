@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include "Camera.h"
 
+#include "SDL_image.h"
+
 #ifdef FBL_ANDROID
 #include "SDL_opengles2.h"
 #include "SDL_opengles2_gl2.h"
@@ -25,12 +27,12 @@ const char* g_VertexShaderSource = ""
 "}\n";
 
 const char* g_FragmentShaderSource = ""
-//"uniform sampler2D t_texture;\n"
+"uniform sampler2D t_texture;\n"
 "varying vec2 v_uvtex;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);// texture2D(t_texture, v_texture);\n"
+"    gl_FragColor = texture2D(t_texture, v_uvtex);\n"
 "}\n";
 
 }
@@ -82,11 +84,40 @@ bool Renderer::init()
     glVertexAttribPointer(uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
     //glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
+    glGenTextures(1, &m_texture);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    SDL_Surface* atlasSurface = IMG_Load("Assets/atlas.png");
+    if (atlasSurface == nullptr)
+    {
+        REVEAL_SDL_ERROR("Failed to load sprite atlas")
+    }
+
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA,
+                 atlasSurface->w,
+                 atlasSurface->h,
+                 0,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 atlasSurface->pixels);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    SDL_FreeSurface(atlasSurface);
+
     return true;
 }
 
 void Renderer::shutdown()
 {
+    glDeleteTextures(1, &m_texture);
+    glDeleteBuffers(1, &m_vbo);
     glDeleteProgram(m_program);
 }
 
@@ -118,10 +149,10 @@ void Renderer::render(SpriteURI uri, const Transform& transform)
     const float sx = ndcTransform.size.x;
     const float sy = ndcTransform.size.y;
 
-    vertices[0].position = vec2f(-sx, -sy) + ndcTransform.position;
-    vertices[1].position = vec2f(-sx, sy) + ndcTransform.position;
-    vertices[2].position = vec2f(sx, -sy) + ndcTransform.position;
-    vertices[3].position = vec2f(sx, sy) + ndcTransform.position;
+    vertices[0].position = vec2f(-sx, sy) + ndcTransform.position;
+    vertices[1].position = vec2f(-sx, -sy) + ndcTransform.position;
+    vertices[2].position = vec2f(sx, sy) + ndcTransform.position;
+    vertices[3].position = vec2f(sx, -sy) + ndcTransform.position;
 
     vertices[0].uv = vec2f(0.0f, 0.0f);
     vertices[1].uv = vec2f(0.0f, 1.0f);
@@ -133,6 +164,9 @@ void Renderer::render(SpriteURI uri, const Transform& transform)
 
 void Renderer::present()
 {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+
     glUseProgram(m_program);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 

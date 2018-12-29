@@ -41,4 +41,5 @@ private:
 
     u32 m_program;
     u32 m_vbo;
+    u32 m_texture;
 };
