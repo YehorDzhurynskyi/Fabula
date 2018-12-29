@@ -2,7 +2,6 @@
 
 #include "Game/Game.h"
 #include "Game/Level.h"
-#include "Game/FontRenderer.h"
 
 #include "Renderer.h"
 #include "Input.h"
@@ -61,10 +60,6 @@ void Game::render()
                                Camera::get().toNDCSpace(obstacle.Transform),
                                obstacle.ColorTint);
     }
-
-    //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
-
-    //FontRenderer::get().renderTextCenter("1024m", ppos, 0.025f);
 
     Renderer::get().renderTextLeft("1024m", vec2f(0.0f, 0.85f), 0.035f);
     Renderer::get().renderTextCenter("mmmm   [RED]172m", vec2f(0.0f, 0.55f), 0.035f);
