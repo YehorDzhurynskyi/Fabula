@@ -6,6 +6,13 @@
 #include <algorithm>
 #include "Game/Game.h"
 
+#ifdef FBL_ANDROID
+#include "SDL_opengles2.h"
+#include "SDL_opengles2_gl2.h"
+#else
+#include "glew.h"
+#endif
+
 const float Camera::g_MinimumVisibleWorldHeight = 14.0f;
 
 vec2f Camera::getScreenSize() const
@@ -13,6 +20,8 @@ vec2f Camera::getScreenSize() const
     // TODO cache
     int w, h;
     SDL_GetWindowSize(g_SDLWindow, &w, &h);
+    glViewport(0, 0, w, h);
+
     return vec2f(w, h);
 }
 
