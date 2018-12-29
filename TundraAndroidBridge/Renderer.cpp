@@ -156,9 +156,24 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
     return shader;
 }
 
-void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform)
+void Renderer::render(const SpriteURI uri, const Transform& transform, const u32 colorTint)
 {
-    render(uvOffset, uvSize, transform, FBL_COLOR(0xff, 0xff, 0xff, 0xff));
+    render(SpriteAtlas::at(uri).Offset, SpriteAtlas::at(uri).Size, transform, colorTint);
+}
+
+void Renderer::render(const AnimatedSpriteURI uri, const int frame, const Transform& transform, const u32 colorTint)
+{
+    const AnimatedSprite& sprite = SpriteAtlas::at(uri);
+
+    assert(frame == clamp<i32>(frame, 0, sprite.NOfFrames - 1));
+
+    const float dU = sprite.Size.x / sprite.Pitch;
+    const float dV = sprite.Size.y / (sprite.NOfFrames / sprite.Pitch);
+
+    const float uOffset = sprite.Offset.x + dU * (frame % sprite.Pitch);
+    const float vOffset = sprite.Offset.y + dV * (frame / sprite.Pitch);
+
+    render(vec2f(uOffset, vOffset), vec2f(dU, dV), transform, colorTint);
 }
 
 void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint)

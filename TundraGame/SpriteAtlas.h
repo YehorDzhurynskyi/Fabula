@@ -48,20 +48,14 @@ public:
     using SpriteArray = std::array<Sprite, AS(u8, SpriteURI::COUNT)>;
     using AnimatedSpriteArray = std::array<AnimatedSprite, AS(u8, AnimatedSpriteURI::COUNT)>;
 
-    static vec2f uvOffsetOf(const SpriteURI uri);
-    static vec2f uvSizeOf(const SpriteURI uri);
+    static const Sprite& at(const SpriteURI uri);
+    static const AnimatedSprite& at(const AnimatedSpriteURI uri);
 
 public:
     explicit SpriteAtlas(const char* filename);
     ~SpriteAtlas();
 
     SDL_Texture* getSDLTexture();
-
-    void draw(SpriteURI uri, const Transform& transform) const;
-    void draw(AnimatedSpriteURI uri, const Transform& transform, const float time) const;
-
-private:
-    void draw(const SDL_Rect& srcRect, const Transform& transform) const;
 
 private:
     SDL_Texture* m_sdlTexture;

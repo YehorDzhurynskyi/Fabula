@@ -126,14 +126,13 @@ SpriteAtlas::SpriteAtlas(const char* filename)
     SDL_FreeSurface(sdlSurface);
 }
 
-vec2f SpriteAtlas::uvOffsetOf(const SpriteURI uri)
+const Sprite& SpriteAtlas::at(const SpriteURI uri)
 {
-    return g_Sprites[AS(u8, uri)].Offset;
+    return g_Sprites[AS(u8, uri)];
 }
-
-vec2f SpriteAtlas::uvSizeOf(const SpriteURI uri)
+const AnimatedSprite& SpriteAtlas::at(const AnimatedSpriteURI uri)
 {
-    return g_Sprites[AS(u8, uri)].Size;
+    return g_AnimatedSprites[AS(u8, uri)];
 }
 
 SpriteAtlas::~SpriteAtlas()
@@ -144,58 +143,4 @@ SpriteAtlas::~SpriteAtlas()
 SDL_Texture* SpriteAtlas::getSDLTexture()
 {
     return m_sdlTexture;
-}
-
-void SpriteAtlas::draw(const SDL_Rect& srcRect, const Transform& transform) const
-{
-    const Transform screenTransform = Camera::get().toScreenSpace(transform);
-
-    SDL_Rect destRect;
-    destRect.w = screenTransform.Size.x;
-    destRect.h = screenTransform.Size.y;
-    destRect.x = screenTransform.Position.x - destRect.w / 2;
-    destRect.y = screenTransform.Position.y - destRect.h / 2;
-
-#if 0
-    const i32 res = SDL_RenderCopyEx(g_SDLRenderer,
-                                     m_sdlTexture,
-                                     &srcRect,
-                                     &destRect,
-                                     0.0,
-                                     nullptr,
-                                     SDL_FLIP_NONE);
-    if (res < 0)
-    {
-        REVEAL_SDL_ERROR("SDL creating texture from surface failed")
-    }
-#endif
-}
-
-void SpriteAtlas::draw(SpriteURI uri, const Transform& transform) const
-{
-    const Sprite& sprite = g_Sprites[AS(u8, uri)];
-    SDL_Rect srcRect;
-    srcRect.x = sprite.Offset.x;
-    srcRect.y = sprite.Offset.y;
-    srcRect.w = sprite.Size.x;
-    srcRect.h = sprite.Size.y;
-
-    draw(srcRect, transform);
-}
-
-void SpriteAtlas::draw(AnimatedSpriteURI uri, const Transform& transform, const float time) const
-{
-    const AnimatedSprite& sprite = g_AnimatedSprites[AS(u8, uri)];
-    const i32 sizeOfFrame = sprite.Size.x / sprite.Pitch;
-
-    const i32 frame = (i32)time % sprite.NOfFrames;
-    assert(frame == clamp<i32>(frame, 0, sprite.NOfFrames - 1));
-
-    SDL_Rect srcRect;
-    srcRect.x = sprite.Offset.x + sizeOfFrame * (frame % sprite.Pitch);
-    srcRect.y = sprite.Offset.y + sizeOfFrame * (frame / sprite.Pitch);
-    srcRect.w = sizeOfFrame;
-    srcRect.h = sizeOfFrame;
-
-    draw(srcRect, transform);
 }

@@ -34,3 +34,4 @@ T clamp(const T& val, const T& min, const T& max)
 float rand01();
 
 #define FBL_COLOR(_r, _g, _b, _a) ((u32)(_a << 24 | _b << 16 | _g << 8 | _r))
+#define FBL_WHITE_COLOR FBL_COLOR(0xff, 0xff, 0xff, 0xff)

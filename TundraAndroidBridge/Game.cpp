@@ -40,32 +40,20 @@ void Game::update()
 
 void Game::render()
 {
-    //static float time;
-    //time += g_DeltaTime;
+    static float time;
+    time += g_DeltaTime;
 
-    //for (const auto& debug : m_Debug)
-    //{
-    //    m_atlas.draw(debug.SpriteURI, debug.Transform);
-    //}
+    for (const auto& debug : m_Debug)
+    {
+        Renderer::get().render(debug.SpriteURI, debug.Transform, debug.ColorTint);
+    }
 
-    //m_atlas.draw(AnimatedSpriteURI::Player, m_player.Transform, time * 14.0f);
-
-    //for (const auto& ball : m_snowballs)
-    //{
-    //    m_atlas.draw(AnimatedSpriteURI::Snowball, ball.Transform, time * 30.0f);
-    //}
-
-    Renderer::get().render(SpriteAtlas::uvOffsetOf(SpriteURI::Rock),
-                           SpriteAtlas::uvSizeOf(SpriteURI::Rock),
-                           m_player.Transform,
-                           FBL_COLOR(0xff, 0x0, 0xff, 0xff));
+    const i32 frame = (i32)(time * 14.0f) % SpriteAtlas::at(AnimatedSpriteURI::Player).NOfFrames;
+    Renderer::get().render(AnimatedSpriteURI::Player, frame, m_player.Transform, FBL_WHITE_COLOR);
 
     for (const auto& obstacle : m_obstacles)
     {
-        Renderer::get().render(SpriteAtlas::uvOffsetOf(obstacle.SpriteURI),
-                               SpriteAtlas::uvSizeOf(obstacle.SpriteURI),
-                               obstacle.Transform,
-                               obstacle.ColorTint);
+        Renderer::get().render(obstacle.SpriteURI, obstacle.Transform, obstacle.ColorTint);
     }
 
     //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;

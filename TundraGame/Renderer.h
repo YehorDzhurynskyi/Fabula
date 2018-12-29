@@ -30,8 +30,10 @@ public:
     bool init();
     void shutdown();
 
-    void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform);
+    void render(const SpriteURI uri, const Transform& transform, const u32 colorTint);
+    void render(const AnimatedSpriteURI uri, const int frame, const Transform& transform, const u32 colorTint);
     void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint);
+
     void present();
 
 private:
