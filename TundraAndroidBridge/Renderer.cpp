@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Renderer.h"
+#include "Camera.h"
 
 #ifdef FBL_ANDROID
 #include "SDL_opengles2.h"
@@ -11,24 +12,25 @@
 namespace
 {
 
-const vec2f g_Vertices[] = {
-    vec2f(-1.0f, -1.0f),
-    vec2f(-1.0f, 1.0f),
-    vec2f(1.0f, -1.0f),
-    vec2f(1.0f, 1.0f)
-};
-
 const char* g_VertexShaderSource = ""
-"attribute vec2 a_vertex;\n"
+"attribute vec2 a_position;\n"
+"attribute vec2 a_uvtex;\n"
+"\n"
+"varying vec2 v_uvtex;\n"
+"\n"
 "void main(void)\n"
 "{\n"
-"    gl_Position = vec4(a_vertex, 0.0, 1.0);\n"
+"    v_uvtex = a_uvtex;\n"
+"    gl_Position = vec4(a_position, 0.0, 1.0);\n"
 "}\n";
 
 const char* g_FragmentShaderSource = ""
+//"uniform sampler2D t_texture;\n"
+"varying vec2 v_uvtex;\n"
+"\n"
 "void main(void)\n"
 "{\n"
-"    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+"    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);// texture2D(t_texture, v_texture);\n"
 "}\n";
 
 }
@@ -71,9 +73,14 @@ bool Renderer::init()
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_Vertices), &g_Vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, g_VBOSize, nullptr, GL_DYNAMIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    const i32 positionLocation = glGetAttribLocation(m_program, "a_position");
+    const i32 uvLocation = glGetAttribLocation(m_program, "a_uvtex");
+
+    glVertexAttribPointer(positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glVertexAttribPointer(uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+    //glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
     return true;
 }
@@ -103,14 +110,44 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
     return shader;
 }
 
-void Renderer::render()
+void Renderer::render(SpriteURI uri, const Transform& transform)
+{
+    const Transform ndcTransform = Camera::get().toNDCSpace(transform);
+    Vertex* vertices = &m_clientVertexBuffer[m_clientBufferVertexCount];
+
+    const float sx = ndcTransform.size.x;
+    const float sy = ndcTransform.size.y;
+
+    vertices[0].position = vec2f(-sx, -sy) + ndcTransform.position;
+    vertices[1].position = vec2f(-sx, sy) + ndcTransform.position;
+    vertices[2].position = vec2f(sx, -sy) + ndcTransform.position;
+    vertices[3].position = vec2f(sx, sy) + ndcTransform.position;
+
+    vertices[0].uv = vec2f(0.0f, 0.0f);
+    vertices[1].uv = vec2f(0.0f, 1.0f);
+    vertices[2].uv = vec2f(1.0f, 0.0f);
+    vertices[3].uv = vec2f(1.0f, 1.0f);
+
+    m_clientBufferVertexCount += 4;
+}
+
+void Renderer::present()
 {
     glUseProgram(m_program);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glEnableVertexAttribArray(0);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glBufferSubData(GL_ARRAY_BUFFER,
+                    0,
+                    m_clientBufferVertexCount * sizeof(Vertex),
+                    (void*)m_clientVertexBuffer);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, m_clientBufferVertexCount);
 
     glDisableVertexAttribArray(0);
-}
+    glDisableVertexAttribArray(1);
 
+    m_clientBufferVertexCount = 0;
+}

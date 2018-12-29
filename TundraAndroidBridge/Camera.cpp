@@ -48,3 +48,14 @@ Transform Camera::toScreenSpace(const Transform& worldSpace) const
     return transform;
 }
 
+Transform Camera::toNDCSpace(const Transform& worldSpace) const
+{
+    Transform transform;
+
+    transform.position = (2.0f * (worldSpace.position - Position)) / getVisibleWorldBounds();
+    transform.position.y *= -1.0f;
+    transform.size = worldSpace.size / getVisibleWorldBounds();
+
+    return transform;
+}
+

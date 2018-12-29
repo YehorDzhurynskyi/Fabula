@@ -4,6 +4,7 @@
 #include "Game/Level.h"
 #include "Game/FontRenderer.h"
 
+#include "Renderer.h"
 #include "Input.h"
 
 const float Game::g_MapWidth = 9.0f;
@@ -39,32 +40,34 @@ void Game::update()
 
 void Game::render()
 {
-    static float time;
-    time += g_DeltaTime;
+    //static float time;
+    //time += g_DeltaTime;
 
-    for (const auto& debug : m_Debug)
-    {
-        m_atlas.draw(debug.SpriteURI, debug.Transform);
-    }
+    //for (const auto& debug : m_Debug)
+    //{
+    //    m_atlas.draw(debug.SpriteURI, debug.Transform);
+    //}
 
-    m_atlas.draw(AnimatedSpriteURI::Player, m_player.Transform, time * 14.0f);
+    //m_atlas.draw(AnimatedSpriteURI::Player, m_player.Transform, time * 14.0f);
 
-    for (const auto& ball : m_snowballs)
-    {
-        m_atlas.draw(AnimatedSpriteURI::Snowball, ball.Transform, time * 30.0f);
-    }
+    //for (const auto& ball : m_snowballs)
+    //{
+    //    m_atlas.draw(AnimatedSpriteURI::Snowball, ball.Transform, time * 30.0f);
+    //}
 
-    for (const auto& obstacle : m_obstacles)
-    {
-        m_atlas.draw(obstacle.SpriteURI, obstacle.Transform);
-    }
+    Renderer::get().render(SpriteURI::Rock, m_player.Transform);
 
-    const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
+    //for (const auto& obstacle : m_obstacles)
+    //{
+    //    Renderer::get().render(obstacle.SpriteURI, obstacle.Transform);
+    //}
 
-    FontRenderer::get().renderTextCenter("1024m", ppos, 0.025f);
+    //const vec2f ppos = vec2f(0.0f, -0.95f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
 
-    const vec2f pos = vec2f(0.0f, -0.85f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
-    FontRenderer::get().renderTextCenter("1m", pos, 0.035f);
+    //FontRenderer::get().renderTextCenter("1024m", ppos, 0.025f);
+
+    //const vec2f pos = vec2f(0.0f, -0.85f) * Camera::get().getScreenSize() * 0.5f + Camera::get().getScreenSize() * 0.5f;
+    //FontRenderer::get().renderTextCenter("1m", pos, 0.035f);
 }
 
 void Game::generateNextChunk()
