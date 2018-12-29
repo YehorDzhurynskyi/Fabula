@@ -27,7 +27,13 @@ const char* g_VertexShaderSource = ""
 "}\n";
 
 const char* g_FragmentShaderSource = ""
+#ifdef FBL_WIN32
+"#version 140\n"
+#endif
+"precision mediump float;\n"
+"\n"
 "uniform sampler2D t_texture;\n"
+"\n"
 "varying vec2 v_uvtex;\n"
 "\n"
 "void main(void)\n"
