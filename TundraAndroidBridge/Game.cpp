@@ -21,7 +21,7 @@ void Game::update()
 {
     static float nextYPosToGenerate = g_ChunkGenerationOffset;
 
-    if ((nextYPosToGenerate - g_ChunkGenerationOffset) <= m_player.Transform.position.y)
+    if ((nextYPosToGenerate - g_ChunkGenerationOffset) <= m_player.Transform.Position.y)
     {
         generateNextChunk();
         nextYPosToGenerate += Camera::g_MinimumVisibleWorldHeight;
@@ -35,7 +35,7 @@ void Game::update()
     }
 
     const float cameraOffset = Camera::get().getVisibleWorldBounds().y / 4.0f;
-    Camera::get().Position.y = m_player.Transform.position.y + cameraOffset;
+    Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
 }
 
 void Game::render()
@@ -55,7 +55,7 @@ void Game::render()
     //    m_atlas.draw(AnimatedSpriteURI::Snowball, ball.Transform, time * 30.0f);
     //}
 
-    Renderer::get().render(SpriteURI::Rock, m_player.Transform);
+    Renderer::get().render(SpriteURI::Rock, m_player.Transform, FBL_COLOR(0xff, 0x0, 0xff, 0xff));
 
     for (const auto& obstacle : m_obstacles)
     {
@@ -120,15 +120,15 @@ void Player::update()
         left = !left;
     }
 
-    Transform.position.x -= dPos * left;
-    Transform.position.x += dPos * !left;
-    Transform.position.y += 2.0f * dPos;
+    Transform.Position.x -= dPos * left;
+    Transform.Position.x += dPos * !left;
+    Transform.Position.y += 2.0f * dPos;
 
-    const float worldLimit = (Game::g_MapWidth - Transform.size.x) * 0.5f;
-    Transform.position.x = clamp<float>(Transform.position.x, -worldLimit, worldLimit);
+    const float worldLimit = (Game::g_MapWidth - Transform.Size.x) * 0.5f;
+    Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
 }
 
 void Snowball::update()
 {
-    Transform.position += g_DeltaTime * Velocity;
+    Transform.Position += g_DeltaTime * Velocity;
 }

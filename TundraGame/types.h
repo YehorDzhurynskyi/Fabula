@@ -247,6 +247,6 @@ using vec2i = vec2<i32>;
 
 struct Transform
 {
-    vec2f position = { 0.0f, 0.0f };
-    vec2f size = { 1.0f, 1.0f };
+    vec2f Position = { 0.0f, 0.0f };
+    vec2f Size = { 1.0f, 1.0f };
 };

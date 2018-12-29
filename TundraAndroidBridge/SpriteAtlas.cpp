@@ -102,10 +102,10 @@ void SpriteAtlas::draw(const SDL_Rect& srcRect, const Transform& transform) cons
     const Transform screenTransform = Camera::get().toScreenSpace(transform);
 
     SDL_Rect destRect;
-    destRect.w = screenTransform.size.x;
-    destRect.h = screenTransform.size.y;
-    destRect.x = screenTransform.position.x - destRect.w / 2;
-    destRect.y = screenTransform.position.y - destRect.h / 2;
+    destRect.w = screenTransform.Size.x;
+    destRect.h = screenTransform.Size.y;
+    destRect.x = screenTransform.Position.x - destRect.w / 2;
+    destRect.y = screenTransform.Position.y - destRect.h / 2;
 
 #if 0
     const i32 res = SDL_RenderCopyEx(g_SDLRenderer,

@@ -47,12 +47,12 @@ Transform Camera::toScreenSpace(const Transform& worldSpace) const
 
     const vec2f halfScreenSize = getScreenSize() / 2.0f;
 
-    transform.position = (2.0f * (worldSpace.position - Position)) / getVisibleWorldBounds();
-    transform.position *= halfScreenSize;
-    transform.position += halfScreenSize;
+    transform.Position = (2.0f * (worldSpace.Position - Position)) / getVisibleWorldBounds();
+    transform.Position *= halfScreenSize;
+    transform.Position += halfScreenSize;
 
-    transform.size = worldSpace.size / getVisibleWorldBounds();
-    transform.size *= getScreenSize();
+    transform.Size = worldSpace.Size / getVisibleWorldBounds();
+    transform.Size *= getScreenSize();
 
     return transform;
 }
@@ -61,9 +61,9 @@ Transform Camera::toNDCSpace(const Transform& worldSpace) const
 {
     Transform transform;
 
-    transform.position = (2.0f * (worldSpace.position - Position)) / getVisibleWorldBounds();
-    transform.position.y *= -1.0f;
-    transform.size = worldSpace.size / getVisibleWorldBounds();
+    transform.Position = (2.0f * (worldSpace.Position - Position)) / getVisibleWorldBounds();
+    transform.Position.y *= -1.0f;
+    transform.Size = worldSpace.Size / getVisibleWorldBounds();
 
     return transform;
 }

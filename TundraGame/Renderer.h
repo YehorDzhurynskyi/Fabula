@@ -20,16 +20,18 @@ private:
 
     struct Vertex
     {
-        vec2f position;
-        vec2f uv;
+        vec2f Position;
+        vec2f UV;
+        u32 ColorTint;
     };
-    static_assert(sizeof(Vertex) == 16, "Unexpected size of vertex struct");
+    static_assert(sizeof(Vertex) == 20, "Unexpected size of vertex struct");
 
 public:
     bool init();
     void shutdown();
 
     void render(SpriteURI uri, const Transform& transform);
+    void render(SpriteURI uri, const Transform& transform, const u32 colorTint);
     void present();
 
 private:

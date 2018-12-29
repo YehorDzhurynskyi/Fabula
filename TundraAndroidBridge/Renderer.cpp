@@ -17,12 +17,15 @@ namespace
 const char* g_VertexShaderSource = ""
 "attribute vec2 a_position;\n"
 "attribute vec2 a_uvtex;\n"
+"attribute vec4 a_color_tint;\n"
 "\n"
 "varying vec2 v_uvtex;\n"
+"varying vec4 v_color_tint;\n"
 "\n"
 "void main(void)\n"
 "{\n"
 "    v_uvtex = a_uvtex;\n"
+"    v_color_tint = a_color_tint;\n"
 "    gl_Position = vec4(a_position, 0.0, 1.0);\n"
 "}\n";
 
@@ -35,10 +38,11 @@ const char* g_FragmentShaderSource = ""
 "uniform sampler2D t_texture;\n"
 "\n"
 "varying vec2 v_uvtex;\n"
+"varying vec4 v_color_tint;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    gl_FragColor = texture2D(t_texture, v_uvtex);\n"
+"    gl_FragColor = v_color_tint * texture2D(t_texture, v_uvtex);\n"
 "}\n";
 
 }
@@ -89,10 +93,11 @@ bool Renderer::init()
 
     const i32 positionLocation = glGetAttribLocation(m_program, "a_position");
     const i32 uvLocation = glGetAttribLocation(m_program, "a_uvtex");
+    const i32 colorTintLocation = glGetAttribLocation(m_program, "a_color_tint");
 
-    glVertexAttribPointer(positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-    glVertexAttribPointer(uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-    //glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    glVertexAttribPointer(positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
+    glVertexAttribPointer(uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, UV));
+    glVertexAttribPointer(colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, ColorTint));
 
     glGenTextures(1, &m_texture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -153,23 +158,33 @@ u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
 
 void Renderer::render(SpriteURI uri, const Transform& transform)
 {
+    render(uri, transform, FBL_COLOR(0xff, 0xff, 0xff, 0xff));
+}
+
+void Renderer::render(SpriteURI uri, const Transform& transform, const u32 colorTint)
+{
     const Transform ndcTransform = Camera::get().toNDCSpace(transform);
     const i32 offset = m_currentSpriteCount * 4;
 
     Vertex* vertices = &m_clientVertexBuffer[offset];
 
-    const float sx = ndcTransform.size.x;
-    const float sy = ndcTransform.size.y;
+    const float sx = ndcTransform.Size.x;
+    const float sy = ndcTransform.Size.y;
 
-    vertices[0].position = vec2f(-sx, sy) + ndcTransform.position;
-    vertices[1].position = vec2f(-sx, -sy) + ndcTransform.position;
-    vertices[2].position = vec2f(sx, sy) + ndcTransform.position;
-    vertices[3].position = vec2f(sx, -sy) + ndcTransform.position;
+    vertices[0].Position = vec2f(-sx, sy) + ndcTransform.Position;
+    vertices[1].Position = vec2f(-sx, -sy) + ndcTransform.Position;
+    vertices[2].Position = vec2f(sx, sy) + ndcTransform.Position;
+    vertices[3].Position = vec2f(sx, -sy) + ndcTransform.Position;
 
-    vertices[0].uv = vec2f(0.0f, 0.0f);
-    vertices[1].uv = vec2f(0.0f, 1.0f);
-    vertices[2].uv = vec2f(1.0f, 0.0f);
-    vertices[3].uv = vec2f(1.0f, 1.0f);
+    vertices[0].UV = vec2f(0.0f, 0.0f);
+    vertices[1].UV = vec2f(0.0f, 1.0f);
+    vertices[2].UV = vec2f(1.0f, 0.0f);
+    vertices[3].UV = vec2f(1.0f, 1.0f);
+
+    vertices[0].ColorTint = colorTint;
+    vertices[1].ColorTint = colorTint;
+    vertices[2].ColorTint = colorTint;
+    vertices[3].ColorTint = colorTint;
 
     u16* indices = &m_clientIndexBuffer[m_currentSpriteCount * 6];
     indices[0] = 0 + offset;
@@ -196,11 +211,13 @@ void Renderer::present()
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 
     m_currentSpriteCount = 0;
 }

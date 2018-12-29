@@ -4,7 +4,7 @@
 CircleCollider::CircleCollider(const Transform& transform)
     : m_transform(transform)
 {
-    m_radius = 0.5f * std::max<float>(m_transform.size.x, m_transform.size.y);
+    m_radius = 0.5f * std::max<float>(m_transform.Size.x, m_transform.Size.y);
 }
 
 bool CircleCollider::vs(const CircleCollider& rhs, vec2f& outNormal)
