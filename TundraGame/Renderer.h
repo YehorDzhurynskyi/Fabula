@@ -43,7 +43,8 @@ public:
 private:
     u32 compileShader(i32 shaderType, const char* sourceCode);
     void renderText(const char* text, const vec2f position, const float rHeight);
-    float calculateTextWidth(const char* text, const float rHeight);
+    float calculateTextWidth(const char* text, const float rHeight) const;
+    u32 parseColor(const char* start, const char* end) const;
 
 private:
     i32 m_currentSpriteCount = 0;

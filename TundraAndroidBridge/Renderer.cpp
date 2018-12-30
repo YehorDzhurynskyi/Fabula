@@ -113,15 +113,7 @@ bool Renderer::init()
         REVEAL_SDL_ERROR("Failed to load sprite atlas")
     }
 
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 GL_RGBA,
-                 atlasSurface->w,
-                 atlasSurface->h,
-                 0,
-                 GL_RGBA,
-                 GL_UNSIGNED_BYTE,
-                 atlasSurface->pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, atlasSurface->w, atlasSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, atlasSurface->pixels);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     SDL_FreeSurface(atlasSurface);
@@ -254,12 +246,7 @@ void Renderer::renderText(const char* text, const vec2f position, const float rH
         {
             const char* commandEnd = strchr(ch, ']');
             assert(commandEnd != nullptr);
-
-            if (strncmp(ch, "[RED", commandEnd - ch) == 0)
-            {
-                color = FBL_COLOR(0xff, 0x0, 0x0, 0xff);
-            }
-
+            color = parseColor(ch + 1, commandEnd);
             ch = commandEnd;
             continue;
         } break;
@@ -325,7 +312,7 @@ void Renderer::renderTextCenter(const char* text, const vec2f position, const fl
     return renderText(text, newPos, rHeight);
 }
 
-float Renderer::calculateTextWidth(const char* text, const float rHeight)
+float Renderer::calculateTextWidth(const char* text, const float rHeight) const
 {
     float rTotalWidth = 0.0f;
     for (const char* ch = text; ch != nullptr && *ch != '\0'; ++ch)
@@ -367,4 +354,66 @@ float Renderer::calculateTextWidth(const char* text, const float rHeight)
     }
 
     return rTotalWidth;
+}
+
+u32 Renderer::parseColor(const char* start, const char* end) const
+{
+    u8 rgba[4] = { 0x0, 0x0, 0x0, 0xff };
+    i32 channel = 0;
+
+    while (start != end)
+    {
+        const char ch = *start;
+        switch (ch)
+        {
+        case ' ':
+        {
+        } break;
+        case ',':
+        case '.':
+        {
+            channel = (channel + 1) % 4;
+        } break;
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        {
+            rgba[channel] *= 16;
+            rgba[channel] += ch - '0';
+        } break;
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+        {
+            rgba[channel] *= 16;
+            rgba[channel] += ch - 'a' + 10;
+        } break;
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+        {
+            rgba[channel] *= 16;
+            rgba[channel] += ch - 'A' + 10;
+        } break;
+        default:
+        {
+            assert(!"Unrecognized symbol");
+        } break;
+        }
+        ++start;
+    }
+    return FBL_COLOR(rgba[0], rgba[1], rgba[2], rgba[3]);
 }
