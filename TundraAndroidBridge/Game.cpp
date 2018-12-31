@@ -111,25 +111,6 @@ void Game::generateNextChunk()
     }
 }
 
-void Player::update()
-{
-    static bool left;
-    const float speed = 2.0f;
-    const float dPos = speed * g_DeltaTime;
-
-    if (Input::DirectionSwitched)
-    {
-        left = !left;
-    }
-
-    Transform.Position.x -= dPos * left;
-    Transform.Position.x += dPos * !left;
-    Transform.Position.y += 2.0f * dPos;
-
-    const float worldLimit = (Game::g_MapWidth - Transform.Size.x) * 0.5f;
-    Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
-}
-
 void Snowball::update()
 {
     Transform.Position += g_DeltaTime * Velocity;

@@ -2,17 +2,8 @@
 
 #include "SpriteAtlas.h"
 #include "Camera.h"
+#include "Game/Player.h"
 #include <vector>
-
-class Game;
-class Player
-{
-    friend Game;
-public:
-    void update();
-
-    Transform Transform;
-};
 
 class Obstacle
 {
