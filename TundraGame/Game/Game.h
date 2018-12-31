@@ -8,9 +8,17 @@
 class Obstacle
 {
 public:
+    void update();
+    void render() const;
+
+public:
     SpriteURI SpriteURI;
     Transform Transform;
     u32 ColorTint;
+
+private:
+    bool m_visible = false;
+    float m_scale = 0.0f;
 };
 
 class Game

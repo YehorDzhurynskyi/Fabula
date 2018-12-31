@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 9.0f;
+const float Game::g_MapWidth = 10.0f;
 const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
 
 Game::Game()
@@ -26,6 +26,10 @@ void Game::update()
     }
 
     m_player.update();
+    for (auto& obstacle : m_obstacles)
+    {
+        obstacle.update();
+    }
 
     const float cameraOffset = Camera::get().getVisibleWorldBounds().y / 4.0f;
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
@@ -33,6 +37,14 @@ void Game::update()
 
 void Game::render()
 {
+    Transform t;
+    t.Position = Camera::get().Position;
+    t.Size = vec2f(Game::g_MapWidth, Camera::get().getVisibleWorldBounds().y);
+
+    Renderer::get().render(SpriteURI::Plane,
+                           Camera::get().toNDCSpace(t),
+                           FBL_COLOR(0xf8, 0xf8, 0xf8, 0xff));
+
     for (const auto& debug : m_Debug)
     {
         Renderer::get().render(debug.SpriteURI,
@@ -50,18 +62,14 @@ void Game::render()
 
     for (const auto& obstacle : m_obstacles)
     {
-        Renderer::get().render(obstacle.SpriteURI,
-                               Camera::get().toNDCSpace(obstacle.Transform),
-                               obstacle.ColorTint);
+        obstacle.render();
     }
 
     static float xx;
     xx += g_DeltaTime * 10.0f;
 
     char b[32];
-
-    sprintf_s(b, sizeof(b), "[22, 22, 22, ff]%i m", (i32)xx);
-
+    sprintf(b, "[22, 22, 22, ff]%i m", (i32)xx);
     Renderer::get().renderTextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 }
 
@@ -103,4 +111,23 @@ void Game::generateNextChunk()
         assert(!"Shouldn't be here");
     } break;
     }
+}
+
+void Obstacle::update()
+{
+    const ::Transform& ndcTransform = Camera::get().toNDCSpace(Transform);
+    m_visible = std::fabsf(ndcTransform.Position.y) < 1.0f;
+
+    if (m_visible)
+    {
+        m_scale = std::min<float>(1.0f, m_scale + 7.0f * g_DeltaTime);
+    }
+}
+
+void Obstacle::render() const
+{
+    ::Transform transform(Transform);
+
+    transform.Size *= m_scale;
+    Renderer::get().render(SpriteURI, Camera::get().toNDCSpace(transform), ColorTint);
 }
