@@ -205,6 +205,8 @@ void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform&
 
 void Renderer::present()
 {
+    assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture);
 
@@ -299,7 +301,7 @@ void Renderer::renderTextLeft(const char* text, const vec2f position, const floa
 void Renderer::renderTextRight(const char* text, const vec2f position, const float rHeight)
 {
     vec2f newPos(position);
-    newPos.x -= calculateTextWidth(text, rHeight) * 2.0f;
+    newPos.x -= calculateTextWidth(text, rHeight);
 
     return renderText(text, newPos, rHeight);
 }
@@ -307,7 +309,7 @@ void Renderer::renderTextRight(const char* text, const vec2f position, const flo
 void Renderer::renderTextCenter(const char* text, const vec2f position, const float rHeight)
 {
     vec2f newPos(position);
-    newPos.x -= calculateTextWidth(text, rHeight);
+    newPos.x -= calculateTextWidth(text, rHeight) * 0.5f;
 
     return renderText(text, newPos, rHeight);
 }

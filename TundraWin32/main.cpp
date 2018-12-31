@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     bg.a = 0x0;
 
 
-    SDL_Surface* surface = TTF_RenderText_Blended(font, "0 1 2 3 4 5 6 7 8 9 m", fg);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, "0 1 2 3 4 5 6 7 8 9 m b e s t :", fg);
 #if 0
     SDL_Surface* surface = TTF_RenderText(font,
                                           "0 1 2 3 4 5 6 7 8 9 m",

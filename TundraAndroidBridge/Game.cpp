@@ -61,14 +61,19 @@ void Game::render()
                                obstacle.ColorTint);
     }
 
-    Renderer::get().renderTextLeft("[ff, ff, 00]1[ 00,   ff.   ff  ]024 [55, 55, 55, 55]m", vec2f(0.0f, 0.85f), 0.035f);
-    Renderer::get().renderTextCenter("mmmm   172m", vec2f(0.0f, 0.55f), 0.035f);
-    Renderer::get().renderTextRight("572m", vec2f(0.0f, -0.55f), 0.035f);
+    static float xx;
+    xx += g_DeltaTime * 10.0f;
+
+    char b[32];
+
+    sprintf_s(b, sizeof(b), "[22, 22, 22, ff]%i m", (i32)xx);
+
+    Renderer::get().renderTextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 }
 
 void Game::generateNextChunk()
 {
-#if 1
+#if 0
     static bool a;
 
     a = !a;
