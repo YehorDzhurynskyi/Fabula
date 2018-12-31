@@ -13,15 +13,6 @@ public:
     u32 ColorTint;
 };
 
-class Snowball
-{
-public:
-    void update();
-
-    Transform Transform;
-    vec2f Velocity;
-};
-
 class Game
 {
 public:
@@ -86,7 +77,6 @@ private:
     Player m_player;
     SpriteAtlas m_atlas;
     std::vector<Obstacle> m_obstacles;
-    std::vector<Snowball> m_snowballs;
 
     std::vector<Obstacle> m_Debug; // TODO delete
 };

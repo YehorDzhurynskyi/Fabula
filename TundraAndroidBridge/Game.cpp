@@ -13,7 +13,6 @@ Game::Game()
     : m_atlas("Assets/atlas.png")
 {
     m_obstacles.reserve(100);
-    m_snowballs.reserve(100);
 }
 
 void Game::update()
@@ -27,11 +26,6 @@ void Game::update()
     }
 
     m_player.update();
-
-    for (auto& ball : m_snowballs)
-    {
-        ball.update();
-    }
 
     const float cameraOffset = Camera::get().getVisibleWorldBounds().y / 4.0f;
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
@@ -109,9 +103,4 @@ void Game::generateNextChunk()
         assert(!"Shouldn't be here");
     } break;
     }
-}
-
-void Snowball::update()
-{
-    Transform.Position += g_DeltaTime * Velocity;
 }

@@ -28,7 +28,7 @@ void Player::update()
     const float worldLimit = (Game::g_MapWidth - Transform.Size.x) * 0.5f;
     Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
 
-    m_inertiaDamping *= (g_DeltaTime / 0.0166666f) * m_friction;
+    m_inertiaDamping *= sqrt((g_DeltaTime / 0.0166666f) * m_friction);
     if (m_inertiaDamping < 0.025f)
     {
         m_inertiaDamping = 0.0f;
