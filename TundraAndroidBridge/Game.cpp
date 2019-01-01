@@ -52,13 +52,7 @@ void Game::render()
                                debug.ColorTint);
     }
 
-    static float time;
-    time += g_DeltaTime;
-    const i32 frame = (i32)(time * 14.0f) % SpriteAtlas::at(AnimatedSpriteURI::Player).NOfFrames;
-    Renderer::get().render(AnimatedSpriteURI::Player,
-                           frame,
-                           Camera::get().toNDCSpace(m_player.Transform),
-                           FBL_WHITE_COLOR);
+    m_player.render();
 
     for (const auto& obstacle : m_obstacles)
     {
@@ -120,7 +114,7 @@ void Obstacle::update()
 
     if (m_visible)
     {
-        m_scale = std::min<float>(1.0f, m_scale + 7.0f * g_DeltaTime);
+        m_scale = std::min<float>(1.0f, m_scale + 5.0f * g_DeltaTime);
     }
 }
 

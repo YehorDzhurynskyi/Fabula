@@ -89,8 +89,8 @@ SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()
 {
     AnimatedSprite player;
     player.Offset = vec2f(0, 0) / 2048.0f;
-    player.Pitch = 9;
-    player.NOfFrames = 9;
+    player.Pitch = 12;
+    player.NOfFrames = 12;
     player.Size = vec2f(player.Pitch, (player.NOfFrames / player.Pitch)) * (128.0f / 2048.0f);
 
     AnimatedSprite snowball;
