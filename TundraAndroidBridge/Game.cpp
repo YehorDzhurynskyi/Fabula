@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include "Input.h"
 
-const float Game::g_MapWidth = 10.0f;
+const float Game::g_MapWidth = 15.0f;
 const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
 
 Game::Game()
