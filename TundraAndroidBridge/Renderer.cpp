@@ -14,7 +14,7 @@
 namespace
 {
 
-const char* g_VertexShaderSource = ""
+const char* g_BasicVertexShaderSource = ""
 "attribute vec2 a_position;\n"
 "attribute vec2 a_uvtex;\n"
 "attribute vec4 a_color_tint;\n"
@@ -29,28 +29,58 @@ const char* g_VertexShaderSource = ""
 "    gl_Position = vec4(a_position, 0.0, 1.0);\n"
 "}\n";
 
-const char* g_FragmentShaderSource = ""
+const char* g_BasicFragmentShaderSource = ""
 #ifdef FBL_WIN32
 "#version 140\n"
 #endif
 "precision mediump float;\n"
 "\n"
-"uniform sampler2D t_texture;\n"
+"uniform sampler2D u_texture;\n"
 "\n"
 "varying vec2 v_uvtex;\n"
 "varying vec4 v_color_tint;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    gl_FragColor = v_color_tint * texture2D(t_texture, v_uvtex);\n"
+"    gl_FragColor = v_color_tint * texture2D(u_texture, v_uvtex);\n"
+"}\n";
+
+const char* g_MotionBlurVertexShaderSource = ""
+"attribute vec2 a_position;\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"    gl_Position = vec4(a_position, 0.0, 1.0);\n"
+"}\n";
+
+const char* g_MotionBlurFragmentShaderSource = ""
+#ifdef FBL_WIN32
+"#version 140\n"
+#endif
+"precision mediump float;\n"
+"\n"
+"uniform vec2 u_prevCameraPos;\n"
+"uniform vec2 u_currentCameraPos;\n"
+"uniform sampler2D u_inTexture;\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"    vec2 blurVec = u_currentCameraPos - u_prevCameraPos;\n"
+"    gl_FragColor = texture2D(u_inTexture, gl_Position.xy);\n"
+"    for (int i = 1; i < 32; ++i)\n"
+"    {\n"
+"        vec2 offset = blurVec * (float(i) / float(32 - 1) - 0.5);\n"
+"        gl_FragColor += texture2D(u_inTexture, gl_Position.xy + offset);\n"
+"    }\n"
+"    gl_FragColor /= float(32);\n"
 "}\n";
 
 }
 
 bool Renderer::init()
 {
-    const u32 vertexShader = compileShader(GL_VERTEX_SHADER, g_VertexShaderSource);
-    const u32 fragmentShader = compileShader(GL_FRAGMENT_SHADER, g_FragmentShaderSource);
+    const u32 vertexShader = compileShader(GL_VERTEX_SHADER, g_BasicVertexShaderSource);
+    const u32 fragmentShader = compileShader(GL_FRAGMENT_SHADER, g_BasicFragmentShaderSource);
 
     assert(vertexShader != 0 && fragmentShader != 0);
     if (vertexShader == 0 || fragmentShader == 0)
@@ -205,6 +235,8 @@ void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform&
 
 void Renderer::present()
 {
+    static vec2f prevCameraPos = Camera::get().Position;
+
     assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
 
     glActiveTexture(GL_TEXTURE0);
@@ -217,6 +249,11 @@ void Renderer::present()
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, m_currentSpriteCount * 4 * sizeof(Vertex), (void*)m_clientVertexBuffer);
 
+    const i32 prevCameraPosLocation = glGetUniformLocation(m_program, "u_prevCameraPos");
+    glUniform2f(prevCameraPosLocation, prevCameraPos.x, prevCameraPos.y);
+    const i32 currentCameraPosLocation = glGetUniformLocation(m_program, "u_currentCameraPos");
+    glUniform2f(currentCameraPosLocation, Camera::get().Position.x, Camera::get().Position.y);
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
@@ -228,6 +265,8 @@ void Renderer::present()
     glDisableVertexAttribArray(2);
 
     m_currentSpriteCount = 0;
+
+    prevCameraPos = Camera::get().Position;
 }
 
 void Renderer::renderText(const char* text, const vec2f position, const float rHeight)

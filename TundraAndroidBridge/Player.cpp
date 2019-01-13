@@ -31,8 +31,10 @@ void Player::update()
     const vec2f variableForce = m_inertiaDamping * m_inertia + (1.0f - m_inertiaDamping) * m_ownVelocity;
     Transform.Position += g_DeltaTime * (g_ConstantForce + variableForce);
 
+#if 0
     const float desiredZoom = m_inertiaDamping > 0.4f ? 1.4f : 1.0f;
     Camera::get().Zoom += (desiredZoom - Camera::get().Zoom) * 0.05f * (g_DeltaTime / 0.0166666f);
+#endif
 
     m_inertiaDamping *= (g_DeltaTime / 0.0166666f) * m_friction;
     if (m_inertiaDamping < 0.0025f)
