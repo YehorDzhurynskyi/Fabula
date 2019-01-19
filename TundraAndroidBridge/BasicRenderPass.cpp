@@ -46,8 +46,8 @@ const char* g_BasicFragmentShaderSource = ""
 
 bool BasicRenderPass::init()
 {
-    const u32 vertexShader = Renderer::compileShader(GL_VERTEX_SHADER, g_BasicVertexShaderSource);
-    const u32 fragmentShader = Renderer::compileShader(GL_FRAGMENT_SHADER, g_BasicFragmentShaderSource);
+    const u32 vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_BasicVertexShaderSource);
+    const u32 fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_BasicFragmentShaderSource);
 
     assert(vertexShader != 0 && fragmentShader != 0);
     if (vertexShader == 0 || fragmentShader == 0)
@@ -84,8 +84,13 @@ bool BasicRenderPass::init()
      m_uvLocation = glGetAttribLocation(m_program, "a_uvtex");
      m_colorTintLocation = glGetAttribLocation(m_program, "a_color_tint");
 
-     //m_prevCameraPosLocation = glGetUniformLocation(m_program, "u_prevCameraPos");
-     //m_currentCameraPosLocation = glGetUniformLocation(m_program, "u_currentCameraPos");
+     if (m_positionLocation < 0 ||
+         m_uvLocation < 0 ||
+         m_colorTintLocation < 0)
+     {
+         glDeleteProgram(m_program);
+         return false;
+     }
 
     return true;
 }
@@ -97,21 +102,14 @@ void BasicRenderPass::shutdown()
 
 void BasicRenderPass::bind()
 {
-    static vec2f prevCameraPos = Camera::get().Position;
-
-    //glUniform2f(m_prevCameraPosLocation, prevCameraPos.x, prevCameraPos.y);
-    //glUniform2f(m_currentCameraPosLocation, Camera::get().Position.x, Camera::get().Position.y);
-
     {
-        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_position_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(vec2f), (void*)Renderer::get().m_client_Position_VertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Position_VBO());
 
         glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
     }
 
     {
-        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_color_UV_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(Renderer::Color_UV_Data), (void*)Renderer::get().m_client_Color_UV_VertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Color_UV_VBO());
 
         glVertexAttribPointer(m_colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, ColorTint));
         glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
@@ -122,8 +120,6 @@ void BasicRenderPass::bind()
     glEnableVertexAttribArray(m_positionLocation);
     glEnableVertexAttribArray(m_colorTintLocation);
     glEnableVertexAttribArray(m_uvLocation);
-
-    prevCameraPos = Camera::get().Position;
 }
 
 void BasicRenderPass::unbind()

@@ -13,7 +13,7 @@
 
 bool Renderer::init()
 {
-    bool initialized = m_basicPass.init();// && m_motionBlurPass.init();
+    bool initialized = m_basicPass.init() && m_motionBlurPass.init();
     if (!initialized)
     {
         return false;
@@ -93,9 +93,10 @@ void Renderer::shutdown()
     glDeleteTextures(1, &m_atlas_Texture);
 
     m_basicPass.shutdown();
+    m_motionBlurPass.shutdown();
 }
 
-u32 Renderer::compileShader(i32 shaderType, const char* sourceCode)
+u32 Renderer::compile_shader(i32 shaderType, const char* sourceCode)
 {
     const u32 shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &sourceCode, nullptr);
@@ -176,16 +177,24 @@ void Renderer::present()
     assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
 
     {
-        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        m_basicPass.bind();
-
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
 
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_position_VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(vec2f), (void*)Renderer::get().m_client_Position_VertexBuffer);
+
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_color_UV_VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(Renderer::Color_UV_Data), (void*)Renderer::get().m_client_Color_UV_VertexBuffer);
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+    }
+
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        m_basicPass.bind();
 
         glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
@@ -390,4 +399,14 @@ u32 Renderer::parseColor(const char* start, const char* end) const
         ++start;
     }
     return FBL_COLOR(rgba[0], rgba[1], rgba[2], rgba[3]);
+}
+
+u32 Renderer::get_Position_VBO() const
+{
+    return m_position_VBO;
+}
+
+u32 Renderer::get_Color_UV_VBO() const
+{
+    return m_color_UV_VBO;
 }

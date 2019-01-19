@@ -2,6 +2,7 @@
 
 #include "SpriteAtlas.h"
 #include "Game/BasicRenderPass.h"
+#include "Game/MotionBlurRenderPass.h"
 
 class Renderer
 {
@@ -25,6 +26,8 @@ public:
     };
     static_assert(sizeof(Color_UV_Data) == 12, "Unexpected size of vertex struct");
 
+    static u32 compile_shader(i32 shaderType, const char* sourceCode);
+
 public:
     bool init();
     void shutdown();
@@ -39,15 +42,17 @@ public:
 
     void present();
 
-    static u32 compileShader(i32 shaderType, const char* sourceCode);
+    u32 get_Position_VBO() const;
+    u32 get_Color_UV_VBO() const;
 
 private:
     void renderText(const char* text, const vec2f position, const float rHeight);
     float calculateTextWidth(const char* text, const float rHeight) const;
     u32 parseColor(const char* start, const char* end) const;
 
-public:
+private:
     BasicRenderPass m_basicPass;
+    MotionBlurRenderPass m_motionBlurPass;
 
     u32 m_FBO;
 
