@@ -9,10 +9,21 @@
 const float Game::g_MapWidth = 15.0f;
 const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
 
+Game* g_Game = nullptr;
+
 Game::Game()
     : m_atlas("Assets/atlas.png")
 {
+    assert(g_Game == nullptr);
+    g_Game = this;
+
     m_obstacles.reserve(100);
+}
+
+Game::~Game()
+{
+    assert(g_Game != nullptr);
+    g_Game = nullptr;
 }
 
 void Game::update()
@@ -135,4 +146,9 @@ void Obstacle::render() const
 
     transform.Size *= m_scale;
     Renderer::get().render(SpriteURI, Camera::get().toNDCSpace(transform), ColorTint);
+}
+
+const Player& Game::getPlayer() const
+{
+    return m_player;
 }

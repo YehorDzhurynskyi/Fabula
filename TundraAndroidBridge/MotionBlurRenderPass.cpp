@@ -9,7 +9,7 @@
 #endif
 
 #include "Renderer.h"
-#include "Camera.h"
+#include "Game/Game.h"
 
 namespace
 {
@@ -28,21 +28,20 @@ const char* g_MotionBlurFragmentShaderSource = ""
 #endif
 "precision mediump float;\n"
 "\n"
-"uniform vec2 u_prevCameraPos;\n"
-"uniform vec2 u_currentCameraPos;\n"
+"uniform vec2 u_blurVec;\n"
+"uniform vec2 u_blurVecOffset;\n"
 "uniform vec2 u_screenSize;\n"
+"\n"
 "uniform sampler2D u_texture;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    vec2 blurVec = u_currentCameraPos - u_prevCameraPos;\n"
-"    blurVec *= 0.05;\n"
 "    vec2 pixelUVCoord = gl_FragCoord.xy / u_screenSize;\n"
 "    gl_FragColor = texture2D(u_texture, pixelUVCoord);\n"
-"    int nOfSamples = 16;\n"
+"    int nOfSamples = 8;\n"
 "    for (int i = 1; i < nOfSamples; ++i)\n"
 "    {\n"
-"        vec2 offset = blurVec * (float(i) / float(nOfSamples - 1)) - blurVec * 0.75;\n"
+"        vec2 offset = u_blurVec * (float(i) / float(nOfSamples - 1)) - u_blurVecOffset;\n"
 "        gl_FragColor += texture2D(u_texture, pixelUVCoord + offset);\n"
 "    }\n"
 "    gl_FragColor /= float(nOfSamples);\n"
@@ -88,13 +87,13 @@ bool MotionBlurRenderPass::init()
 
     m_positionLocation = glGetAttribLocation(m_program, "a_position");
 
-    m_prevCameraPosLocation = glGetUniformLocation(m_program, "u_prevCameraPos");
-    m_currentCameraPosLocation = glGetUniformLocation(m_program, "u_currentCameraPos");
+    m_blurVecLocation = glGetUniformLocation(m_program, "u_blurVec");
+    m_blurVecOffsetLocation = glGetUniformLocation(m_program, "u_blurVecOffset");
     m_screenSizeLocation = glGetUniformLocation(m_program, "u_screenSize");
 
     if (m_positionLocation < 0 ||
-        m_prevCameraPosLocation < 0 ||
-        m_currentCameraPosLocation < 0 ||
+        m_blurVecLocation < 0 ||
+        m_blurVecOffsetLocation < 0 ||
         m_screenSizeLocation < 0)
     {
         glDeleteProgram(m_program);
@@ -119,14 +118,17 @@ void MotionBlurRenderPass::bind()
     glUseProgram(m_program);
 
     {
-        const vec2f& currentCameraPosition = Camera::get().Position;
+        const vec2f& currentPlayerPosition = g_Game->getPlayer().Transform.Position;
         const vec2f& screenSize = Camera::get().getScreenSize();
 
-        glUniform2f(m_prevCameraPosLocation, m_prevCameraPosition.x, m_prevCameraPosition.y);
-        glUniform2f(m_currentCameraPosLocation, currentCameraPosition.x, currentCameraPosition.y);
+        const vec2f& blurVec = (currentPlayerPosition - m_prevPlayerPosition) * 0.08f;
+        const vec2f& blurVecOffset = blurVec * 0.75f;
+
+        glUniform2f(m_blurVecLocation, -blurVec.x, blurVec.y);
+        glUniform2f(m_blurVecOffsetLocation, -blurVecOffset.x, blurVecOffset.y);
         glUniform2f(m_screenSizeLocation, screenSize.x, screenSize.y);
 
-        m_prevCameraPosition = currentCameraPosition;
+        m_prevPlayerPosition = currentPlayerPosition;
     }
 
     glEnableVertexAttribArray(m_positionLocation);

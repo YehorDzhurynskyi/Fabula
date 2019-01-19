@@ -14,9 +14,9 @@ private:
 
     i32 m_positionLocation;
 
-    i32 m_prevCameraPosLocation;
-    i32 m_currentCameraPosLocation;
+    i32 m_blurVecLocation;
+    i32 m_blurVecOffsetLocation;
     i32 m_screenSizeLocation;
 
-    vec2f m_prevCameraPosition;
+    vec2f m_prevPlayerPosition;
 };

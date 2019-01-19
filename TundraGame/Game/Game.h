@@ -29,9 +29,12 @@ public:
 
 public:
     Game();
+    ~Game();
 
     void update();
     void render();
+
+    const Player& getPlayer() const;
 
 private:
     void generateNextChunk();
