@@ -14,7 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\BasicRenderPass.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\StaticRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
@@ -39,7 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Game/BasicRenderPass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
   </ItemGroup>
 </Project>

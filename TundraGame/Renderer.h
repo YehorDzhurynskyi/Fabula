@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SpriteAtlas.h"
-#include "Game/BasicRenderPass.h"
+#include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
 
 class Renderer
@@ -56,7 +56,7 @@ private:
     void present_After();
 
 public:
-    BasicRenderPass m_basicPass;
+    StaticRenderPass m_staticPass;
     MotionBlurRenderPass m_motionBlurPass;
 
     u32 m_FBO;

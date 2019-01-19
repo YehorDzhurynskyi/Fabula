@@ -13,7 +13,7 @@
 
 bool Renderer::init()
 {
-    bool initialized = m_basicPass.init() && m_motionBlurPass.init();
+    bool initialized = m_staticPass.init() && m_motionBlurPass.init();
     if (!initialized)
     {
         return false;
@@ -92,7 +92,7 @@ void Renderer::shutdown()
     glDeleteTextures(1, &m_target_Texture);
     glDeleteTextures(1, &m_atlas_Texture);
 
-    m_basicPass.shutdown();
+    m_staticPass.shutdown();
     m_motionBlurPass.shutdown();
 }
 
@@ -181,11 +181,11 @@ void Renderer::present_MotionBlured()
 
     {
         glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
-        m_basicPass.bind();
+        m_staticPass.bind();
 
         glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
-        m_basicPass.unbind();
+        m_staticPass.unbind();
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -208,9 +208,9 @@ void Renderer::present_Static()
     present_Before();
 
     glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
-    m_basicPass.bind();
+    m_staticPass.bind();
     glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-    m_basicPass.unbind();
+    m_staticPass.unbind();
 
     present_After();
 }

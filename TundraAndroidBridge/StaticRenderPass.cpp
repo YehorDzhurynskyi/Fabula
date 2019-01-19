@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Game/BasicRenderPass.h"
+#include "Game/StaticRenderPass.h"
 
 #ifdef FBL_ANDROID
 #include "SDL_opengles2.h"
@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 
-const char* g_BasicVertexShaderSource = ""
+const char* g_StaticVertexShaderSource = ""
 "attribute vec2 a_position;\n"
 "attribute vec2 a_uvtex;\n"
 "attribute vec4 a_color_tint;\n"
@@ -26,7 +26,7 @@ const char* g_BasicVertexShaderSource = ""
 "    gl_Position = vec4(a_position, 0.0, 1.0);\n"
 "}\n";
 
-const char* g_BasicFragmentShaderSource = ""
+const char* g_StaticFragmentShaderSource = ""
 #ifdef FBL_WIN32
 "#version 140\n"
 #endif
@@ -42,10 +42,10 @@ const char* g_BasicFragmentShaderSource = ""
 "    gl_FragColor = v_color_tint * texture2D(u_texture, v_uvtex);\n"
 "}\n";
 
-bool BasicRenderPass::init()
+bool StaticRenderPass::init()
 {
-    const u32 vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_BasicVertexShaderSource);
-    const u32 fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_BasicFragmentShaderSource);
+    const u32 vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_StaticVertexShaderSource);
+    const u32 fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_StaticFragmentShaderSource);
 
     assert(vertexShader != 0 && fragmentShader != 0);
     if (vertexShader == 0 || fragmentShader == 0)
@@ -93,12 +93,12 @@ bool BasicRenderPass::init()
     return true;
 }
 
-void BasicRenderPass::shutdown()
+void StaticRenderPass::shutdown()
 {
     glDeleteProgram(m_program);
 }
 
-void BasicRenderPass::bind()
+void StaticRenderPass::bind()
 {
     {
         glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Position_VBO());
@@ -118,7 +118,7 @@ void BasicRenderPass::bind()
     glEnableVertexAttribArray(m_uvLocation);
 }
 
-void BasicRenderPass::unbind()
+void StaticRenderPass::unbind()
 {
     glDisableVertexAttribArray(m_positionLocation);
     glDisableVertexAttribArray(m_colorTintLocation);

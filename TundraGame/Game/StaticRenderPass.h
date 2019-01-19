@@ -1,6 +1,6 @@
 #pragma once
 
-class BasicRenderPass
+class StaticRenderPass
 {
 public:
     bool init();
