@@ -73,7 +73,7 @@ void Game::render()
 
     char b[32];
     sprintf(b, "[22, 22, 22, ff]%i m", (i32)xx);
-    Renderer::get().renderTextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
+    Renderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 
     Renderer::get().present_Static();
 }

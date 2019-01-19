@@ -236,7 +236,7 @@ void Renderer::present_After()
     m_currentSpriteCount = 0;
 }
 
-void Renderer::renderText(const char* text, const vec2f position, const float rHeight)
+void Renderer::render_Text(const char* text, const vec2f position, const float rHeight)
 {
     assert(rHeight >= 0.0f && rHeight <= 1.0f);
 
@@ -299,25 +299,25 @@ void Renderer::renderText(const char* text, const vec2f position, const float rH
     }
 }
 
-void Renderer::renderTextLeft(const char* text, const vec2f position, const float rHeight)
+void Renderer::render_TextLeft(const char* text, const vec2f position, const float rHeight)
 {
-    return renderText(text, position, rHeight);
+    return render_Text(text, position, rHeight);
 }
 
-void Renderer::renderTextRight(const char* text, const vec2f position, const float rHeight)
+void Renderer::render_TextRight(const char* text, const vec2f position, const float rHeight)
 {
     vec2f newPos(position);
     newPos.x -= calculateTextWidth(text, rHeight);
 
-    return renderText(text, newPos, rHeight);
+    return render_Text(text, newPos, rHeight);
 }
 
-void Renderer::renderTextCenter(const char* text, const vec2f position, const float rHeight)
+void Renderer::render_TextCenter(const char* text, const vec2f position, const float rHeight)
 {
     vec2f newPos(position);
     newPos.x -= calculateTextWidth(text, rHeight) * 0.5f;
 
-    return renderText(text, newPos, rHeight);
+    return render_Text(text, newPos, rHeight);
 }
 
 float Renderer::calculateTextWidth(const char* text, const float rHeight) const
