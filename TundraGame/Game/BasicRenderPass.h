@@ -11,4 +11,11 @@ public:
 
 private:
     u32 m_program;
+
+    i32 m_positionLocation;
+    i32 m_uvLocation;
+    i32 m_colorTintLocation;
+
+    //i32 m_prevCameraPosLocation;
+    //i32 m_currentCameraPosLocation;
 };

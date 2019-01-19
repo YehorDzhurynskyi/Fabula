@@ -175,10 +175,22 @@ void Renderer::present()
 {
     assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-    glClear(GL_COLOR_BUFFER_BIT);
+    {
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
 
+        m_basicPass.bind();
 
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+
+        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+
+        m_basicPass.unbind();
+    }
 
     m_currentSpriteCount = 0;
     // present motion blur pass

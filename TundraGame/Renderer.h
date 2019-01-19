@@ -11,19 +11,19 @@ private:
     static const size_t g_MaxVerticesCount = 512;
     static const size_t g_MaxIndicesCount = g_MaxVerticesCount * 1.5;
 
-    struct Color_UV_Data
-    {
-        u32 ColorTint;
-        vec2f UV;
-    };
-    static_assert(sizeof(Color_UV_Data) == 12, "Unexpected size of vertex struct");
-
 public:
     static Renderer& get()
     {
         static Renderer instance;
         return instance;
     }
+
+    struct Color_UV_Data
+    {
+        u32 ColorTint;
+        vec2f UV;
+    };
+    static_assert(sizeof(Color_UV_Data) == 12, "Unexpected size of vertex struct");
 
 public:
     bool init();
@@ -46,7 +46,7 @@ private:
     float calculateTextWidth(const char* text, const float rHeight) const;
     u32 parseColor(const char* start, const char* end) const;
 
-private:
+public:
     BasicRenderPass m_basicPass;
 
     u32 m_FBO;
