@@ -99,8 +99,6 @@ void BasicRenderPass::bind()
 {
     static vec2f prevCameraPos = Camera::get().Position;
 
-    glUseProgram(m_program);
-
     //glUniform2f(m_prevCameraPosLocation, prevCameraPos.x, prevCameraPos.y);
     //glUniform2f(m_currentCameraPosLocation, Camera::get().Position.x, Camera::get().Position.y);
 
@@ -119,16 +117,18 @@ void BasicRenderPass::bind()
         glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
     }
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
+    glUseProgram(m_program);
+
+    glEnableVertexAttribArray(m_positionLocation);
+    glEnableVertexAttribArray(m_colorTintLocation);
+    glEnableVertexAttribArray(m_uvLocation);
 
     prevCameraPos = Camera::get().Position;
 }
 
 void BasicRenderPass::unbind()
 {
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(m_positionLocation);
+    glDisableVertexAttribArray(m_colorTintLocation);
+    glDisableVertexAttribArray(m_uvLocation);
 }
