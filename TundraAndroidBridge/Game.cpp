@@ -59,12 +59,23 @@ void Game::render()
         obstacle.render();
     }
 
+    Renderer::get().present();
+
+    for (const auto& obstacle : m_obstacles)
+    {
+        obstacle.render();
+    }
+
+    m_player.render();
+
     static float xx;
     xx += g_DeltaTime * 10.0f;
 
     char b[32];
     sprintf(b, "[22, 22, 22, ff]%i m", (i32)xx);
     Renderer::get().renderTextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
+
+    Renderer::get().present2();
 }
 
 void Game::generateNextChunk()

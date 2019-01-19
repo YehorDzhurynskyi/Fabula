@@ -36,7 +36,7 @@ void Player::update()
     Camera::get().Zoom += (desiredZoom - Camera::get().Zoom) * 0.05f * (g_DeltaTime / 0.0166666f);
 #endif
 
-    m_inertiaDamping *= (g_DeltaTime / 0.0166666f) * m_friction;
+    m_inertiaDamping *= /*(g_DeltaTime / 0.0166666f) **/ m_friction;
     if (m_inertiaDamping < 0.0025f)
     {
         m_inertiaDamping = 0.0f;

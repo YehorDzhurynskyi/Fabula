@@ -90,7 +90,6 @@ void run()
             game.update();
 
             game.render();
-            Renderer::get().present();
             SDL_GL_SwapWindow(g_SDLWindow);
 
             ++fps;

@@ -214,13 +214,37 @@ void Renderer::present()
     }
 
     m_currentSpriteCount = 0;
-    // present motion blur pass
-    //  apply basic shader
-    //  apply motion blur shader
+}
 
+void Renderer::present2()
+{
+    assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
 
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
 
-    // present basic pass
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_position_VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(vec2f), (void*)Renderer::get().m_client_Position_VertexBuffer);
+
+        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().m_color_UV_VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Renderer::get().m_currentSpriteCount * 4 * sizeof(Renderer::Color_UV_Data), (void*)Renderer::get().m_client_Color_UV_VertexBuffer);
+    }
+
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+
+        m_basicPass.bind();
+
+        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+
+        m_basicPass.unbind();
+    }
+
+    m_currentSpriteCount = 0;
 }
 
 void Renderer::renderText(const char* text, const vec2f position, const float rHeight)

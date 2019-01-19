@@ -41,6 +41,7 @@ public:
     void renderTextRight(const char* text, const vec2f position, const float rHeight);
 
     void present();
+    void present2();
 
     u32 get_Position_VBO() const;
     u32 get_Color_UV_VBO() const;
