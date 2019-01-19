@@ -16,6 +16,7 @@ private:
 
     i32 m_prevCameraPosLocation;
     i32 m_currentCameraPosLocation;
+    i32 m_screenSizeLocation;
 
     vec2f m_prevCameraPosition;
 };

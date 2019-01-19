@@ -30,16 +30,19 @@ const char* g_MotionBlurFragmentShaderSource = ""
 "\n"
 "uniform vec2 u_prevCameraPos;\n"
 "uniform vec2 u_currentCameraPos;\n"
-"uniform sampler2D u_inTexture;\n"
+"uniform vec2 u_screenSize;\n"
+"uniform sampler2D u_texture;\n"
 "\n"
 "void main(void)\n"
 "{\n"
 "    vec2 blurVec = u_currentCameraPos - u_prevCameraPos;\n"
-"    gl_FragColor = texture2D(u_inTexture, gl_FragCoord.xy);\n"
+"    blurVec *= 0.1;\n"
+"    vec2 pixelUVCoord = gl_FragCoord.xy / u_screenSize;\n"
+"    gl_FragColor = texture2D(u_texture, pixelUVCoord);\n"
 "    for (int i = 1; i < 32; ++i)\n"
 "    {\n"
 "        vec2 offset = blurVec * (float(i) / float(32 - 1) - 0.5);\n"
-"        gl_FragColor += texture2D(u_inTexture, gl_FragCoord.xy + offset);\n"
+"        gl_FragColor += texture2D(u_texture, pixelUVCoord + offset);\n"
 "    }\n"
 "    gl_FragColor /= float(32);\n"
 "}\n";
@@ -86,10 +89,12 @@ bool MotionBlurRenderPass::init()
 
     m_prevCameraPosLocation = glGetUniformLocation(m_program, "u_prevCameraPos");
     m_currentCameraPosLocation = glGetUniformLocation(m_program, "u_currentCameraPos");
+    m_screenSizeLocation = glGetUniformLocation(m_program, "u_screenSize");
 
     if (m_positionLocation < 0 ||
         m_prevCameraPosLocation < 0 ||
-        m_currentCameraPosLocation < 0)
+        m_currentCameraPosLocation < 0 ||
+        m_screenSizeLocation < 0)
     {
         glDeleteProgram(m_program);
         return false;
@@ -115,9 +120,11 @@ void MotionBlurRenderPass::bind()
 
     {
         const vec2f& currentCameraPosition = Camera::get().Position;
+        const vec2f& screenSize = Camera::get().getScreenSize();
 
         glUniform2f(m_prevCameraPosLocation, m_prevCameraPosition.x, m_prevCameraPosition.y);
         glUniform2f(m_currentCameraPosLocation, currentCameraPosition.x, currentCameraPosition.y);
+        glUniform2f(m_screenSizeLocation, screenSize.x, screenSize.y);
 
         m_prevCameraPosition = currentCameraPosition;
     }

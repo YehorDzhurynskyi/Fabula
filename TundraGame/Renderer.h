@@ -50,7 +50,7 @@ private:
     float calculateTextWidth(const char* text, const float rHeight) const;
     u32 parseColor(const char* start, const char* end) const;
 
-private:
+public:
     BasicRenderPass m_basicPass;
     MotionBlurRenderPass m_motionBlurPass;
 
