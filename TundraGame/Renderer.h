@@ -40,8 +40,8 @@ public:
     void renderTextCenter(const char* text, const vec2f position, const float rHeight);
     void renderTextRight(const char* text, const vec2f position, const float rHeight);
 
-    void present();
-    void present2();
+    void present_MotionBlured();
+    void present_Static();
 
     u32 get_Position_VBO() const;
     u32 get_Color_UV_VBO() const;
@@ -50,6 +50,9 @@ private:
     void renderText(const char* text, const vec2f position, const float rHeight);
     float calculateTextWidth(const char* text, const float rHeight) const;
     u32 parseColor(const char* start, const char* end) const;
+
+    void present_Before();
+    void present_After();
 
 public:
     BasicRenderPass m_basicPass;
