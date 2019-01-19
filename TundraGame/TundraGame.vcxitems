@@ -14,16 +14,18 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\BasicRenderPass.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Input.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\MotionBlurRenderPass.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Input.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
@@ -33,9 +35,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Game.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/BasicRenderPass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
   </ItemGroup>
 </Project>
