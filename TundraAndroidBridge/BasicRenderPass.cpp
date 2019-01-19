@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Game/BasicRenderPass.h"
 
-#include "SDL_image.h"
-
 #ifdef FBL_ANDROID
 #include "SDL_opengles2.h"
 #include "SDL_opengles2_gl2.h"
@@ -80,17 +78,17 @@ bool BasicRenderPass::init()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-     m_positionLocation = glGetAttribLocation(m_program, "a_position");
-     m_uvLocation = glGetAttribLocation(m_program, "a_uvtex");
-     m_colorTintLocation = glGetAttribLocation(m_program, "a_color_tint");
+    m_positionLocation = glGetAttribLocation(m_program, "a_position");
+    m_uvLocation = glGetAttribLocation(m_program, "a_uvtex");
+    m_colorTintLocation = glGetAttribLocation(m_program, "a_color_tint");
 
-     if (m_positionLocation < 0 ||
-         m_uvLocation < 0 ||
-         m_colorTintLocation < 0)
-     {
-         glDeleteProgram(m_program);
-         return false;
-     }
+    if (m_positionLocation < 0 ||
+        m_uvLocation < 0 ||
+        m_colorTintLocation < 0)
+    {
+        glDeleteProgram(m_program);
+        return false;
+    }
 
     return true;
 }
@@ -104,13 +102,11 @@ void BasicRenderPass::bind()
 {
     {
         glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Position_VBO());
-
         glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
     }
 
     {
         glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Color_UV_VBO());
-
         glVertexAttribPointer(m_colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, ColorTint));
         glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
     }

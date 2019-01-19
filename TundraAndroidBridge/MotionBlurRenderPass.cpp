@@ -113,7 +113,6 @@ void MotionBlurRenderPass::bind()
 {
     {
         glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Position_VBO());
-
         glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
     }
 

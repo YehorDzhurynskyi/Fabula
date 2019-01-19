@@ -61,12 +61,12 @@ void Game::render()
 
     Renderer::get().present();
 
+    m_player.render();
+
     for (const auto& obstacle : m_obstacles)
     {
         obstacle.render();
     }
-
-    m_player.render();
 
     static float xx;
     xx += g_DeltaTime * 10.0f;

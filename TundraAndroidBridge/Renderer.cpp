@@ -191,26 +191,26 @@ void Renderer::present()
         glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+        {
+            glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+            m_basicPass.bind();
 
-        m_basicPass.bind();
+            glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
-        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-
-        m_basicPass.unbind();
+            m_basicPass.unbind();
+        }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_target_Texture);
+        {
+            glBindTexture(GL_TEXTURE_2D, m_target_Texture);
+            m_motionBlurPass.bind();
 
-        m_motionBlurPass.bind();
+            glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
-        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-
-        m_motionBlurPass.unbind();
+            m_motionBlurPass.unbind();
+        }
     }
 
     m_currentSpriteCount = 0;
@@ -232,16 +232,15 @@ void Renderer::present2()
     }
 
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        {
+            glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+            m_basicPass.bind();
 
-        m_basicPass.bind();
+            glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
 
-        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-
-        m_basicPass.unbind();
+            m_basicPass.unbind();
+        }
     }
 
     m_currentSpriteCount = 0;

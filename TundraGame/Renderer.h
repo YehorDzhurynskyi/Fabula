@@ -62,8 +62,8 @@ public:
     u32 m_position_VBO;
     u32 m_color_UV_VBO;
 
-    u32 m_target_Texture;
     u32 m_atlas_Texture;
+    u32 m_target_Texture;
 
     i32 m_currentSpriteCount = 0;
 
