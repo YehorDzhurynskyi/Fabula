@@ -28,8 +28,8 @@ void Player::update()
         m_inertiaDamping = 1.0f - m_inertiaDamping;
     }
 
-    const vec2f variableForce = m_inertiaDamping * m_inertia + (1.0f - m_inertiaDamping) * m_ownVelocity;
-    Transform.Position += g_DeltaTime * (g_ConstantForce + variableForce);
+    m_velocity = m_inertiaDamping * m_inertia + (1.0f - m_inertiaDamping) * m_ownVelocity;
+    Transform.Position += g_DeltaTime * (g_ConstantForce + m_velocity);
 
 #if 0
     const float desiredZoom = m_inertiaDamping > 0.4f ? 1.4f : 1.0f;
@@ -57,13 +57,34 @@ void Player::update()
 
 void Player::update_Trail()
 {
-    FOR(2)
+
     {
-        Particle* particle = m_trailParticles.push();
-        particle->Color = index;
+        static float timer;
+        timer -= g_DeltaTime;
+
+        if (timer <= 0.0f)
+        {
+            FOR(5)
+            {
+                Particle* particle = TrailParticles.push();
+
+                float offsetx = (2.0f * rand01() - 1.0f) * 0.3f;
+                float offsety = rand01() * -2.0f;
+
+                u8 r = (u8)(rand() % 255);
+                u8 g = (u8)(rand() % 255);
+                u8 b = (u8)(rand() % 255);
+
+                particle->Transform.Position = Transform.Position + vec2f(offsetx, offsety);
+                particle->ColorTint = FBL_COLOR(r, g, b, 0xff);
+                particle->Life = 1.0f;
+                particle->Velocity = -m_velocity * 0.015f * rand01();
+            }
+            timer = 0.1f;
+        }
     }
 
-    for (auto& node : m_trailParticles)
+    for (auto& node : TrailParticles)
     {
         if (!node.InUse)
         {
@@ -71,17 +92,17 @@ void Player::update_Trail()
         }
 
         Particle& particle = node.Value;
-        particle.Life -= g_DeltaTime;
+        particle.Life -= g_DeltaTime * 2.0f;
 
-        particle.Position -= particle.Velocity * g_DeltaTime;
+        particle.Transform.Position += particle.Velocity * g_DeltaTime;
+        particle.Transform.Size = vec2f(0.25f, 0.25f) * particle.Life + vec2f(0.05f, 0.05f);
 
-        u8 alpha = (particle.Color >> 24) & 0xff;
-        alpha -= g_DeltaTime * 2.5f;
-        particle.Color &= 0x00ffffff;
-        particle.Color |= (alpha << 24);
+        const u8 alpha = particle.Life * 255;
+        particle.ColorTint &= 0x00ffffff;
+        particle.ColorTint |= (alpha << 24);
     }
 
-    m_trailParticles.rescan();
+    TrailParticles.rescan();
 }
 
 void Player::render() const

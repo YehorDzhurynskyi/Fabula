@@ -58,7 +58,7 @@ SpriteAtlas::SpriteArray&& initSprites()
     plane.Size = vec2f(512, 512);
 
     Sprite circle;
-    circle.Offset = vec2f(1024, 1536);
+    circle.Offset = vec2f(512, 1536);
     circle.Size = vec2f(512, 512);
 
     Sprite tree;

@@ -72,6 +72,19 @@ void Game::render()
 
     Renderer::get().present_MotionBlured();
 
+    for (auto& node : m_player.TrailParticles)
+    {
+        if (!node.InUse)
+        {
+            continue;
+        }
+
+        Particle& particle = node.Value;
+        Renderer::get().render(SpriteURI::Circle,
+                               Camera::get().toNDCSpace(particle.Transform),
+                               particle.ColorTint);
+    }
+
     m_player.render();
 
     for (const auto& obstacle : m_obstacles)

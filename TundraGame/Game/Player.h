@@ -4,9 +4,9 @@
 
 struct Particle
 {
-    vec2f Position;
+    Transform Transform;
     vec2f Velocity;
-    u32 Color;
+    u32 ColorTint;
     float Life;
 
     bool isAlive() const
@@ -15,7 +15,7 @@ struct Particle
     }
 };
 
-static_assert(sizeof(Particle) == 24, "size should be 24");
+static_assert(sizeof(Particle) == 32, "unexpected size");
 
 class Player
 {
@@ -25,6 +25,7 @@ public:
 
 public:
     Transform Transform;
+    Pool<Particle, 500> TrailParticles; // TODO: set relevant size
 
 private:
     void update_Trail();
@@ -32,9 +33,8 @@ private:
 private:
     float m_inertiaDamping = 0.0f;
     float m_friction = 0.95f;
+    vec2f m_velocity;
     vec2f m_ownVelocity = vec2f(3.0f, 18.0f);
     vec2f m_inertia;
     i32 m_currentFrame;
-
-    Pool<Particle, 4> m_trailParticles;
 };
