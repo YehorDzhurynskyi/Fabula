@@ -19,6 +19,14 @@ float foo(float x)
     return std::pow(M_E, 4.0f * (x - 1.0f));
 }
 
+Player::Player()
+    : m_inertiaDamping(0.0f)
+    , m_friction(0.95f)
+    , m_ownVelocity(vec2f(3.0f, 18.0f))
+{
+    m_trailParticles.reserve(100);
+}
+
 void Player::update()
 {
     if (Input::DirectionSwitched)
@@ -51,6 +59,31 @@ void Player::update()
 
     const float worldLimit = (Game::g_MapWidth - Transform.Size.x) * 0.5f;
     Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
+
+    update_Trail();
+}
+
+void Player::update_Trail()
+{
+    FOR(2)
+    {
+        int unusedParticle = FirstUnusedParticle();
+        RespawnParticle(particles[unusedParticle], object, offset);
+    }
+
+    for (auto& particle : m_trailParticles)
+    {
+        particle.Life -= g_DeltaTime;
+
+        if (particle.Life > 0.0f)
+        {
+            particle.Position -= particle.Velocity * g_DeltaTime;
+            u8 alpha = (particle.Color >> 24) & 0xff;
+            alpha -= g_DeltaTime * 2.5f;
+            particle.Color &= 0x00ffffff;
+            particle.Color |= (alpha << 24);
+        }
+    }
 }
 
 void Player::render() const
