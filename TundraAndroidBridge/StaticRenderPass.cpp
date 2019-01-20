@@ -65,7 +65,7 @@ bool StaticRenderPass::init()
     {
         char log[4096];
         glGetShaderInfoLog(m_program, sizeof(log), nullptr, log);
-        SDL_Log("%s\n", log);
+        SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         glDeleteProgram(m_program);

@@ -108,7 +108,7 @@ u32 Renderer::compile_shader(i32 shaderType, const char* sourceCode)
     {
         char log[4096];
         glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
-        SDL_Log("%s\n", log);
+        SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
         glDeleteShader(shader);
         return 0;
     }

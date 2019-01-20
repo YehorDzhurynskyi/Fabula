@@ -12,7 +12,7 @@
 #include "Renderer.h"
 
 #include "application.h"
-#include "Input.h"
+#include "Event/EventBus.h"
 #include "Game/Game.h"
 
 #ifdef FBL_WIN32
@@ -23,6 +23,84 @@ const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREE
 
 SDL_Window* g_SDLWindow = nullptr;
 bool g_Running = true;
+
+namespace
+{
+
+SDL_Event g_EventBuffer[4];
+void process_events()
+{
+    SDL_PumpEvents();
+    while (true)
+    {
+        const i32 eventsCount = SDL_PeepEvents(g_EventBuffer,
+                                               ARRLEN(g_EventBuffer),
+                                               SDL_GETEVENT,
+                                               SDL_FIRSTEVENT,
+                                               SDL_LASTEVENT);
+        if (eventsCount == 0)
+        {
+            break;
+        }
+
+        if (eventsCount < 0)
+        {
+            REVEAL_SDL_ERROR("SDL Failed on peeping events")
+        }
+
+        FOR(eventsCount)
+        {
+            SDL_Event& event = g_EventBuffer[index];
+            switch (event.type)
+            {
+            case SDL_QUIT:
+            {
+                g_Running = false;
+            } break;
+            case SDL_KEYDOWN:
+                if (event.key.keysym.scancode != SDL_SCANCODE_SPACE) break;
+            case SDL_FINGERDOWN:
+            {
+                EventBus::get().enqueue<ClickEvent>();
+            } break;
+            case SDL_WINDOWEVENT:
+            {
+                switch (event.window.event)
+                {
+                case SDL_WINDOWEVENT_SHOWN:
+                case SDL_WINDOWEVENT_EXPOSED:
+                case SDL_WINDOWEVENT_MAXIMIZED:
+                case SDL_WINDOWEVENT_RESTORED:
+                case SDL_WINDOWEVENT_FOCUS_GAINED:
+                {
+                    WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
+                    focusEvent->Focused = true;
+                } break;
+                case SDL_WINDOWEVENT_HIDDEN:
+                case SDL_WINDOWEVENT_MINIMIZED:
+                case SDL_WINDOWEVENT_FOCUS_LOST:
+                {
+                    WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
+                    focusEvent->Focused = false;
+                } break;
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                {
+                    WindowResizedEvent* resizedEvent = EventBus::get().enqueue<WindowResizedEvent>();
+                    resizedEvent->Width = event.window.data1;
+                    resizedEvent->Height = event.window.data2;
+                } break;
+                case SDL_WINDOWEVENT_CLOSE:
+                {
+                    event.type = SDL_QUIT;
+                    SDL_PushEvent(&event);
+                } break;
+                }
+            } break;
+            }
+        }
+    }
+}
+}
 
 void run()
 {
@@ -68,6 +146,11 @@ void run()
 #endif
 
     SDL_GL_SetSwapInterval(1);
+#ifdef _DEBUG
+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
+#else
+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_WARN);
+#endif
 
     u64 lastPerfCounter = SDL_GetPerformanceCounter();
     u64 frequency = SDL_GetPerformanceFrequency();
@@ -86,7 +169,7 @@ void run()
 
         while (g_Running)
         {
-            Input::handle_input();
+            process_events();
             game.update();
 
             game.render();
@@ -101,7 +184,7 @@ void run()
             if (elapsedTime > 1.0f)
             {
                 elapsedTime -= 1.0f;
-                SDL_Log("FPS: %i, %fms", fps, 1000.f / fps);
+                SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "FPS: %i, %fms", fps, 1000.f / fps);
                 fps = 0;
             }
         }

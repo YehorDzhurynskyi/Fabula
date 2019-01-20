@@ -17,12 +17,12 @@ extern Game* g_Game;
 
 #define FOR(_n) for (int index = 0; index < _n; ++index)
 
-#define REVEAL_SDL_ERROR(_msg)                                          \
-    SDL_Log("SDL ERROR: %s, SDL_GetError(): %s", _msg, SDL_GetError()); \
-    SDL_ClearError();                                                   \
-    SDL_TriggerBreakpoint();                                            \
-    exit(-1);                                                           \
-                                                                        \
+#define REVEAL_SDL_ERROR(_msg)                                                                                  \
+    SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "SDL ERROR: %s, SDL_GetError(): %s", _msg, SDL_GetError());   \
+    SDL_ClearError();                                                                                           \
+    SDL_TriggerBreakpoint();                                                                                    \
+    exit(-1);                                                                                                   \
+                                                                                                                \
 
 #define AS(_T, _V) static_cast<_T>(_V)
 #define ARRLEN(_V) (sizeof(_V) / sizeof(_V[0]))

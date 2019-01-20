@@ -41,7 +41,9 @@ public:
     {
         static_assert(std::is_base_of<Event, T>::value, "should be derived from `Event`");
         m_eventQueue.push_back(std::make_unique<T>(std::forward<Args>(args)...));
-        return static_cast<T*>(m_eventQueue.back().get());
+        T* t = static_cast<T*>(m_eventQueue.back().get());
+        t->log();
+        return t;
     }
 
     void flush();
