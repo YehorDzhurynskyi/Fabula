@@ -1,17 +1,17 @@
 #pragma once
 
-#define EmitEventRTTI(_type)                        \
-                                                    \
-virtual EventType type() const                      \
-{                                                   \
-    return EventType::_type;                        \
-}                                                   \
-                                                    \
-virtual void log() const                            \
-{                                                   \
-    SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, #_type);   \
-}                                                   \
-                                                    \
+#define EmitEventRTTI(_type)    \
+                                \
+virtual EventType type() const  \
+{                               \
+    return EventType::_type;    \
+}                               \
+                                \
+virtual const char* name() const\
+{                               \
+    return #_type;              \
+}                               \
+                                \
 
 enum class EventType : u8
 {
@@ -29,6 +29,10 @@ struct Event
 struct ClickEvent : public Event
 {
     EmitEventRTTI(Click)
+
+public:
+    float NDCXPos;
+    float NDCYPos;
 };
 
 struct WindowFocusEvent : public Event

@@ -57,11 +57,29 @@ void process_events()
             {
                 g_Running = false;
             } break;
-            case SDL_KEYDOWN:
-                if (event.key.keysym.scancode != SDL_SCANCODE_SPACE) break;
+            case SDL_MOUSEBUTTONDOWN:
             case SDL_FINGERDOWN:
             {
-                EventBus::get().enqueue<ClickEvent>();
+                ClickEvent* clickEvent = EventBus::get().enqueue<ClickEvent>();
+                if (event.type == SDL_MOUSEBUTTONDOWN)
+                {
+                    i32 w;
+                    i32 h;
+                    SDL_GetWindowSize(g_SDLWindow, &w, &h);
+
+                    clickEvent->NDCXPos = event.button.x / AS(float, w);
+                    clickEvent->NDCYPos = event.button.y / AS(float, h);
+                }
+                else
+                {
+                    clickEvent->NDCXPos = event.tfinger.x;
+                    clickEvent->NDCYPos = event.tfinger.y;
+                }
+
+                SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
+                             "Click (%.3f, %.3f)",
+                             clickEvent->NDCXPos,
+                             clickEvent->NDCYPos);
             } break;
             case SDL_WINDOWEVENT:
             {
@@ -75,6 +93,9 @@ void process_events()
                 {
                     WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
                     focusEvent->Focused = true;
+
+                    SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus gained");
+
                 } break;
                 case SDL_WINDOWEVENT_HIDDEN:
                 case SDL_WINDOWEVENT_MINIMIZED:
@@ -82,12 +103,19 @@ void process_events()
                 {
                     WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
                     focusEvent->Focused = false;
+
+                    SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus lost");
                 } break;
                 case SDL_WINDOWEVENT_SIZE_CHANGED:
                 {
                     WindowResizedEvent* resizedEvent = EventBus::get().enqueue<WindowResizedEvent>();
                     resizedEvent->Width = event.window.data1;
                     resizedEvent->Height = event.window.data2;
+
+                    SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
+                                 "Resized (%ix%i)",
+                                 resizedEvent->Width,
+                                 resizedEvent->Height);
                 } break;
                 case SDL_WINDOWEVENT_CLOSE:
                 {
@@ -185,7 +213,7 @@ void run()
             if (elapsedTime > 1.0f)
             {
                 elapsedTime -= 1.0f;
-                SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "FPS: %i, %fms", fps, 1000.f / fps);
+                //SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "FPS: %i, %fms", fps, 1000.f / fps);
                 fps = 0;
             }
         }
