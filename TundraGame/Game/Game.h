@@ -3,13 +3,15 @@
 #include "SpriteAtlas.h"
 #include "Camera.h"
 #include "Game/Player.h"
-#include <vector>
+#include "Pool.h"
 
 class Obstacle
 {
 public:
     void update();
     void render() const;
+
+    bool isAlive() const;
 
 public:
     SpriteURI SpriteURI;
@@ -49,7 +51,7 @@ private:
 
         for (const auto& localPosition : chunk)
         {
-            Obstacle obstacle;
+            Obstacle& obstacle = *m_obstacles.push();
             obstacle.Transform.Position.x = Game::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.Position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
             obstacle.SpriteURI = AS(SpriteURI, rand() % 2 ? SpriteURI::Tree : SpriteURI::Rock);
@@ -79,15 +81,15 @@ private:
                 assert(!"Unrecognized obstacle");
             } break;
             }
-
-            m_obstacles.push_back(obstacle);
         }
     }
 
 private:
     Player m_player;
     SpriteAtlas m_atlas;
-    std::vector<Obstacle> m_obstacles;
+    Pool<Obstacle, 50> m_obstacles;
 
-    std::vector<Obstacle> m_Debug; // TODO delete
+#ifdef _DEBUG
+    Pool<Obstacle, 10> m_Debug;
+#endif
 };

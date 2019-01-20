@@ -16,8 +16,6 @@ Game::Game()
 {
     assert(g_Game == nullptr);
     g_Game = this;
-
-    m_obstacles.reserve(100);
 }
 
 Game::~Game()
@@ -37,10 +35,16 @@ void Game::update()
     }
 
     m_player.update();
-    for (auto& obstacle : m_obstacles)
+    for (auto& node : m_obstacles)
     {
-        obstacle.update();
+        if (!node.InUse)
+        {
+            continue;
+        }
+        node.Value.update();
     }
+
+    m_obstacles.rescan();
 
     const float cameraOffset = Camera::get().getVisibleWorldBounds().y / 4.0f;
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
@@ -56,18 +60,26 @@ void Game::render()
                            Camera::get().toNDCSpace(t),
                            FBL_COLOR(0xf8, 0xf8, 0xf8, 0xff));
 
-    for (const auto& debug : m_Debug)
+    for (const auto& node : m_Debug)
     {
-        Renderer::get().render(debug.SpriteURI,
-                               Camera::get().toNDCSpace(debug.Transform),
-                               debug.ColorTint);
+        if (!node.InUse)
+        {
+            continue;
+        }
+        Renderer::get().render(node.Value.SpriteURI,
+                               Camera::get().toNDCSpace(node.Value.Transform),
+                               node.Value.ColorTint);
     }
 
     m_player.render();
 
-    for (const auto& obstacle : m_obstacles)
+    for (const auto& node : m_obstacles)
     {
-        obstacle.render();
+        if (!node.InUse)
+        {
+            continue;
+        }
+        node.Value.render();
     }
 
     Renderer::get().present_MotionBlured();
@@ -87,9 +99,13 @@ void Game::render()
 
     m_player.render();
 
-    for (const auto& obstacle : m_obstacles)
+    for (const auto& node : m_obstacles)
     {
-        obstacle.render();
+        if (!node.InUse)
+        {
+            continue;
+        }
+        node.Value.render();
     }
 
     static float xx;
@@ -103,9 +119,15 @@ void Game::render()
     sprintf(bbb, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
     Renderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
 
+#ifdef _DEBUG
     char bb[32];
     sprintf(bb, "[ff, 22, ff, ff]%i", m_player.TrailParticles.Count);
     Renderer::get().render_TextLeft(bb, vec2f(-0.8f, 0.8f), 0.02f);
+
+    char bbbb[32];
+    sprintf(bbbb, "[00, 63, 4a, ff]%i", m_obstacles.Count);
+    Renderer::get().render_TextLeft(bbbb, vec2f(-0.8f, 0.7f), 0.02f);
+#endif
 
     Renderer::get().present_Static();
 }
@@ -150,6 +172,11 @@ void Game::generateNextChunk()
     }
 }
 
+const Player& Game::getPlayer() const
+{
+    return m_player;
+}
+
 void Obstacle::update()
 {
     const ::Transform& ndcTransform = Camera::get().toNDCSpace(Transform);
@@ -169,7 +196,8 @@ void Obstacle::render() const
     Renderer::get().render(SpriteURI, Camera::get().toNDCSpace(transform), ColorTint);
 }
 
-const Player& Game::getPlayer() const
+bool Obstacle::isAlive() const
 {
-    return m_player;
+    const ::Transform& ndcTransform = Camera::get().toNDCSpace(Transform);
+    return ndcTransform.Position.y < 1.0f;
 }
