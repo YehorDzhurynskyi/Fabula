@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include "Pool.h"
 
 struct Particle
 {
@@ -15,8 +15,6 @@ static_assert(sizeof(Particle) == 24, "size should be 24");
 class Player
 {
 public:
-    Player();
-
     void update();
     void render() const;
 
@@ -27,11 +25,11 @@ private:
     void update_Trail();
 
 private:
-    float m_inertiaDamping;
-    float m_friction;
-    vec2f m_ownVelocity;
+    float m_inertiaDamping = 0.0f;
+    float m_friction = 0.95f;
+    vec2f m_ownVelocity = vec2f(3.0f, 18.0f);
     vec2f m_inertia;
     i32 m_currentFrame;
 
-    std::vector<Particle> m_trailParticles;
+    Pool<Particle, 100> m_trailParticles;
 };

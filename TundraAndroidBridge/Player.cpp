@@ -19,14 +19,6 @@ float foo(float x)
     return std::pow(M_E, 4.0f * (x - 1.0f));
 }
 
-Player::Player()
-    : m_inertiaDamping(0.0f)
-    , m_friction(0.95f)
-    , m_ownVelocity(vec2f(3.0f, 18.0f))
-{
-    m_trailParticles.reserve(100);
-}
-
 void Player::update()
 {
     if (Input::DirectionSwitched)
@@ -65,6 +57,7 @@ void Player::update()
 
 void Player::update_Trail()
 {
+#if 0
     FOR(2)
     {
         int unusedParticle = FirstUnusedParticle();
@@ -84,6 +77,7 @@ void Player::update_Trail()
             particle.Color |= (alpha << 24);
         }
     }
+#endif
 }
 
 void Player::render() const
