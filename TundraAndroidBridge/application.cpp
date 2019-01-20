@@ -58,7 +58,9 @@ void process_events()
                 g_Running = false;
             } break;
             case SDL_MOUSEBUTTONDOWN:
-            case SDL_FINGERDOWN:
+#if 0
+            case SDL_FINGERDOWN: // TODO: invastigate
+#endif
             {
                 ClickEvent* clickEvent = EventBus::get().enqueue<ClickEvent>();
                 if (event.type == SDL_MOUSEBUTTONDOWN)
