@@ -240,7 +240,6 @@ void Renderer::render_Text(const char* text, const vec2f position, const float r
 {
     assert(rHeight >= 0.0f && rHeight <= 1.0f);
 
-    const vec2f screenSize = Camera::get().getScreenSize();
     vec2f pivotPosition = position;
 
     u32 color = FBL_BLACK_COLOR;
