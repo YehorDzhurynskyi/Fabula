@@ -57,15 +57,15 @@ void Player::update()
 
 void Player::update_Trail()
 {
-#if 0
     FOR(2)
     {
-        int unusedParticle = FirstUnusedParticle();
-        RespawnParticle(particles[unusedParticle], object, offset);
+        Particle* particle = m_trailParticles.push();
+        particle->Color = index;
     }
 
-    for (auto& particle : m_trailParticles)
+    for (auto& node : m_trailParticles)
     {
+        Particle& particle = node.Value;
         particle.Life -= g_DeltaTime;
 
         if (particle.Life > 0.0f)
@@ -77,7 +77,8 @@ void Player::update_Trail()
             particle.Color |= (alpha << 24);
         }
     }
-#endif
+
+    m_trailParticles.rescan();
 }
 
 void Player::render() const

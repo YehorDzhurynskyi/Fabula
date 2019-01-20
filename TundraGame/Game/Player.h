@@ -31,5 +31,12 @@ private:
     vec2f m_inertia;
     i32 m_currentFrame;
 
-    Pool<Particle, 100> m_trailParticles;
+    struct ParticleAlive
+    {
+        bool operator()(const Particle& particle)
+        {
+            return particle.Life <= 0.0f;
+        }
+    };
+    Pool<Particle, 4, ParticleAlive> m_trailParticles;
 };
