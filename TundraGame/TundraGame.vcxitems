@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\EventBus.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\StaticRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
@@ -25,11 +26,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\EventBus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event\Event.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event\EventBus.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
@@ -38,10 +41,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Event/Event.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Event/EventBus.h" />
   </ItemGroup>
 </Project>

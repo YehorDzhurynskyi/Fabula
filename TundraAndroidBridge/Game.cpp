@@ -45,6 +45,10 @@ void Game::update()
 
     m_obstacles.rescan();
 
+#ifdef _DEBUG
+    m_Debug.rescan();
+#endif
+
     const float cameraOffset = Camera::get().getVisibleWorldBounds().y / 4.0f;
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
 }
@@ -59,17 +63,6 @@ void Game::render()
                            Camera::get().toNDCSpace(t),
                            FBL_COLOR(0xf8, 0xf8, 0xf8, 0xff));
 
-    for (const auto& node : m_Debug)
-    {
-        if (!node.InUse)
-        {
-            continue;
-        }
-        Renderer::get().render(node.Value.SpriteURI,
-                               Camera::get().toNDCSpace(node.Value.Transform),
-                               node.Value.ColorTint);
-    }
-
     m_player.render();
 
     for (const auto& node : m_obstacles)
@@ -82,6 +75,17 @@ void Game::render()
     }
 
     Renderer::get().present_MotionBlured();
+
+    for (const auto& node : m_Debug)
+    {
+        if (!node.InUse)
+        {
+            continue;
+        }
+        Renderer::get().render(node.Value.SpriteURI,
+                               Camera::get().toNDCSpace(node.Value.Transform),
+                               node.Value.ColorTint);
+    }
 
     for (auto& node : m_player.TrailParticles)
     {
@@ -130,11 +134,11 @@ void Game::render()
 
 void Game::generateNextChunk()
 {
-#if 0
+#if 1
     static bool a;
 
     a = !a;
-    Obstacle debugPanel;
+    Obstacle& debugPanel = *m_Debug.push();
     debugPanel.Transform.Size = vec2f(Game::g_MapWidth, Camera::g_MinimumVisibleWorldHeight);
     debugPanel.SpriteURI = SpriteURI::Plane;
     debugPanel.ColorTint = a ? FBL_COLOR(0xff, 0x0, 0x0, 0x80) : FBL_COLOR(0x0, 0x0, 0xff, 0x80);
@@ -143,10 +147,9 @@ void Game::generateNextChunk()
         m_player.Transform.Position.y +
         Camera::g_MinimumVisibleWorldHeight +
         g_ChunkGenerationOffset;
-
-    m_Debug.push_back(debugPanel);
 #endif
 
+#if 0
     switch (rand() % 3)
     {
     case 0:
@@ -166,6 +169,9 @@ void Game::generateNextChunk()
         assert(!"Shouldn't be here");
     } break;
     }
+#else
+    generateChunk(Level::M_ChunkSelection[0]);
+#endif
 }
 
 const Player& Game::getPlayer() const

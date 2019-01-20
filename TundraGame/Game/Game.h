@@ -54,7 +54,7 @@ private:
             Obstacle& obstacle = *m_obstacles.push();
             obstacle.Transform.Position.x = Game::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.Position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
-            obstacle.SpriteURI = AS(SpriteURI, rand() % 2 ? SpriteURI::Tree : SpriteURI::Rock);
+            obstacle.SpriteURI = SpriteURI::Tree; // AS(SpriteURI, rand() % 2 ? SpriteURI::Tree : SpriteURI::Rock);
             obstacle.ColorTint = FBL_COLOR(0xff, 0xff, 0xff, 0xff);
 
             switch (obstacle.SpriteURI)
@@ -87,7 +87,7 @@ private:
 private:
     Player m_player;
     SpriteAtlas m_atlas;
-    Pool<Obstacle, 50> m_obstacles;
+    Pool<Obstacle, 100> m_obstacles;
 
 #ifdef _DEBUG
     Pool<Obstacle, 10> m_Debug;
