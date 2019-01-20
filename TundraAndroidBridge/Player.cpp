@@ -48,6 +48,8 @@ void Player::update()
         m_inertiaDamping = 0.0f;
     }
 
+    m_inertiaDamping = clamp<float>(m_inertiaDamping, 0.0f, 1.0f);
+
     const AnimatedSprite& sprite = SpriteAtlas::at(AnimatedSpriteURI::Player);
     m_currentFrame = m_inertiaDamping * (sprite.NOfFrames - 1);
     if (m_ownVelocity.x > 0.0f)
@@ -63,7 +65,6 @@ void Player::update()
 
 void Player::update_Trail()
 {
-
     {
         static float timer;
         timer -= g_DeltaTime;
