@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "common.h"
 
-float g_DeltaTime = 0.0f;
+float g_DeltaTime = 0.0166666f;
 
 float rand01()
 {

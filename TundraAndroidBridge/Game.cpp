@@ -99,6 +99,14 @@ void Game::render()
     sprintf(b, "[22, 22, 22, ff]%i m", (i32)xx);
     Renderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 
+    char bbb[32];
+    sprintf(bbb, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
+    Renderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
+
+    char bb[32];
+    sprintf(bb, "[ff, 22, ff, ff]%i", m_player.TrailParticles.Count);
+    Renderer::get().render_TextLeft(bb, vec2f(-0.8f, 0.8f), 0.02f);
+
     Renderer::get().present_Static();
 }
 

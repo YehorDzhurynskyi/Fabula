@@ -25,7 +25,7 @@ public:
 
 public:
     Transform Transform;
-    Pool<Particle, 500> TrailParticles; // TODO: set relevant size
+    Pool<Particle, 50> TrailParticles;
 
 private:
     void update_Trail();

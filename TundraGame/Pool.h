@@ -36,7 +36,7 @@ public:
         m_firstAvailableNode = occupiedNode->Next;
 
 #ifdef _DEBUG
-        ++m_count;
+        ++Count;
 #endif
 
         occupiedNode->InUse = true;
@@ -54,7 +54,7 @@ public:
                 m_firstAvailableNode = &node;
 
 #ifdef _DEBUG
-                --m_count;
+                --Count;
                 memset(&node.Value, 0xfb, sizeof(T));
 #endif
             }
@@ -71,12 +71,13 @@ public:
         return m_nodes.end();
     }
 
+public:
+#ifdef _DEBUG
+    i32 Count = 0;
+#endif
+
 private:
     std::array<Node, N> m_nodes;
     Node* m_firstAvailableNode;
-
-#ifdef _DEBUG
-    i32 m_count = 0;
-#endif
 };
 
