@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Event/EventBus.h"
+
 class Camera
 {
 private:
-    Camera() = default;
+    Camera();
 
 public:
     static Camera& get()
@@ -13,6 +15,9 @@ public:
     }
 
     static const float g_MinimumVisibleWorldHeight;
+
+private:
+    void onWindowSizeChanged(i32 width, i32 height);
 
 public:
     vec2f getScreenSize() const;
@@ -24,5 +29,11 @@ public:
 
     vec2f Position;
     float Zoom = 1.0f;
+
+private:
+    EventListener m_windowResizedListener;
+
+    vec2f m_screenSize;
+    vec2f m_visibleBounds;
 };
 

@@ -12,6 +12,13 @@ class EventListener
 public:
     EventListener(void* owner, EventType eventType, EventHandler handler);
     ~EventListener();
+    EventListener(const EventListener& rhs) = delete;
+    EventListener& operator=(const EventListener& rhs) = delete;
+    EventListener(EventListener&& rhs);
+    EventListener& operator=(EventListener&& rhs);
+
+    bool isValid() const;
+    void reset();
 
     bool operator==(const EventListener& rhs) const;
     void operator()(const Event& event) const;

@@ -1,13 +1,16 @@
 #pragma once
 
 #include "SpriteAtlas.h"
+
 #include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
+
+#include "Event/EventBus.h"
 
 class Renderer
 {
 private:
-    Renderer() = default;
+    Renderer();
 
     static const size_t g_MaxVerticesCount = 512;
     static const size_t g_MaxIndicesCount = g_MaxVerticesCount * 1.5;
@@ -75,4 +78,6 @@ public:
     Color_UV_Data m_client_Color_UV_VertexBuffer[g_MaxVerticesCount];
 
     u16 m_clientIndexBuffer[g_MaxIndicesCount];
+
+    EventListener m_windowResizedListener;
 };

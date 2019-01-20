@@ -15,25 +15,40 @@
 
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 
+Camera::Camera()
+    : m_windowResizedListener(this, EventType::WindowResized, [this](const Event& event)
+{
+    assert(event.type() == EventType::WindowResized);
+    const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
+    onWindowSizeChanged(windowResizedEvent.Width, windowResizedEvent.Height);
+})
+{
+    i32 w;
+    i32 h;
+    SDL_GetWindowSize(g_SDLWindow, &w, &h);
+    onWindowSizeChanged(w, h);
+}
+
+void Camera::onWindowSizeChanged(i32 width, i32 height)
+{
+    glViewport(0, 0, width, height);
+
+    m_screenSize = vec2f(width, height);
+
+    const float aspectRatio = m_screenSize.x / m_screenSize.y;
+    const float hBound = Game::g_MapWidth / aspectRatio;
+    m_visibleBounds = vec2f(Game::g_MapWidth, hBound);
+}
+
 vec2f Camera::getScreenSize() const
 {
-    // TODO cache
-    int w, h;
-    SDL_GetWindowSize(g_SDLWindow, &w, &h);
-    glViewport(0, 0, w, h);
-
-    return vec2f(w, h);
+    return m_screenSize;
 }
 
 vec2f Camera::getVisibleWorldBounds() const
 {
-    // TODO cache
-    const vec2f screenSize = getScreenSize();
-    const float aspectRatio = screenSize.x / screenSize.y;
-    const float hBound = Game::g_MapWidth / aspectRatio;
-    const float scale = std::max<float>(g_MinimumVisibleWorldHeight / hBound, 1.0f / Zoom);
-
-    return vec2f(Game::g_MapWidth, hBound) * scale;
+    const float scale = std::max<float>(g_MinimumVisibleWorldHeight / m_visibleBounds.y, 1.0f / Zoom);
+    return m_visibleBounds * scale;
 }
 
 Transform Camera::toWorldSpace(const Transform& screenSpace) const
