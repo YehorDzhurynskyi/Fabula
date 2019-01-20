@@ -65,17 +65,20 @@ void Player::update_Trail()
 
     for (auto& node : m_trailParticles)
     {
+        if (!node.InUse)
+        {
+            continue;
+        }
+
         Particle& particle = node.Value;
         particle.Life -= g_DeltaTime;
 
-        if (particle.Life > 0.0f)
-        {
-            particle.Position -= particle.Velocity * g_DeltaTime;
-            u8 alpha = (particle.Color >> 24) & 0xff;
-            alpha -= g_DeltaTime * 2.5f;
-            particle.Color &= 0x00ffffff;
-            particle.Color |= (alpha << 24);
-        }
+        particle.Position -= particle.Velocity * g_DeltaTime;
+
+        u8 alpha = (particle.Color >> 24) & 0xff;
+        alpha -= g_DeltaTime * 2.5f;
+        particle.Color &= 0x00ffffff;
+        particle.Color |= (alpha << 24);
     }
 
     m_trailParticles.rescan();

@@ -8,6 +8,11 @@ struct Particle
     vec2f Velocity;
     u32 Color;
     float Life;
+
+    bool isAlive() const
+    {
+        return Life > 0.0f;
+    }
 };
 
 static_assert(sizeof(Particle) == 24, "size should be 24");
@@ -31,12 +36,5 @@ private:
     vec2f m_inertia;
     i32 m_currentFrame;
 
-    struct ParticleAlive
-    {
-        bool operator()(const Particle& particle)
-        {
-            return particle.Life <= 0.0f;
-        }
-    };
-    Pool<Particle, 4, ParticleAlive> m_trailParticles;
+    Pool<Particle, 4> m_trailParticles;
 };

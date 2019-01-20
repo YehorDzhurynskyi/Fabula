@@ -2,7 +2,7 @@
 
 #include <array>
 
-template<typename T, size_t N, typename Predicate>
+template<typename T, size_t N>
 class Pool
 {
 public:
@@ -10,6 +10,7 @@ public:
     {
         T Value;
         Node* Next;
+        bool InUse;
     };
 
 public:
@@ -20,8 +21,10 @@ public:
         FOR(m_nodes.size() - 1)
         {
             m_nodes[index].Next = &m_nodes[index + 1];
+            m_nodes[index].InUse = false;
         }
         m_nodes[m_nodes.size() - 1].Next = nullptr;
+        m_nodes[m_nodes.size() - 1].InUse = false;
     }
 
     template<typename ...Args>
@@ -32,6 +35,7 @@ public:
         Node* occupiedNode = m_firstAvailableNode;
         m_firstAvailableNode = occupiedNode->Next;
 
+        occupiedNode->InUse = true;
         return new (&occupiedNode->Value) T(std::forward<Args>(args)...);
     }
 
@@ -39,9 +43,10 @@ public:
     {
         for (Node& node : m_nodes)
         {
-            if (m_predicate(node.Value))
+            if (node.InUse && !node.Value.isAlive())
             {
                 node.Next = m_firstAvailableNode;
+                node.InUse = false;
                 m_firstAvailableNode = &node;
 
 #ifdef _DEBUG
@@ -62,7 +67,6 @@ public:
     }
 
 private:
-    Predicate m_predicate;
     std::array<Node, N> m_nodes;
     Node* m_firstAvailableNode;
 };
