@@ -170,7 +170,7 @@ void Game::generateNextChunk()
     } break;
     }
 #else
-    generateChunk(Level::S_ChunkSelection[0]);
+    generateChunk(Level::M_ChunkSelection[0]);
 #endif
 }
 
@@ -182,15 +182,15 @@ const Player& Game::getPlayer() const
 void Obstacle::update()
 {
     const ::Transform& ndcTransform = Camera::get().toNDCSpace(Transform);
-    m_visible = std::fabsf(ndcTransform.Position.y) < 0.9f;
+    m_visible = std::fabsf(ndcTransform.Position.y) < 0.95f;
 
     if (m_visible)
     {
-        m_scale = std::min<float>(1.0f, m_scale + 5.0f * g_DeltaTime);
+        m_scale = std::min<float>(1.0f, m_scale + 7.5f * g_DeltaTime);
     }
     else
     {
-        m_scale = std::max<float>(0.0f, m_scale - 5.0f * g_DeltaTime);
+        m_scale = std::max<float>(0.0f, m_scale - 7.5f * g_DeltaTime);
     }
 }
 

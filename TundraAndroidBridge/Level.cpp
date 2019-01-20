@@ -7,9 +7,9 @@ namespace Level
 const std::array<S_DensityChunk, 1> S_ChunkSelection
 {
     {
-        vec2f(-0.85f, -0.95f), vec2f(0.8f, -0.8f), vec2f(0.55f, -0.0f),
-        vec2f(-0.1f, -0.65f), vec2f(-0.8f, 0.1f), vec2f(-0.25f, 0.7f),
-        vec2f(0.6f, 0.9f)
+        vec2f(-0.65f, -0.7f), vec2f(0.25f, -0.5f), vec2f(0.65f, 0.0f),
+        vec2f(-0.25f, -0.25f), vec2f(-0.8f, 0.1f), vec2f(-0.1f, 0.35f),
+        vec2f(0.6f, 0.65f)
     }
 };
 
