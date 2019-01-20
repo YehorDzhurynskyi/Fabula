@@ -73,7 +73,7 @@ private:
                     FBL_COLOR(0xef, 0x53, 0x7d, 0xff)
                 };
 
-                obstacle.Transform.Size = vec2f(1.75f, 1.75f) + rand01() * vec2f(0.5f, 0.5f);
+                obstacle.Transform.Size = vec2f(2.0f, 2.0f) + rand01() * vec2f(0.5f, 0.5f);
                 obstacle.ColorTint = treeColors[rand() % ARRLEN(treeColors)];
             } break;
             default:

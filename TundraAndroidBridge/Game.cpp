@@ -134,7 +134,7 @@ void Game::render()
 
 void Game::generateNextChunk()
 {
-#if 1
+#if 0
     static bool a;
 
     a = !a;
@@ -149,7 +149,7 @@ void Game::generateNextChunk()
         g_ChunkGenerationOffset;
 #endif
 
-#if 0
+#if 1
     switch (rand() % 3)
     {
     case 0:
@@ -170,7 +170,7 @@ void Game::generateNextChunk()
     } break;
     }
 #else
-    generateChunk(Level::M_ChunkSelection[0]);
+    generateChunk(Level::L_ChunkSelection[0]);
 #endif
 }
 
