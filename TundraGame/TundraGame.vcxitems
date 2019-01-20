@@ -26,6 +26,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\EventBus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
@@ -42,5 +43,7 @@
 	<ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event/Event.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)Event/EventBus.h" />
   </ItemGroup>
 </Project>
