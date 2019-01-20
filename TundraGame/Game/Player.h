@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Pool.h"
+#include "Event/EventBus.h"
 
 struct Particle
 {
@@ -20,6 +21,8 @@ static_assert(sizeof(Particle) == 32, "unexpected size");
 class Player
 {
 public:
+    Player();
+
     void update();
     void render() const;
 
@@ -38,4 +41,5 @@ private:
     vec2f m_ownVelocity = vec2f(3.0f, 9.0f);
     vec2f m_inertia;
     i32 m_currentFrame;
+    EventListener m_directionSwitchListener;
 };

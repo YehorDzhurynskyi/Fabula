@@ -51,6 +51,7 @@ void EventBus::flush()
 {
     for (const auto& event : m_eventQueue)
     {
+        event->log();
         std::vector<EventListener>& typeHandlers = m_handlers[event->type()];
         for (const auto& listener : typeHandlers)
         {

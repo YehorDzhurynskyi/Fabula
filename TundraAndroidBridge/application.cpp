@@ -173,6 +173,7 @@ void run()
             game.update();
 
             game.render();
+            EventBus::get().flush();
             SDL_GL_SwapWindow(g_SDLWindow);
 
             ++fps;

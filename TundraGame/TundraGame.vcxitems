@@ -20,7 +20,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\MotionBlurRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Input.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
@@ -33,7 +32,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Input.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Game.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />

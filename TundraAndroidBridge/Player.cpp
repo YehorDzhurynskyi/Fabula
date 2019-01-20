@@ -1,8 +1,8 @@
 #include "pch.h"
+
 #include "Game/Player.h"
 #include "Game/Game.h"
 
-#include "Input.h"
 #include "Renderer.h"
 
 namespace
@@ -12,22 +12,26 @@ const float g_SkewAngle = 30.0f;
 const vec2f g_GravityForce = vec2f(0.0f, 2.0f);
 const vec2f g_ConstantForce = sinf(to_radians(g_SkewAngle)) * g_GravityForce;
 
-}
-
 float foo(float x)
 {
     return std::pow(M_E, 4.0f * (x - 1.0f));
 }
 
+}
+
+Player::Player()
+    : m_directionSwitchListener(this, EventType::Click, [this](const Event& event)
+{
+    assert(event.type() == EventType::Click);
+    const ClickEvent& clickEvent = AS(const ClickEvent&, event);
+    m_inertia = m_ownVelocity;
+    m_ownVelocity.x = -1.0f * m_ownVelocity.x;
+    m_inertiaDamping = 1.0f - m_inertiaDamping;
+})
+{}
+
 void Player::update()
 {
-    if (Input::DirectionSwitched)
-    {
-        m_inertia = m_ownVelocity;
-        m_ownVelocity.x = -1.0f * m_ownVelocity.x;
-        m_inertiaDamping = 1.0f - m_inertiaDamping;
-    }
-
     m_velocity = m_inertiaDamping * m_inertia + (1.0f - m_inertiaDamping) * m_ownVelocity;
     const vec2f& dp = g_DeltaTime * (g_ConstantForce + m_velocity);
     Transform.Position += dp;
