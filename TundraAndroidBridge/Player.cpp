@@ -29,7 +29,9 @@ void Player::update()
     }
 
     m_velocity = m_inertiaDamping * m_inertia + (1.0f - m_inertiaDamping) * m_ownVelocity;
-    Transform.Position += g_DeltaTime * (g_ConstantForce + m_velocity);
+    const vec2f& dp = g_DeltaTime * (g_ConstantForce + m_velocity);
+    Transform.Position += dp;
+    DistanceCovered += dp.length();
 
 #if 0
     const float desiredZoom = m_inertiaDamping > 0.4f ? 1.4f : 1.0f;

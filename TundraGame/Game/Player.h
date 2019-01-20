@@ -23,12 +23,13 @@ public:
     void update();
     void render() const;
 
+private:
+    void update_Trail();
+
 public:
     Transform Transform;
     Pool<Particle, 50> TrailParticles;
-
-private:
-    void update_Trail();
+    float DistanceCovered = 0.0f;
 
 private:
     float m_inertiaDamping = 0.0f;

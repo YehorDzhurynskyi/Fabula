@@ -108,11 +108,8 @@ void Game::render()
         node.Value.render();
     }
 
-    static float xx;
-    xx += g_DeltaTime * 10.0f;
-
     char b[32];
-    sprintf(b, "[22, 22, 22, ff]%i m", (i32)xx);
+    sprintf(b, "[22, 22, 22, ff]%i m", (i32)m_player.DistanceCovered);
     Renderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 
     char bbb[32];
@@ -199,5 +196,5 @@ void Obstacle::render() const
 bool Obstacle::isAlive() const
 {
     const ::Transform& ndcTransform = Camera::get().toNDCSpace(Transform);
-    return ndcTransform.Position.y < 1.0f;
+    return ndcTransform.Position.y < 1.5f;
 }
