@@ -12,15 +12,17 @@
 #endif
 
 Renderer::Renderer()
-    : m_windowResizedListener(this, EventType::WindowResized, [this](const Event& event)
+    : m_windowResizedListener(this)
 {
-    assert(event.type() == EventType::WindowResized);
-    const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
+    m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
+    {
+        assert(event.type() == EventType::WindowResized);
+        const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
 
-    glBindTexture(GL_TEXTURE_2D, m_target_Texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowResizedEvent.Width, windowResizedEvent.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-})
-{}
+        glBindTexture(GL_TEXTURE_2D, m_target_Texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowResizedEvent.Width, windowResizedEvent.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    });
+}
 
 bool Renderer::init()
 {

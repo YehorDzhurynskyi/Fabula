@@ -40,7 +40,7 @@ private:
     float m_inertiaDamping = 0.0f;
     float m_friction = 0.96f;
     vec2f m_velocity;
-    vec2f m_ownVelocity = vec2f(3.0f, 9.0f);
+    vec2f m_ownVelocity = vec2f(3.0f, 3.0f);
     vec2f m_inertia;
     i32 m_currentFrame;
     EventListener m_directionSwitchListener;

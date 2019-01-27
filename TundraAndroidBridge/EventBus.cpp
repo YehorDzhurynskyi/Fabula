@@ -1,30 +1,17 @@
 #include "pch.h"
 #include "Event/EventBus.h"
 
-EventListener::EventListener(void* owner, EventType eventType, EventHandler handler)
+EventListener::EventListener(void* owner)
     : m_owner(owner)
-    , m_eventType(eventType)
-    , m_handler(handler)
-{
-    assert(isValid());
-    std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
-
-    assert(std::find(typeHandlers.begin(), typeHandlers.end(), *this) == typeHandlers.end());
-
-    typeHandlers.push_back(std::move(*this));
-}
+    , m_eventType(EventType::None)
+    , m_handler(nullptr)
+{}
 
 EventListener::~EventListener()
 {
     if (isValid())
     {
-        assert(isValid());
-
-        std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
-
-        auto listenerIt = std::find(typeHandlers.begin(), typeHandlers.end(), *this);
-        assert(listenerIt != typeHandlers.end());
-        typeHandlers.erase(listenerIt);
+        unbind();
     }
 }
 
@@ -34,6 +21,30 @@ bool EventListener::isValid() const
         m_handler &&
         m_owner != nullptr &&
         m_eventType != EventType::None;
+}
+
+void EventListener::bind(EventType eventType, EventHandler handler)
+{
+    m_eventType = eventType;
+    m_handler = handler;
+
+    assert(isValid());
+
+    std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
+    assert(std::find(typeHandlers.begin(), typeHandlers.end(), *this) == typeHandlers.end());
+
+    typeHandlers.push_back(std::move(*this));
+}
+
+void EventListener::unbind()
+{
+    assert(isValid());
+
+    std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
+
+    auto listenerIt = std::find(typeHandlers.begin(), typeHandlers.end(), *this);
+    assert(listenerIt != typeHandlers.end());
+    typeHandlers.erase(listenerIt);
 }
 
 EventListener::EventListener(EventListener&& rhs)

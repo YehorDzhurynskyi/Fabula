@@ -9,7 +9,7 @@ namespace
 {
 
 const float g_SkewAngle = 30.0f;
-const vec2f g_GravityForce = vec2f(0.0f, 2.0f);
+const vec2f g_GravityForce = vec2f(0.0f, 8.0f);
 const vec2f g_ConstantForce = sinf(to_radians(g_SkewAngle)) * g_GravityForce;
 
 float foo(float x)
@@ -20,15 +20,17 @@ float foo(float x)
 }
 
 Player::Player()
-    : m_directionSwitchListener(this, EventType::Click, [this](const Event& event)
+    : m_directionSwitchListener(this)
 {
-    assert(event.type() == EventType::Click);
-    const ClickEvent& clickEvent = AS(const ClickEvent&, event);
-    m_inertia = m_ownVelocity;
-    m_ownVelocity.x = -1.0f * m_ownVelocity.x;
-    m_inertiaDamping = 1.0f - m_inertiaDamping;
-})
-{}
+    m_directionSwitchListener.bind(EventType::Click, [this](const Event& event)
+    {
+        assert(event.type() == EventType::Click);
+        const ClickEvent& clickEvent = AS(const ClickEvent&, event);
+        m_inertia = m_ownVelocity;
+        m_ownVelocity.x = -1.0f * m_ownVelocity.x;
+        m_inertiaDamping = 1.0f - m_inertiaDamping;
+    });
+}
 
 void Player::update()
 {

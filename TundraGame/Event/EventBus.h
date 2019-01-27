@@ -10,7 +10,7 @@ using EventHandler = std::function<void(const Event& event)>;
 class EventListener
 {
 public:
-    EventListener(void* owner, EventType eventType, EventHandler handler);
+    EventListener(void* owner);
     ~EventListener();
     EventListener(const EventListener& rhs) = delete;
     EventListener& operator=(const EventListener& rhs) = delete;
@@ -19,6 +19,9 @@ public:
 
     bool isValid() const;
     void reset();
+
+    void bind(EventType eventType, EventHandler handler);
+    void unbind();
 
     bool operator==(const EventListener& rhs) const;
     void operator()(const Event& event) const;

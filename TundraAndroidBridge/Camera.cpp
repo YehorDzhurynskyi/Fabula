@@ -16,13 +16,15 @@
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 
 Camera::Camera()
-    : m_windowResizedListener(this, EventType::WindowResized, [this](const Event& event)
+    : m_windowResizedListener(this)
 {
-    assert(event.type() == EventType::WindowResized);
-    const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
-    onWindowSizeChanged(windowResizedEvent.Width, windowResizedEvent.Height);
-})
-{
+    m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
+    {
+        assert(event.type() == EventType::WindowResized);
+        const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
+        onWindowSizeChanged(windowResizedEvent.Width, windowResizedEvent.Height);
+    });
+
     i32 w;
     i32 h;
     SDL_GetWindowSize(g_SDLWindow, &w, &h);
