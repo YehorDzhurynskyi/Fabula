@@ -33,6 +33,11 @@ T clamp(const T& val, const T& min, const T& max)
     return std::min<T>(max, std::max<T>(val, min));
 }
 
+template <typename T> int sign(T val)
+{
+    return (T(0) < val) - (val < T(0));
+}
+
 float rand01();
 float to_radians(const float angle);
 

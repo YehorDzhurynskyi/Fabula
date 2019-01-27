@@ -87,6 +87,19 @@ void Game::render()
                                node.Value.ColorTint);
     }
 
+    for (auto& node : m_player.BrakeParticles)
+    {
+        if (!node.InUse)
+        {
+            continue;
+        }
+
+        Particle& particle = node.Value;
+        Renderer::get().render(SpriteURI::Circle,
+                               Camera::get().toNDCSpace(particle.Transform),
+                               particle.ColorTint);
+    }
+
     for (auto& node : m_player.TrailParticles)
     {
         if (!node.InUse)
@@ -120,13 +133,23 @@ void Game::render()
     Renderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
 
 #ifdef _DEBUG
-    char bb[32];
-    sprintf(bb, "[ff, 22, ff, ff]%i", m_player.TrailParticles.Count);
-    Renderer::get().render_TextLeft(bb, vec2f(-0.8f, 0.8f), 0.02f);
+    {
+        char b[32];
+        sprintf(b, "[ff, 22, 22, ff]%i", m_player.BrakeParticles.Count);
+        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.8f), 0.02f);
+    }
 
-    char bbbb[32];
-    sprintf(bbbb, "[00, 63, 4a, ff]%i", m_obstacles.Count);
-    Renderer::get().render_TextLeft(bbbb, vec2f(-0.8f, 0.7f), 0.02f);
+    {
+        char b[32];
+        sprintf(b, "[ff, 22, ff, ff]%i", m_player.TrailParticles.Count);
+        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.7f), 0.02f);
+    }
+
+    {
+        char b[32];
+        sprintf(b, "[00, 63, 4a, ff]%i", m_obstacles.Count);
+        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.6f), 0.02f);
+    }
 #endif
 
     Renderer::get().present_Static();

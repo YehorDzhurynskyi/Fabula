@@ -61,6 +61,7 @@ void Player::update()
     Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
 
     update_Trail();
+    update_Brake();
 }
 
 void Player::update_Trail()
@@ -110,6 +111,50 @@ void Player::update_Trail()
     }
 
     TrailParticles.rescan();
+}
+
+void Player::update_Brake()
+{
+    {
+        static float timer;
+        timer -= g_DeltaTime;
+        if (timer < 0.0f)
+        {
+            Particle* particle = BrakeParticles.push();
+
+            const float offsetx = sign(m_inertia.x) * (rand01() * 0.45f + 0.05f);
+            const float offsety = rand01() * -0.35f + 0.05f;
+
+            const u8 chnl = 0x66 * rand01();
+
+            particle->Transform.Position = Transform.Position + vec2f(offsetx, offsety);
+            particle->ColorTint = FBL_COLOR(0x88 + chnl, 0x88 + chnl, 0x88 + chnl, 0xff);
+            particle->Life = 1.0f * m_inertiaDamping;// *m_inertiaDamping;
+            particle->Velocity = m_inertia;
+            timer = 0.01f;
+        }
+    }
+
+    for (auto& node : BrakeParticles)
+    {
+        if (!node.InUse)
+        {
+            continue;
+        }
+
+        Particle& particle = node.Value;
+        particle.Life -= g_DeltaTime * 2.0f;
+
+        particle.Transform.Position += (particle.Velocity + g_ConstantForce) * g_DeltaTime;
+        particle.Transform.Size = vec2f(0.25f, 0.25f) * particle.Life + vec2f(0.05f, 0.05f);
+        particle.Velocity *= 0.95f / (g_DeltaTime / 0.0166666f);
+
+        const u8 alpha = particle.Life * 255;
+        particle.ColorTint &= 0x00ffffff;
+        particle.ColorTint |= (alpha << 24);
+    }
+
+    BrakeParticles.rescan();
 }
 
 void Player::render() const

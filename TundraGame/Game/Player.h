@@ -28,15 +28,17 @@ public:
 
 private:
     void update_Trail();
+    void update_Brake();
 
 public:
     Transform Transform;
     Pool<Particle, 50> TrailParticles;
+    Pool<Particle, 50> BrakeParticles;
     float DistanceCovered = 0.0f;
 
 private:
     float m_inertiaDamping = 0.0f;
-    float m_friction = 0.95f;
+    float m_friction = 0.96f;
     vec2f m_velocity;
     vec2f m_ownVelocity = vec2f(3.0f, 9.0f);
     vec2f m_inertia;
