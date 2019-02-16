@@ -64,7 +64,8 @@
       <PreprocessorDefinitions>_WIN32;WIN32;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;D3DCOMPILE_SKIP_OPTIMIZATION;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)3rdParty\SDL\lib\x64;$(ProjectDir)3rdParty\GLEW\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -90,7 +91,8 @@ copy /y $(SolutionDir)Assets $(ProjectDir)Assets</Command>
       <PreprocessorDefinitions>_WIN32;WIN32;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;D3DCOMPILE_SKIP_OPTIMIZATION;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

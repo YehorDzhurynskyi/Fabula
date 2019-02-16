@@ -46,6 +46,8 @@ private:
     EventBus() = default;
 
 public:
+    ~EventBus();
+
     template<typename T, typename ...Args>
     T* enqueue(Args&& ...args)
     {

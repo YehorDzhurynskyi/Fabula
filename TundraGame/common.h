@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "SDL_log.h"
 #include "SDL_assert.h"
+#include <cmath>
 #include <algorithm>
 
 #ifdef WIN32

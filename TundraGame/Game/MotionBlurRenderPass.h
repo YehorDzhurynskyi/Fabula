@@ -10,13 +10,13 @@ public:
     void unbind();
 
 private:
-    u32 m_program;
+    ProgramID m_program;
 
-    i32 m_positionLocation;
+    ShaderLocationID m_positionLocation;
 
-    i32 m_blurVecLocation;
-    i32 m_blurVecOffsetLocation;
-    i32 m_screenSizeLocation;
+    ShaderLocationID m_blurVecLocation;
+    ShaderLocationID m_blurVecOffsetLocation;
+    ShaderLocationID m_screenSizeLocation;
 
     vec2f m_prevPlayerPosition;
 };

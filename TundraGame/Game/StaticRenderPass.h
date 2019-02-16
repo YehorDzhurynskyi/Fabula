@@ -10,9 +10,9 @@ public:
     void unbind();
 
 private:
-    u32 m_program;
+    ProgramID m_program;
 
-    i32 m_positionLocation;
-    i32 m_uvLocation;
-    i32 m_colorTintLocation;
+    ShaderLocationID m_positionLocation;
+    ShaderLocationID m_uvLocation;
+    ShaderLocationID m_colorTintLocation;
 };

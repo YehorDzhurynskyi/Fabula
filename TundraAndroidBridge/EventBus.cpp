@@ -95,6 +95,17 @@ void EventListener::operator()(const Event& event) const
     m_handler(event);
 }
 
+EventBus::~EventBus()
+{
+    for (auto& [eventType, handlers] : m_handlers)
+    {
+        for (auto& handler : handlers)
+        {
+            handler.unbind();
+        }
+    }
+}
+
 void EventBus::flush()
 {
     for (const auto& event : m_eventQueue)

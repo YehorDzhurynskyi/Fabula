@@ -62,15 +62,15 @@ public:
     StaticRenderPass m_staticPass;
     MotionBlurRenderPass m_motionBlurPass;
 
-    u32 m_FBO;
+    FrameBufferID m_FBO;
 
-    u32 m_IBO;
+    IndexBufferID m_IBO;
 
-    u32 m_position_VBO;
-    u32 m_color_UV_VBO;
+    VertexBufferID m_position_VBO;
+    VertexBufferID m_color_UV_VBO;
 
-    u32 m_atlas_Texture;
-    u32 m_target_Texture;
+    TextureID m_atlas_Texture;
+    TextureID m_target_Texture;
 
     i32 m_currentSpriteCount = 0;
 

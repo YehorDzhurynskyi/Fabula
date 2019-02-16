@@ -51,8 +51,8 @@ const char* g_MotionBlurFragmentShaderSource = ""
 
 bool MotionBlurRenderPass::init()
 {
-    const u32 vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_MotionBlurVertexShaderSource);
-    const u32 fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_MotionBlurFragmentShaderSource);
+    const ShaderID vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_MotionBlurVertexShaderSource);
+    const ShaderID fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_MotionBlurFragmentShaderSource);
 
     assert(vertexShader != 0 && fragmentShader != 0);
     if (vertexShader == 0 || fragmentShader == 0)

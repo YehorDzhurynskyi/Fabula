@@ -44,8 +44,8 @@ const char* g_StaticFragmentShaderSource = ""
 
 bool StaticRenderPass::init()
 {
-    const u32 vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_StaticVertexShaderSource);
-    const u32 fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_StaticFragmentShaderSource);
+    const ShaderID vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_StaticVertexShaderSource);
+    const ShaderID fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_StaticFragmentShaderSource);
 
     assert(vertexShader != 0 && fragmentShader != 0);
     if (vertexShader == 0 || fragmentShader == 0)

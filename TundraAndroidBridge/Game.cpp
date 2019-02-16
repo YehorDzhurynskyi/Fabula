@@ -76,6 +76,7 @@ void Game::render()
 
     Renderer::get().present_MotionBlured();
 
+#ifdef _DEBUG
     for (const auto& node : m_Debug)
     {
         if (!node.InUse)
@@ -86,6 +87,7 @@ void Game::render()
                                Camera::get().toNDCSpace(node.Value.Transform),
                                node.Value.ColorTint);
     }
+#endif
 
     for (auto& node : m_player.BrakeParticles)
     {

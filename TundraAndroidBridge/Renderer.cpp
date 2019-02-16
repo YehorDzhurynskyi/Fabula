@@ -111,7 +111,7 @@ void Renderer::shutdown()
 
 u32 Renderer::compile_shader(i32 shaderType, const char* sourceCode)
 {
-    const u32 shader = glCreateShader(shaderType);
+    const ShaderID shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &sourceCode, nullptr);
     glCompileShader(shader);
 
@@ -139,6 +139,8 @@ void Renderer::render(const AnimatedSpriteURI uri, const int frame, const Transf
     const AnimatedSprite& sprite = SpriteAtlas::at(uri);
 
     assert(frame == clamp<i32>(frame, 0, sprite.NOfFrames - 1));
+    assert(sprite.Pitch != 0);
+    assert(sprite.NOfFrames / sprite.Pitch != 0);
 
     const float dU = sprite.Size.x / sprite.Pitch;
     const float dV = sprite.Size.y / (sprite.NOfFrames / sprite.Pitch);
@@ -254,7 +256,6 @@ void Renderer::render_Text(const char* text, const vec2f position, const float r
     assert(rHeight >= 0.0f && rHeight <= 1.0f);
 
     vec2f pivotPosition = position;
-
     u32 color = FBL_BLACK_COLOR;
 
     for (const char* ch = text; ch != nullptr && *ch != '\0'; ++ch)
