@@ -12,19 +12,17 @@ class RotatingForwardIterator final : public std::iterator<
     Type*,
     Type&>
 {
-private:
-    RotatingForwardIterator(const i32 position, const i32 size, const Type* dataOrigin)
+public:
+    RotatingForwardIterator(const i32 position, const i32 size, Type* dataOrigin)
     : m_position(position)
     , m_itemsLeft(size)
     , m_dataOrigin(dataOrigin)
     {}
 
-public:
     RotatingForwardIterator()
-    : m_position(Capacity)
-    , m_itemsLeft(0)
-    , m_dataOrigin(nullptr)
-    {}
+    {
+        reset();
+    }
 
     RotatingForwardIterator(const RotatingForwardIterator& rhs) = default;
     RotatingForwardIterator(RotatingForwardIterator&& rhs) = default;
@@ -37,7 +35,14 @@ public:
         return
             m_position >= 0 && m_position < Capacity &&
             m_dataOrigin != nullptr &&
-            m_itemsLeft > 0 && m_itemsLeft < Capacity;
+            m_itemsLeft > 0 && m_itemsLeft <= Capacity;
+    }
+
+    void reset()
+    {
+        m_position = -1;
+        m_itemsLeft = 0;
+        m_dataOrigin = nullptr;
     }
 
     void swap(RotatingForwardIterator& rhs)
@@ -98,7 +103,7 @@ private:
 
         if (m_itemsLeft == 0)
         {
-            m_dataOrigin = nullptr;
+            reset();
         }
     }
 
@@ -120,6 +125,17 @@ public:
     , m_size(0)
     {}
 
+    Type& push(const Type& item)
+    {
+        m_data[m_position] = item;
+        Type& result = m_data[m_position];
+
+        m_position = (m_position + 1) % Capacity;
+        m_size = std::min<size_t>(m_size + 1, Capacity);
+
+        return result;
+    }
+
     Type& push(Type&& item = Type())
     {
         m_data[m_position] = std::move(item);
@@ -133,7 +149,9 @@ public:
 
     iterator begin()
     {
-        return iterator(m_position, m_size, m_data);
+        return m_size > 0 ?
+            iterator(m_position, m_size, m_data) :
+            end();
     }
 
     iterator end()
@@ -143,7 +161,9 @@ public:
 
     const_iterator cbegin() const
     {
-        return const_iterator(m_position, m_size, m_data);
+        return m_size > 0 ?
+            const_iterator(m_position, m_size, m_data) :
+            cend();
     }
 
     const_iterator cend() const

@@ -192,11 +192,6 @@ void run()
     glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 
     {
-        
-    }
-
-
-    {
         Game game;
         g_Running = Renderer::get().init();
 
