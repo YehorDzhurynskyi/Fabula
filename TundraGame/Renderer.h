@@ -44,14 +44,15 @@ public:
     void present_MotionBlured();
     void present_Static();
 
-    u32 get_Position_VBO() const;
-    u32 get_Color_UV_VBO() const;
-
 private:
     void present_Before();
     void present_After();
 
 public:
+    DynamicBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
+    DynamicBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;
+
+private:
     StaticRenderPass m_staticPass;
     MotionBlurRenderPass m_motionBlurPass;
     TrailRenderPass m_trailPass;
@@ -60,18 +61,12 @@ public:
 
     IndexBufferID m_IBO;
 
-    VertexBufferID m_position_VBO;
-    VertexBufferID m_color_UV_VBO;
-
     TextureID m_atlas_Texture;
     TextureID m_target_Texture;
 
-    i32 m_currentSpriteCount = 0;
-
-    vec2f m_client_Position_VertexBuffer[g_MaxVerticesCount];
-    Color_UV_Data m_client_Color_UV_VertexBuffer[g_MaxVerticesCount];
-
     u16 m_clientIndexBuffer[g_MaxIndicesCount];
+
+    i32 m_currentSpriteCount;
 
     EventListener m_windowResizedListener;
 };

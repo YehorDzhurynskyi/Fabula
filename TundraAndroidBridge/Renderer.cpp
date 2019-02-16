@@ -13,6 +13,7 @@
 
 Renderer::Renderer()
     : m_windowResizedListener(this)
+    , m_currentSpriteCount(0)
 {
     m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
     {
@@ -67,18 +68,6 @@ bool Renderer::init()
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_MaxIndicesCount * sizeof(u16), nullptr, GL_DYNAMIC_DRAW);
     }
 
-    { // Position VBO
-        glGenBuffers(1, &m_position_VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_position_VBO);
-        glBufferData(GL_ARRAY_BUFFER, g_MaxVerticesCount * sizeof(vec2f), nullptr, GL_DYNAMIC_DRAW);
-    }
-
-    { // Color UV VBO
-        glGenBuffers(1, &m_color_UV_VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_color_UV_VBO);
-        glBufferData(GL_ARRAY_BUFFER, g_MaxVerticesCount * sizeof(Color_UV_Data), nullptr, GL_DYNAMIC_DRAW);
-    }
-
     { // FBO & Target Texture
         glGenFramebuffers(1, &m_FBO);
         glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
@@ -106,9 +95,6 @@ void Renderer::shutdown()
     glDeleteFramebuffers(1, &m_FBO);
 
     glDeleteBuffers(1, &m_IBO);
-
-    glDeleteBuffers(1, &m_position_VBO);
-    glDeleteBuffers(1, &m_color_UV_VBO);
 
     glDeleteTextures(1, &m_target_Texture);
     glDeleteTextures(1, &m_atlas_Texture);
@@ -162,29 +148,39 @@ void Renderer::render(const AnimatedSpriteURI uri, const int frame, const Transf
 
 void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint)
 {
-    const i32 offset = m_currentSpriteCount * 4;
-
-    vec2f* positions = &m_client_Position_VertexBuffer[offset];
-    Color_UV_Data* color_uv_data = &m_client_Color_UV_VertexBuffer[offset];
-
     const float sx = transform.Size.x;
     const float sy = transform.Size.y;
 
-    positions[0] = vec2f(-sx, sy) + transform.Position;
-    positions[1] = vec2f(-sx, -sy) + transform.Position;
-    positions[2] = vec2f(sx, sy) + transform.Position;
-    positions[3] = vec2f(sx, -sy) + transform.Position;
+    Position_VBO.push(vec2f(-sx, sy) + transform.Position);
+    Position_VBO.push(vec2f(-sx, -sy) + transform.Position);
+    Position_VBO.push(vec2f(sx, sy) + transform.Position);
+    Position_VBO.push(vec2f(sx, -sy) + transform.Position);
 
-    color_uv_data[0].UV = uvSize * vec2f(0.0f, 0.0f) + uvOffset;
-    color_uv_data[1].UV = uvSize * vec2f(0.0f, 1.0f) + uvOffset;
-    color_uv_data[2].UV = uvSize * vec2f(1.0f, 0.0f) + uvOffset;
-    color_uv_data[3].UV = uvSize * vec2f(1.0f, 1.0f) + uvOffset;
+    {
+        Color_UV_Data& color_uv = Color_UV_VBO.push();
+        color_uv.UV = uvSize * vec2f(0.0f, 0.0f) + uvOffset;
+        color_uv.ColorTint = colorTint;
+    }
 
-    color_uv_data[0].ColorTint = colorTint;
-    color_uv_data[1].ColorTint = colorTint;
-    color_uv_data[2].ColorTint = colorTint;
-    color_uv_data[3].ColorTint = colorTint;
+    {
+        Color_UV_Data& color_uv = Color_UV_VBO.push();
+        color_uv.UV = uvSize * vec2f(0.0f, 1.0f) + uvOffset;
+        color_uv.ColorTint = colorTint;
+    }
 
+    {
+        Color_UV_Data& color_uv = Color_UV_VBO.push();
+        color_uv.UV = uvSize * vec2f(1.0f, 0.0f) + uvOffset;
+        color_uv.ColorTint = colorTint;
+    }
+
+    {
+        Color_UV_Data& color_uv = Color_UV_VBO.push();
+        color_uv.UV = uvSize * vec2f(1.0f, 1.0f) + uvOffset;
+        color_uv.ColorTint = colorTint;
+    }
+
+    const i32 offset = m_currentSpriteCount * 4;
     u16* indices = &m_clientIndexBuffer[m_currentSpriteCount * 6];
     indices[0] = 0 + offset;
     indices[1] = 1 + offset;
@@ -247,25 +243,12 @@ void Renderer::present_Before()
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
 
-        glBindBuffer(GL_ARRAY_BUFFER, m_position_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_currentSpriteCount * 4 * sizeof(vec2f), (void*)m_client_Position_VertexBuffer);
-
-        glBindBuffer(GL_ARRAY_BUFFER, m_color_UV_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_currentSpriteCount * 4 * sizeof(Color_UV_Data), (void*)m_client_Color_UV_VertexBuffer);
+        Position_VBO.flush();
+        Color_UV_VBO.flush();
     }
 }
 
 void Renderer::present_After()
 {
     m_currentSpriteCount = 0;
-}
-
-u32 Renderer::get_Position_VBO() const
-{
-    return m_position_VBO;
-}
-
-u32 Renderer::get_Color_UV_VBO() const
-{
-    return m_color_UV_VBO;
 }

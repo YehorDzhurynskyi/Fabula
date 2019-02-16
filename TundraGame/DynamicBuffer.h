@@ -32,10 +32,16 @@ public:
         glDeleteBuffers(1, &m_VBO);
     }
 
-    void push(T&& value)
+    void bind()
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    }
+
+    T& push(T&& value = T())
     {
         assert(m_size < Capacity);
-        m_data[m_size++] = std::move(value);
+        m_data[m_size] = std::move(value);
+        return m_data[m_size++];
     }
 
     void flush()

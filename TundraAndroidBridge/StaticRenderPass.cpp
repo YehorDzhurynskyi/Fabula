@@ -101,12 +101,12 @@ void StaticRenderPass::shutdown()
 void StaticRenderPass::bind()
 {
     {
-        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Position_VBO());
+        Renderer::get().Position_VBO.bind();
         glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
     }
 
     {
-        glBindBuffer(GL_ARRAY_BUFFER, Renderer::get().get_Color_UV_VBO());
+        Renderer::get().Color_UV_VBO.bind();
         glVertexAttribPointer(m_colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, ColorTint));
         glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
     }
