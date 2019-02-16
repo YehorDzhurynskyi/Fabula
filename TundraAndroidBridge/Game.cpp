@@ -127,13 +127,17 @@ void Game::render()
         node.Value.render();
     }
 
-    char b[32];
-    sprintf(b, "[22, 22, 22, ff]%i m", (i32)m_player.DistanceCovered);
-    TextRenderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
+    {
+        char b[32];
+        sprintf(b, "[22, 22, 22, ff]%i m", (i32)m_player.DistanceCovered);
+        TextRenderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
+    }
 
-    char bbb[32];
-    sprintf(bbb, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
-    TextRenderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
+    {
+        char b[32];
+        sprintf(b, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
+        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.9f), 0.02f);
+    }
 
 #ifdef _DEBUG
     {

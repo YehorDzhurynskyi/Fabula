@@ -7,6 +7,7 @@
 #include "Game/TrailRenderPass.h"
 
 #include "Event/EventBus.h"
+#include "DynamicBuffer.h"
 
 class Renderer
 {

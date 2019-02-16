@@ -47,5 +47,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/TrailRenderPass.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)DynamicBuffer.h" />
   </ItemGroup>
 </Project>
