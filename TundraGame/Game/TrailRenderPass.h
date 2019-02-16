@@ -12,5 +12,6 @@ public:
 private:
     ProgramID m_program;
 
-    VertexBufferID m_trailPositions_VBO;
+
+    ShaderLocationID m_positionLocation;
 };

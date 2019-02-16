@@ -4,6 +4,7 @@
 
 #include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
+#include "Game/TrailRenderPass.h"
 
 #include "Event/EventBus.h"
 
@@ -39,10 +40,6 @@ public:
     void render(const AnimatedSpriteURI uri, const int frame, const Transform& transform, const u32 colorTint);
     void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint);
 
-    void render_TextLeft(const char* text, const vec2f position, const float rHeight);
-    void render_TextCenter(const char* text, const vec2f position, const float rHeight);
-    void render_TextRight(const char* text, const vec2f position, const float rHeight);
-
     void present_MotionBlured();
     void present_Static();
 
@@ -50,17 +47,13 @@ public:
     u32 get_Color_UV_VBO() const;
 
 private:
-    void render_Text(const char* text, const vec2f position, const float rHeight);
-
-    float calculateTextWidth(const char* text, const float rHeight) const;
-    u32 parseColor(const char* start, const char* end) const;
-
     void present_Before();
     void present_After();
 
 public:
     StaticRenderPass m_staticPass;
     MotionBlurRenderPass m_motionBlurPass;
+    TrailRenderPass m_trailPass;
 
     FrameBufferID m_FBO;
 
