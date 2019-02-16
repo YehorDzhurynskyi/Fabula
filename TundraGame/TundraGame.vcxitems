@@ -28,7 +28,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
 	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\TextRenderer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
@@ -36,7 +35,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Event\Event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event\EventBus.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TextRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />

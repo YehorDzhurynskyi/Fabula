@@ -4,6 +4,7 @@
 #include "Game/Level.h"
 
 #include "Renderer.h"
+#include "TextRenderer.h"
 
 const float Game::g_MapWidth = 15.0f;
 const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
@@ -128,29 +129,29 @@ void Game::render()
 
     char b[32];
     sprintf(b, "[22, 22, 22, ff]%i m", (i32)m_player.DistanceCovered);
-    Renderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
+    TextRenderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
 
     char bbb[32];
     sprintf(bbb, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
-    Renderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
+    TextRenderer::get().render_TextLeft(bbb, vec2f(-0.8f, 0.9f), 0.02f);
 
 #ifdef _DEBUG
     {
         char b[32];
         sprintf(b, "[ff, 22, 22, ff]%i", m_player.BrakeParticles.Count);
-        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.8f), 0.02f);
+        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.8f), 0.02f);
     }
 
     {
         char b[32];
         sprintf(b, "[ff, 22, ff, ff]%i", m_player.TrailParticles.Count);
-        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.7f), 0.02f);
+        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.7f), 0.02f);
     }
 
     {
         char b[32];
         sprintf(b, "[00, 63, 4a, ff]%i", m_obstacles.Count);
-        Renderer::get().render_TextLeft(b, vec2f(-0.8f, 0.6f), 0.02f);
+        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.6f), 0.02f);
     }
 #endif
 
