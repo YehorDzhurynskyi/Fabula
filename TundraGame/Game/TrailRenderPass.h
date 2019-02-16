@@ -2,6 +2,9 @@
 
 class TrailRenderPass
 {
+private:
+    const static i32 PlayerTrailSize = 8;
+
 public:
     bool init();
     void shutdown();
@@ -11,7 +14,6 @@ public:
 
 private:
     ProgramID m_program;
-
 
     ShaderLocationID m_positionLocation;
 };
