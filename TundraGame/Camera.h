@@ -26,6 +26,7 @@ public:
     Transform toWorldSpace(const Transform& screenSpace) const;
     Transform toScreenSpace(const Transform& worldSpace) const;
     Transform toNDCSpace(const Transform& worldSpace) const;
+    vec2f toNDCSpace(const vec2f& worldSpace) const;
 
     vec2f Position;
     float Zoom = 1.0f;

@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include <glm/glm.hpp>
+
 #include "Game/Player.h"
 #include "Game/Game.h"
 
@@ -68,6 +70,8 @@ void Player::update()
 
 void Player::update_Trail()
 {
+    m_playerTrailBuffer.push(Transform.Position);
+
     {
         static float timer;
         timer -= g_DeltaTime;
@@ -165,4 +169,49 @@ void Player::render() const
                            m_currentFrame,
                            Camera::get().toNDCSpace(Transform),
                            FBL_WHITE_COLOR);
+}
+
+void Player::render_Trail() const
+{
+    if (m_playerTrailBuffer.size() == 0)
+    {
+        return;
+    }
+
+    bool flip = false;
+    vec2f lastPosition = *m_playerTrailBuffer.begin();
+    for (auto positionIt = std::next(m_playerTrailBuffer.begin());
+         positionIt != m_playerTrailBuffer.end();
+         ++positionIt)
+    {
+        const vec2f position = *positionIt;
+
+        const vec2f trailSegment = position - lastPosition;
+        const vec2f trailSegmentSideDir(glm::normalize(vec2f(trailSegment.y, -trailSegment.x)));
+
+        const float scale = std::max<float>(Transform.Size.x, Transform.Size.y) * 0.5f;
+        Renderer::get().Position_VBO.push(Camera::get().toNDCSpace(trailSegmentSideDir * scale + position));
+        Renderer::get().Position_VBO.push(Camera::get().toNDCSpace(-trailSegmentSideDir * scale + position));
+
+        const vec2f uvSize = SpriteAtlas::at(SpriteURI::Plane).Size;
+        const vec2f uvOffset = SpriteAtlas::at(SpriteURI::Plane).Offset;
+        const u32 colorTint = FBL_COLOR(0xff, 0x0, 0xff, 0xff);
+
+        {
+            Renderer::Color_UV_Data& color_uv = Renderer::get().Color_UV_VBO.push();
+            color_uv.UV = uvSize * vec2f(1.0f * flip, 0.0f) + uvOffset;
+            color_uv.ColorTint = colorTint;
+        }
+
+        {
+            Renderer::Color_UV_Data& color_uv = Renderer::get().Color_UV_VBO.push();
+            color_uv.UV = uvSize * vec2f(1.0f * flip, 1.0f) + uvOffset;
+            color_uv.ColorTint = colorTint;
+        }
+
+        lastPosition = position;
+        flip = !flip;
+
+        Renderer::get().m_currentSpriteCount += 2;
+    }
 }

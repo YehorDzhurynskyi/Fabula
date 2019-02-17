@@ -107,25 +107,6 @@ SpriteAtlas::AnimatedSpriteArray&& initAnimatedSprites()
 const SpriteAtlas::SpriteArray SpriteAtlas::g_Sprites = initSprites();
 const SpriteAtlas::AnimatedSpriteArray SpriteAtlas::g_AnimatedSprites = initAnimatedSprites();
 
-SpriteAtlas::SpriteAtlas(const char* filename)
-{
-    SDL_Surface* sdlSurface = IMG_Load(filename);
-    if (sdlSurface == nullptr)
-    {
-        REVEAL_SDL_ERROR("SDL failed to load sprite atlas")
-    }
-
-#if 0
-    m_sdlTexture = SDL_CreateTextureFromSurface(g_SDLRenderer, sdlSurface);
-    if (m_sdlTexture == nullptr)
-    {
-        REVEAL_SDL_ERROR("SDL creating texture from surface failed")
-    }
-#endif
-
-    SDL_FreeSurface(sdlSurface);
-}
-
 const Sprite& SpriteAtlas::at(const SpriteURI uri)
 {
     return g_Sprites[AS(u8, uri)];
@@ -133,14 +114,4 @@ const Sprite& SpriteAtlas::at(const SpriteURI uri)
 const AnimatedSprite& SpriteAtlas::at(const AnimatedSpriteURI uri)
 {
     return g_AnimatedSprites[AS(u8, uri)];
-}
-
-SpriteAtlas::~SpriteAtlas()
-{
-    SDL_DestroyTexture(m_sdlTexture);
-}
-
-SDL_Texture* SpriteAtlas::getSDLTexture()
-{
-    return m_sdlTexture;
 }

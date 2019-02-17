@@ -11,10 +11,10 @@
 #endif
 
 template<typename T, size_t Capacity>
-class DynamicBuffer
+class DynamicVertexBuffer
 {
 public:
-    DynamicBuffer()
+    DynamicVertexBuffer()
         : m_size(0)
     {
         glGenBuffers(1, &m_VBO);
@@ -22,12 +22,12 @@ public:
         glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW);
     }
 
-    DynamicBuffer(const DynamicBuffer& rhs) = delete;
-    DynamicBuffer& operator=(const DynamicBuffer& rhs) = delete;
-    DynamicBuffer(DynamicBuffer&& rhs) = delete;
-    DynamicBuffer& operator=(DynamicBuffer&& rhs) = delete;
+    DynamicVertexBuffer(const DynamicVertexBuffer& rhs) = delete;
+    DynamicVertexBuffer& operator=(const DynamicVertexBuffer& rhs) = delete;
+    DynamicVertexBuffer(DynamicVertexBuffer&& rhs) = delete;
+    DynamicVertexBuffer& operator=(DynamicVertexBuffer&& rhs) = delete;
 
-    ~DynamicBuffer()
+    ~DynamicVertexBuffer()
     {
         glDeleteBuffers(1, &m_VBO);
     }

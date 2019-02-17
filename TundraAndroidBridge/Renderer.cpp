@@ -29,13 +29,11 @@ bool Renderer::init()
 {
     const bool staticPassSucceed = m_staticPass.init();
     const bool motionPassSucceed = m_motionBlurPass.init();
-    const bool trailPassSucceed = m_trailPass.init();
 
     assert(staticPassSucceed);
     assert(motionPassSucceed);
-    assert(trailPassSucceed);
 
-    bool initialized = staticPassSucceed && motionPassSucceed && trailPassSucceed;
+    bool initialized = staticPassSucceed && motionPassSucceed;
     if (!initialized)
     {
         return false;
@@ -101,7 +99,6 @@ void Renderer::shutdown()
 
     m_staticPass.shutdown();
     m_motionBlurPass.shutdown();
-    m_trailPass.shutdown();
 }
 
 u32 Renderer::compile_shader(i32 shaderType, const char* sourceCode)
@@ -190,49 +187,6 @@ void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform&
     indices[5] = 3 + offset;
 
     ++m_currentSpriteCount;
-}
-
-void Renderer::present_MotionBlured()
-{
-    present_Before();
-
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    {
-        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
-        m_staticPass.bind();
-
-        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-
-        m_staticPass.unbind();
-    }
-
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    {
-        glBindTexture(GL_TEXTURE_2D, m_target_Texture);
-        m_motionBlurPass.bind();
-
-        glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-
-        m_motionBlurPass.unbind();
-    }
-
-    present_After();
-}
-
-void Renderer::present_Static()
-{
-    present_Before();
-
-    glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
-    m_staticPass.bind();
-    glDrawElements(GL_TRIANGLES, m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-    m_staticPass.unbind();
-
-    present_After();
 }
 
 void Renderer::present_Before()

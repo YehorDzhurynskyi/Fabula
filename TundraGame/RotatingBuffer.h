@@ -5,14 +5,15 @@
 #include "common.h"
 
 template<typename Type, size_t Capacity>
-class RotatingForwardIterator final : public std::iterator<
-    std::forward_iterator_tag,
-    Type,
-    std::ptrdiff_t,
-    Type*,
-    Type&>
+class RotatingForwardIterator final
 {
 public:
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = Type;
+    using difference_type = std::ptrdiff_t;
+    using pointer = Type*;
+    using reference = Type&;
+
     RotatingForwardIterator(const i32 position, const i32 size, Type* dataOrigin)
     : m_position(position)
     , m_itemsLeft(size)
@@ -117,34 +118,34 @@ template<typename Type, size_t Capacity>
 class RotatingBuffer
 {
 public:
-    typedef RotatingForwardIterator<Type, Capacity> iterator;
-    typedef RotatingForwardIterator<const Type, Capacity> const_iterator;
+    using iterator = RotatingForwardIterator<Type, Capacity>;
+    using const_iterator = RotatingForwardIterator<const Type, Capacity>;
 
     RotatingBuffer()
     : m_position(0)
     , m_size(0)
     {}
 
+    size_t capacity() const
+    {
+        return Capacity;
+    }
+
+    size_t size() const
+    {
+        return m_size;
+    }
+
     Type& push(const Type& item)
     {
         m_data[m_position] = item;
-        Type& result = m_data[m_position];
-
-        m_position = (m_position + 1) % Capacity;
-        m_size = std::min<size_t>(m_size + 1, Capacity);
-
-        return result;
+        return _push();
     }
 
     Type& push(Type&& item = Type())
     {
         m_data[m_position] = std::move(item);
-        Type& result = m_data[m_position];
-
-        m_position = (m_position + 1) % Capacity;
-        m_size = std::min<size_t>(m_size + 1, Capacity);
-
-        return result;
+        return _push();
     }
 
     iterator begin()
@@ -159,16 +160,27 @@ public:
         return iterator();
     }
 
-    const_iterator cbegin() const
+    const_iterator begin() const
     {
         return m_size > 0 ?
             const_iterator(m_position, m_size, m_data) :
-            cend();
+            end();
     }
 
-    const_iterator cend() const
+    const_iterator end() const
     {
         return const_iterator();
+    }
+
+private:
+    Type& _push()
+    {
+        Type& result = m_data[m_position];
+
+        m_position = (m_position + 1) % Capacity;
+        m_size = std::min<size_t>(m_size + 1, Capacity);
+
+        return result;
     }
 
 private:

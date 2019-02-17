@@ -2,6 +2,7 @@
 
 #include "Pool.h"
 #include "Event/EventBus.h"
+#include "RotatingBuffer.h"
 
 struct Particle
 {
@@ -25,6 +26,7 @@ public:
 
     void update();
     void render() const;
+    void render_Trail() const;
 
 private:
     void update_Trail();
@@ -44,4 +46,5 @@ private:
     vec2f m_inertia;
     i32 m_currentFrame;
     EventListener m_directionSwitchListener;
+    RotatingBuffer<vec2f, 32> m_playerTrailBuffer;
 };

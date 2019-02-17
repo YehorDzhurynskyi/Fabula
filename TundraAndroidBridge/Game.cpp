@@ -12,7 +12,6 @@ const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorld
 Game* g_Game = nullptr;
 
 Game::Game()
-    : m_atlas("Assets/atlas.png")
 {
     assert(g_Game == nullptr);
     g_Game = this;
@@ -56,13 +55,21 @@ void Game::update()
 
 void Game::render()
 {
-    Transform t;
-    t.Position = Camera::get().Position;
-    t.Size = vec2f(Game::g_MapWidth, Camera::get().getVisibleWorldBounds().y);
+    glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-    Renderer::get().render(SpriteURI::Plane,
-                           Camera::get().toNDCSpace(t),
-                           FBL_COLOR(0xf8, 0xf8, 0xf8, 0xff));
+    m_player.render_Trail();
+
+    {
+        Renderer::get().present_Before();
+
+        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+        Renderer::get().m_staticPass.bind();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, Renderer::get().m_currentSpriteCount);
+        Renderer::get().m_staticPass.unbind();
+
+        Renderer::get().present_After();
+    }
 
     m_player.render();
 
@@ -75,7 +82,29 @@ void Game::render()
         node.Value.render();
     }
 
-    Renderer::get().present_MotionBlured();
+    {
+        Renderer::get().present_Before();
+
+        {
+            glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+            Renderer::get().m_staticPass.bind();
+
+            glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+
+            Renderer::get().m_staticPass.unbind();
+        }
+
+        {
+            glBindTexture(GL_TEXTURE_2D, Renderer::get().m_target_Texture);
+            Renderer::get().m_motionBlurPass.bind();
+
+            glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+
+            Renderer::get().m_motionBlurPass.unbind();
+        }
+
+        Renderer::get().present_After();
+    }
 
 #ifdef _DEBUG
     for (const auto& node : m_Debug)
@@ -159,7 +188,16 @@ void Game::render()
     }
 #endif
 
-    Renderer::get().present_Static();
+    {
+        Renderer::get().present_Before();
+
+        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+        Renderer::get().m_staticPass.bind();
+        glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+        Renderer::get().m_staticPass.unbind();
+
+        Renderer::get().present_After();
+    }
 }
 
 void Game::generateNextChunk()

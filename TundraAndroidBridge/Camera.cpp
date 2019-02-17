@@ -78,10 +78,16 @@ Transform Camera::toNDCSpace(const Transform& worldSpace) const
 {
     Transform transform;
 
-    transform.Position = (2.0f * (worldSpace.Position - Position)) / getVisibleWorldBounds();
-    transform.Position.y *= -1.0f;
+    transform.Position = toNDCSpace(worldSpace.Position);
     transform.Size = worldSpace.Size / getVisibleWorldBounds();
 
     return transform;
 }
 
+vec2f Camera::toNDCSpace(const vec2f& worldSpace) const
+{
+    vec2f NDCPosition = (2.0f * (worldSpace - Position)) / getVisibleWorldBounds();
+    NDCPosition.y *= -1.0f;
+
+    return NDCPosition;
+}

@@ -4,10 +4,9 @@
 
 #include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
-#include "Game/TrailRenderPass.h"
 
 #include "Event/EventBus.h"
-#include "DynamicBuffer.h"
+#include "DynamicVertexBuffer.h"
 
 class Renderer
 {
@@ -41,21 +40,16 @@ public:
     void render(const AnimatedSpriteURI uri, const int frame, const Transform& transform, const u32 colorTint);
     void render(const vec2f uvOffset, const vec2f uvSize, const Transform& transform, const u32 colorTint);
 
-    void present_MotionBlured();
-    void present_Static();
-
-private:
     void present_Before();
     void present_After();
 
 public:
-    DynamicBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
-    DynamicBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;
+    DynamicVertexBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
+    DynamicVertexBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;
 
-private:
+public: // TODO: fix to private
     StaticRenderPass m_staticPass;
     MotionBlurRenderPass m_motionBlurPass;
-    TrailRenderPass m_trailPass;
 
     FrameBufferID m_FBO;
 

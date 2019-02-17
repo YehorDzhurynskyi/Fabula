@@ -51,15 +51,7 @@ public:
     static const Sprite& at(const SpriteURI uri);
     static const AnimatedSprite& at(const AnimatedSpriteURI uri);
 
-public:
-    explicit SpriteAtlas(const char* filename);
-    ~SpriteAtlas();
-
-    SDL_Texture* getSDLTexture();
-
 private:
-    SDL_Texture* m_sdlTexture;
-
     static const SpriteArray g_Sprites;
     static const AnimatedSpriteArray g_AnimatedSprites;
 };

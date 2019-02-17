@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Game/TrailRenderPass.h"
+#include "Game/Game.h"
+
 #include "Renderer.h"
 
 #ifdef FBL_ANDROID
