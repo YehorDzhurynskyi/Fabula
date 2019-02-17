@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #define EmitEventRTTI(_type)    \
                                 \
 virtual EventType type() const  \
@@ -50,4 +52,31 @@ struct WindowResizedEvent : public Event
 public:
     i32 Width;
     i32 Height;
+};
+
+class Node;
+using EventHandler = std::function<void(const Event& event)>;
+class EventListener
+{
+public:
+    EventListener(Node* owner);
+    ~EventListener();
+    EventListener(const EventListener& rhs) = delete;
+    EventListener& operator=(const EventListener& rhs) = delete;
+    EventListener(EventListener&& rhs);
+    EventListener& operator=(EventListener&& rhs);
+
+    bool isValid() const;
+    void reset();
+
+    void bind(EventType eventType, EventHandler handler);
+    void unbind();
+
+    bool operator==(const EventListener& rhs) const;
+    void operator()(const Event& event) const;
+
+private:
+    Node* m_owner;
+    EventType m_eventType;
+    EventHandler m_handler;
 };

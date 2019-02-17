@@ -12,8 +12,9 @@
 #include "Renderer.h"
 
 #include "application.h"
-#include "Event/EventBus.h"
 #include "Game/Game.h"
+#include "Singleton.h"
+#include "LayerStack.h"
 
 #ifdef FBL_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -27,14 +28,16 @@ bool g_Running = true;
 namespace
 {
 
-SDL_Event g_EventBuffer[4];
-void process_events()
+void poll_events()
 {
+    LayerStack& layers = Singleton<LayerStack>::get();
+
+    SDL_Event eventBuffer[4];
     SDL_PumpEvents();
     while (true)
     {
-        const i32 eventsCount = SDL_PeepEvents(g_EventBuffer,
-                                               ARRLEN(g_EventBuffer),
+        const i32 eventsCount = SDL_PeepEvents(eventBuffer,
+                                               ARRLEN(eventBuffer),
                                                SDL_GETEVENT,
                                                SDL_FIRSTEVENT,
                                                SDL_LASTEVENT);
@@ -50,7 +53,7 @@ void process_events()
 
         FOR(eventsCount)
         {
-            SDL_Event& event = g_EventBuffer[index];
+            SDL_Event& event = eventBuffer[index];
             switch (event.type)
             {
             case SDL_QUIT:
@@ -62,7 +65,7 @@ void process_events()
             case SDL_FINGERDOWN: // TODO: invastigate
 #endif
             {
-                ClickEvent* clickEvent = EventBus::get().enqueue<ClickEvent>();
+                ClickEvent* clickEvent = layers.enqueueEvent<ClickEvent>();
                 if (event.type == SDL_MOUSEBUTTONDOWN)
                 {
                     i32 w;
@@ -93,24 +96,23 @@ void process_events()
                 case SDL_WINDOWEVENT_RESTORED:
                 case SDL_WINDOWEVENT_FOCUS_GAINED:
                 {
-                    WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
+                    WindowFocusEvent* focusEvent = layers.enqueueEvent<WindowFocusEvent>();
                     focusEvent->Focused = true;
 
                     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus gained");
-
                 } break;
                 case SDL_WINDOWEVENT_HIDDEN:
                 case SDL_WINDOWEVENT_MINIMIZED:
                 case SDL_WINDOWEVENT_FOCUS_LOST:
                 {
-                    WindowFocusEvent* focusEvent = EventBus::get().enqueue<WindowFocusEvent>();
+                    WindowFocusEvent* focusEvent = layers.enqueueEvent<WindowFocusEvent>();
                     focusEvent->Focused = false;
 
                     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus lost");
                 } break;
                 case SDL_WINDOWEVENT_SIZE_CHANGED:
                 {
-                    WindowResizedEvent* resizedEvent = EventBus::get().enqueue<WindowResizedEvent>();
+                    WindowResizedEvent* resizedEvent = layers.enqueueEvent<WindowResizedEvent>();
                     resizedEvent->Width = event.window.data1;
                     resizedEvent->Height = event.window.data2;
 
@@ -130,6 +132,7 @@ void process_events()
         }
     }
 }
+
 }
 
 void run()
@@ -183,13 +186,16 @@ void run()
 #endif
 
     u64 lastPerfCounter = SDL_GetPerformanceCounter();
-    u64 frequency = SDL_GetPerformanceFrequency();
+    const u64 frequency = SDL_GetPerformanceFrequency();
     i32 fps = 0;
     float elapsedTime = 0.0f;
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.98f, 0.98f, 0.98f, 1.0f);
+
+    LayerStack& layers = Singleton<LayerStack>::get();
+    
 
     {
         Game game;
@@ -199,11 +205,14 @@ void run()
 
         while (g_Running)
         {
-            process_events();
-            game.update();
+            poll_events();
 
-            game.render();
-            EventBus::get().flush();
+            LayerStack& layers = Singleton<LayerStack>::get();
+
+            layers.update();
+            layers.render();
+            layers.flushEvents();
+
             SDL_GL_SwapWindow(g_SDLWindow);
 
             ++fps;

@@ -1,7 +1,10 @@
 #include "pch.h"
-#include "Event/EventBus.h"
+#include "Event/Event.h"
+#include "Singleton.h"
+#include "Layer.h"
+#include "Node.h"
 
-EventListener::EventListener(void* owner)
+EventListener::EventListener(Node* owner)
     : m_owner(owner)
     , m_eventType(EventType::None)
     , m_handler(nullptr)
@@ -30,7 +33,7 @@ void EventListener::bind(EventType eventType, EventHandler handler)
 
     assert(isValid());
 
-    std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
+    std::vector<EventListener>& typeHandlers = m_owner->getMasterLayer()->m_handlers[m_eventType];
     assert(std::find(typeHandlers.begin(), typeHandlers.end(), *this) == typeHandlers.end());
 
     typeHandlers.push_back(std::move(*this));
@@ -40,7 +43,7 @@ void EventListener::unbind()
 {
     assert(isValid());
 
-    std::vector<EventListener>& typeHandlers = EventBus::get().m_handlers[m_eventType];
+    std::vector<EventListener>& typeHandlers = m_owner->getMasterLayer()->m_handlers[m_eventType];
 
     auto listenerIt = std::find(typeHandlers.begin(), typeHandlers.end(), *this);
     assert(listenerIt != typeHandlers.end());
@@ -93,34 +96,4 @@ void EventListener::operator()(const Event& event) const
     assert(event.type() == m_eventType);
 
     m_handler(event);
-}
-
-EventBus::~EventBus()
-{
-    for (auto& [eventType, handlers] : m_handlers)
-    {
-        for (auto& handler : handlers)
-        {
-            handler.unbind();
-        }
-    }
-}
-
-void EventBus::flush()
-{
-    for (const auto& event : m_eventQueue)
-    {
-        std::vector<EventListener>& typeHandlers = m_handlers[event->type()];
-        for (const auto& listener : typeHandlers)
-        {
-            listener(*event);
-        }
-
-        SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
-                     "Event `%s` handled by %i listeners",
-                     event->name(),
-                     typeHandlers.size());
-    }
-
-    m_eventQueue.clear();
 }

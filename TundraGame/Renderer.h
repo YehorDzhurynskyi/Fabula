@@ -5,7 +5,7 @@
 #include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
 
-#include "Event/EventBus.h"
+#include "Event/Event.h"
 #include "DynamicVertexBuffer.h"
 
 class Renderer

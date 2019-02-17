@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Pool.h"
-#include "Event/EventBus.h"
+#include "Event/Event.h"
 #include "RotatingBuffer.h"
 
 struct Particle

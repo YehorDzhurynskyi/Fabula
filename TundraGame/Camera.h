@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Event/EventBus.h"
+#include "Event/Event.h"
+#include "Node.h"
 
-class Camera
+class Camera : public Node
 {
 private:
     Camera();
