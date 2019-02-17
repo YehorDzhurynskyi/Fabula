@@ -189,7 +189,7 @@ void run()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+    glClearColor(0.98f, 0.98f, 0.98f, 1.0f);
 
     {
         Game game;

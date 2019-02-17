@@ -20,7 +20,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\MotionBlurRenderPass.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\TrailRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
@@ -46,7 +45,6 @@
 	<ClInclude Include="$(MSBuildThisFileDirectory)TextRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/MotionBlurRenderPass.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Game/TrailRenderPass.h" />
 	<ClInclude Include="$(MSBuildThisFileDirectory)DynamicVertexBuffer.h" />
 	<ClInclude Include="$(MSBuildThisFileDirectory)RotatingBuffer.h" />
   </ItemGroup>

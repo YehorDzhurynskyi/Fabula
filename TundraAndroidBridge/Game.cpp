@@ -55,34 +55,9 @@ void Game::update()
 
 void Game::render()
 {
-    //glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    m_player.render_Trail();
-    {
-        Renderer::get().present_Before();
-
-        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
-        Renderer::get().m_staticPass.bind();
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, Renderer::get().m_currentSpriteCount);
-        Renderer::get().m_staticPass.unbind();
-
-        Renderer::get().present_After();
-    }
-
-    m_player.render(); // TODO: remove
-    {
-        Renderer::get().present_Before();
-
-        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
-        Renderer::get().m_staticPass.bind();
-        glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
-        Renderer::get().m_staticPass.unbind();
-
-        Renderer::get().present_After();
-    }
-
-#if 0
     m_player.render();
 
     for (const auto& node : m_obstacles)
@@ -106,6 +81,9 @@ void Game::render()
             Renderer::get().m_staticPass.unbind();
         }
 
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
         {
             glBindTexture(GL_TEXTURE_2D, Renderer::get().m_target_Texture);
             Renderer::get().m_motionBlurPass.bind();
@@ -114,6 +92,18 @@ void Game::render()
 
             Renderer::get().m_motionBlurPass.unbind();
         }
+
+        Renderer::get().present_After();
+    }
+
+    m_player.render_Trail();
+    {
+        Renderer::get().present_Before();
+
+        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+        Renderer::get().m_staticPass.bind();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, Renderer::get().m_currentSpriteCount);
+        Renderer::get().m_staticPass.unbind();
 
         Renderer::get().present_After();
     }
@@ -210,7 +200,6 @@ void Game::render()
 
         Renderer::get().present_After();
     }
-#endif
 }
 
 void Game::generateNextChunk()

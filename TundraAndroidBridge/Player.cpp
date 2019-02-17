@@ -76,7 +76,7 @@ void Player::update_Trail()
 
         if (timer <= 0.0f)
         {
-            m_playerTrailBuffer.push(Transform.Position);
+            m_playerTrailBuffer.push(vec2f(Transform.Position.x, Transform.Position.y + 0.5f));
             FOR(5)
             {
                 Particle* particle = TrailParticles.push();
@@ -181,20 +181,20 @@ void Player::render_Trail() const
 
     const vec2f uvSize = SpriteAtlas::at(SpriteURI::Plane).Size;
     const vec2f uvOffset = SpriteAtlas::at(SpriteURI::Plane).Offset;
-    u32 colorTint = FBL_COLOR(0xff, 0x0, 0xff, 0xff);
-    float scale = 0.05f;
+    u32 colorTint = FBL_COLOR(0xcc, 0xcc, 0xcc, 0xff);
+    float scale = 0.06f;
 
-    Renderer::get().Position_VBO.push(Camera::get().toNDCSpace(Transform.Position));
+    Renderer::get().Position_VBO.push(Camera::get().toNDCSpace(vec2f(Transform.Position.x, Transform.Position.y + 0.5f)));
 
     Renderer::Color_UV_Data& color_uv = Renderer::get().Color_UV_VBO.push();
     color_uv.UV = uvSize * vec2f(1.0f * flip, 1.0f) + uvOffset;
     color_uv.ColorTint = colorTint;
 
     flip = !flip;
-    const u8 alpha = ((colorTint >> 24) & 0xff) * 0.9f;
+    const u8 alpha = ((colorTint >> 24) & 0xff) * 0.85f;
     colorTint &= 0x00ffffff;
     colorTint |= (alpha << 24);
-    scale *= 1.2f;
+    scale *= 1.15f;
 
     Renderer::get().m_currentSpriteCount += 1;
 
@@ -226,10 +226,10 @@ void Player::render_Trail() const
         lastPosition = position;
         flip = !flip;
 
-        const u8 alpha = ((colorTint >> 24) & 0xff) * 0.9f;
+        const u8 alpha = ((colorTint >> 24) & 0xff) * 0.85f;
         colorTint &= 0x00ffffff;
         colorTint |= (alpha << 24);
-        scale *= 1.2f;
+        scale *= 1.15f;
 
         Renderer::get().m_currentSpriteCount += 2;
     }
