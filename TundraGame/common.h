@@ -13,8 +13,6 @@
 #endif
 
 extern float g_DeltaTime;
-class Game;
-extern Game* g_Game;
 
 #define FOR(_n) for (int index = 0; index < _n; ++index)
 

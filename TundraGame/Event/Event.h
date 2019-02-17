@@ -26,6 +26,9 @@ enum class EventType : u8
 struct Event
 {
     EmitEventRTTI(None)
+
+public:
+    virtual ~Event() = default;
 };
 
 struct ClickEvent : public Event
@@ -63,8 +66,8 @@ public:
     ~EventListener();
     EventListener(const EventListener& rhs) = delete;
     EventListener& operator=(const EventListener& rhs) = delete;
-    EventListener(EventListener&& rhs);
-    EventListener& operator=(EventListener&& rhs);
+    EventListener(EventListener&& rhs) = delete;
+    EventListener& operator=(EventListener&& rhs) = delete;
 
     bool isValid() const;
     void reset();

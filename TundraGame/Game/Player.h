@@ -3,6 +3,7 @@
 #include "Pool.h"
 #include "Event/Event.h"
 #include "RotatingBuffer.h"
+#include "Node.h"
 
 struct Particle
 {
@@ -19,7 +20,7 @@ struct Particle
 
 static_assert(sizeof(Particle) == 32, "unexpected size");
 
-class Player
+class Player : public Node
 {
 public:
     Player();

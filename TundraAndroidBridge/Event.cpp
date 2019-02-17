@@ -34,9 +34,9 @@ void EventListener::bind(EventType eventType, EventHandler handler)
     assert(isValid());
 
     std::vector<EventListener>& typeHandlers = m_owner->getMasterLayer()->m_handlers[m_eventType];
-    assert(std::find(typeHandlers.begin(), typeHandlers.end(), *this) == typeHandlers.end());
+    assert(std::find(typeHandlers.begin(), typeHandlers.end(), this) == typeHandlers.end());
 
-    typeHandlers.push_back(std::move(*this));
+    typeHandlers.push_back(this);
 }
 
 void EventListener::unbind()
@@ -81,12 +81,14 @@ void EventListener::reset()
     m_handler = nullptr;
 }
 
+#if 0
 bool EventListener::operator==(const EventListener& rhs) const
 {
     return
         m_owner == rhs.m_owner &&
         m_eventType == rhs.m_eventType;
 }
+#endif
 
 void EventListener::operator()(const Event& event) const
 {

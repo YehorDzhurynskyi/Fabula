@@ -15,6 +15,7 @@
 #include "Game/Game.h"
 #include "Singleton.h"
 #include "LayerStack.h"
+#include "ApplicationLayer.h"
 
 #ifdef FBL_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -194,20 +195,19 @@ void run()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.98f, 0.98f, 0.98f, 1.0f);
 
-    LayerStack& layers = Singleton<LayerStack>::get();
-    g_ApplicationLayer = &layers.push();
+    LayerStack& layers = LayerStack::get();
+    layers.push<ApplicationLayer>();
+    g_Game = &layers.push<Game>();
 
     {
-        Game game;
         g_Running = Renderer::get().init();
-
         assert(g_Running);
 
         while (g_Running)
         {
             poll_events();
 
-            LayerStack& layers = Singleton<LayerStack>::get();
+            LayerStack& layers = LayerStack::get();
 
             layers.update();
             layers.render();

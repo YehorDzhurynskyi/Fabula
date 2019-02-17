@@ -3,7 +3,9 @@
 
 Layer::Layer()
     : m_isActive(false)
-{}
+{
+    connect(*this);
+}
 
 Layer::~Layer()
 {

@@ -16,8 +16,15 @@
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 
 Camera::Camera()
-    : super(g_ApplicationLayer)
-    , m_windowResizedListener(this)
+    : m_windowResizedListener(this)
+{
+    i32 w;
+    i32 h;
+    SDL_GetWindowSize(g_SDLWindow, &w, &h);
+    onWindowSizeChanged(w, h);
+}
+
+void Camera::onConnect()
 {
     m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
     {
@@ -25,11 +32,11 @@ Camera::Camera()
         const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
         onWindowSizeChanged(windowResizedEvent.Width, windowResizedEvent.Height);
     });
+}
 
-    i32 w;
-    i32 h;
-    SDL_GetWindowSize(g_SDLWindow, &w, &h);
-    onWindowSizeChanged(w, h);
+void Camera::onDisconnect()
+{
+    assert(!"this instance can't be disconnected");
 }
 
 void Camera::onWindowSizeChanged(i32 width, i32 height)

@@ -7,22 +7,20 @@
 
 #include "Event/Event.h"
 #include "DynamicVertexBuffer.h"
+#include "Singleton.h"
+#include "Node.h"
 
-class Renderer
+class Renderer final : public Node, public Singleton<Renderer>
 {
-private:
-    Renderer();
+friend class Singleton<Renderer>;
 
+private:
     static const size_t g_MaxVerticesCount = 512;
     static const size_t g_MaxIndicesCount = g_MaxVerticesCount * 1.5;
 
-public:
-    static Renderer& get()
-    {
-        static Renderer instance;
-        return instance;
-    }
+    Renderer();
 
+public:
     struct Color_UV_Data
     {
         u32 ColorTint;

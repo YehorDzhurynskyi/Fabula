@@ -1,8 +1,12 @@
 #pragma once
-class ApplicationLayer
+
+#include "Layer.h"
+
+class ApplicationLayer final : public Layer
 {
 public:
     ApplicationLayer();
-    ~ApplicationLayer();
-};
 
+    void update() override;
+    void render() const override;
+};

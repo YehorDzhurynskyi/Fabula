@@ -12,8 +12,8 @@
 #endif
 
 Renderer::Renderer()
-    : m_windowResizedListener(this)
-    , m_currentSpriteCount(0)
+    : m_currentSpriteCount(0)
+    , m_windowResizedListener(this)
 {
     m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
     {

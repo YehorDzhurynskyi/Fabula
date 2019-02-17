@@ -11,18 +11,6 @@ const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorld
 
 Game* g_Game = nullptr;
 
-Game::Game()
-{
-    assert(g_Game == nullptr);
-    g_Game = this;
-}
-
-Game::~Game()
-{
-    assert(g_Game != nullptr);
-    g_Game = nullptr;
-}
-
 void Game::update()
 {
     static float nextYPosToGenerate = g_ChunkGenerationOffset;
@@ -53,7 +41,7 @@ void Game::update()
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
 }
 
-void Game::render()
+void Game::render() const
 {
     glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -121,27 +109,27 @@ void Game::render()
     }
 #endif
 
-    for (auto& node : m_player.BrakeParticles)
+    for (const auto& node : m_player.BrakeParticles)
     {
         if (!node.InUse)
         {
             continue;
         }
 
-        Particle& particle = node.Value;
+        const Particle& particle = node.Value;
         Renderer::get().render(SpriteURI::Circle,
                                Camera::get().toNDCSpace(particle.Transform),
                                particle.ColorTint);
     }
 
-    for (auto& node : m_player.TrailParticles)
+    for (const auto& node : m_player.TrailParticles)
     {
         if (!node.InUse)
         {
             continue;
         }
 
-        Particle& particle = node.Value;
+        const Particle& particle = node.Value;
         Renderer::get().render(SpriteURI::Circle,
                                Camera::get().toNDCSpace(particle.Transform),
                                particle.ColorTint);

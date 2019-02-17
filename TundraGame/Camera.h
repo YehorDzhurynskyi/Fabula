@@ -6,14 +6,13 @@
 
 class Camera final : public Node, public Singleton<Camera>
 {
-public:
-    using super = Node;
-
-    static const float g_MinimumVisibleWorldHeight;
-
+friend class Singleton<Camera>;
+private:
     Camera();
 
 public:
+    static const float g_MinimumVisibleWorldHeight;
+
     vec2f getScreenSize() const;
     vec2f getVisibleWorldBounds() const;
 
@@ -22,7 +21,9 @@ public:
     Transform toNDCSpace(const Transform& worldSpace) const;
     vec2f toNDCSpace(const vec2f& worldSpace) const;
 
-private:
+protected:
+    void onConnect() override;
+    void onDisconnect() override;
     void onWindowSizeChanged(i32 width, i32 height);
 
 public:

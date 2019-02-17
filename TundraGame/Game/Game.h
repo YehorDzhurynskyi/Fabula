@@ -24,24 +24,18 @@ private:
     float m_scale = 0.0f;
 };
 
-class Game : public Layer
+class Game final : public Layer
 {
 public:
-    using super = Layer;
-
     static const float g_MapWidth;
     static const float g_ChunkGenerationOffset;
 
-public:
-    Game();
-    ~Game();
-
-    void update();
-    void render();
+    void update() override;
+    void render() const override;
 
     const Player& getPlayer() const;
 
-private:
+protected:
     void generateNextChunk();
 
     template<typename T>
@@ -87,7 +81,7 @@ private:
         }
     }
 
-private:
+protected:
     Player m_player;
     SpriteAtlas m_atlas;
     Pool<Obstacle, 100> m_obstacles;
@@ -96,3 +90,5 @@ private:
     Pool<Obstacle, 10> m_Debug;
 #endif
 };
+
+extern Game* g_Game;

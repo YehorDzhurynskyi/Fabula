@@ -3,8 +3,9 @@
 #include "Event/Event.h"
 #include <map>
 #include <vector>
+#include "Node.h"
 
-class Layer
+class Layer : private Node
 {
     friend class EventListener;
 public:
@@ -13,7 +14,7 @@ public:
     Layer& operator=(const Layer& rhs) = delete;
     Layer(Layer&& rhs) = default;
     Layer& operator=(Layer&& rhs) = default;
-    virtual ~Layer();
+    ~Layer();
 
     virtual void update() = 0;
     virtual void render() const = 0;
@@ -34,5 +35,5 @@ private:
     std::function<void(Layer*)> m_onShowCallback;
     std::function<void(Layer*)> m_onHideCallback;
 
-    std::map<EventType, std::vector<EventListener>> m_handlers;
+    std::map<EventType, std::vector<EventListener*>> m_handlers;
 };

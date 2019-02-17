@@ -14,10 +14,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\ApplicationLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Event.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Layer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\LayerStack.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Node.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\StaticRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
@@ -32,15 +32,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ApplicationLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event\Event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LayerStack.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Node.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RotatingBuffer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Node.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Singleton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />

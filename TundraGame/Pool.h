@@ -71,6 +71,17 @@ public:
         return m_nodes.end();
     }
 
+    auto begin() const -> typename std::array<Node, N>::const_iterator
+    {
+        return m_nodes.begin();
+    }
+
+    auto end() const -> typename std::array<Node, N>::const_iterator
+    {
+        return m_nodes.end();
+    }
+
+
 public:
 #ifdef _DEBUG
     i32 Count = 0;
