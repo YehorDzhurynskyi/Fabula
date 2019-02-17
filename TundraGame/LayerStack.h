@@ -15,14 +15,25 @@ public:
         return static_cast<T*>(m_eventQueue.back().get());
     }
 
+    template<typename T, typename ... Args>
+    T& push(Args&& ... args)
+    {
+        static_assert(std::is_base_of<Layer, T>::value, "Should derive from `Layer` class");
+        m_layers.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+
+        Layer& layer = *m_layers.back().get();
+        layer.show();
+
+        return AS(T&, layer);
+    }
+    void pop();
+
     void flushEvents();
 
     void update();
     void render() const;
 
-    void push(Layer)
-
 private:
-    std::vector<Layer> m_layers;
+    std::vector<std::unique_ptr<Layer>> m_layers;
     std::vector<std::unique_ptr<Event>> m_eventQueue;
 };

@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Layer.h"
 
+Layer::Layer()
+    : m_isActive(false)
+{}
+
 Layer::~Layer()
 {
     for (auto&[eventType, handlers] : m_handlers)
@@ -28,18 +32,39 @@ bool Layer::handleEvent(const Event& event)
     return true;
 }
 
-void Layer::update()
+bool Layer::isActive() const
 {
-    for (auto& scene : m_scenes)
+    return m_isActive;
+}
+
+void Layer::show()
+{
+    assert(!m_isActive);
+
+    m_isActive = true;
+    if (m_onShowCallback)
     {
-        scene->update();
+        m_onShowCallback(this);
     }
 }
 
-void Layer::render() const
+void Layer::hide()
 {
-    for (const auto& scene : m_scenes)
+    assert(m_isActive);
+
+    m_isActive = false;
+    if (m_onHideCallback)
     {
-        scene->render();
+        m_onHideCallback(this);
     }
+}
+
+void Layer::setOnShowCallback(std::function<void(Layer*)> callback)
+{
+    m_onShowCallback = callback;
+}
+
+void Layer::setOnHideCallback(std::function<void(Layer*)> callback)
+{
+    m_onHideCallback = callback;
 }

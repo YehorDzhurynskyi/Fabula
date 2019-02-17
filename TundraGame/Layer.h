@@ -3,20 +3,36 @@
 #include "Event/Event.h"
 #include <map>
 #include <vector>
-#include "Scene.h"
 
-class Layer final
+class Layer
 {
     friend class EventListener;
 public:
-    ~Layer();
+    Layer();
+    Layer(const Layer& rhs) = delete;
+    Layer& operator=(const Layer& rhs) = delete;
+    Layer(Layer&& rhs) = default;
+    Layer& operator=(Layer&& rhs) = default;
+    virtual ~Layer();
 
-    void update();
-    void render() const;
+    virtual void update() = 0;
+    virtual void render() const = 0;
 
     bool handleEvent(const Event& event);
 
+    bool isActive() const;
+
+    void show();
+    void hide();
+
+    void setOnShowCallback(std::function<void(Layer*)> callback);
+    void setOnHideCallback(std::function<void(Layer*)> callback);
+
 private:
-    std::vector<std::unique_ptr<Scene>> m_scenes;
+    bool m_isActive;
+
+    std::function<void(Layer*)> m_onShowCallback;
+    std::function<void(Layer*)> m_onHideCallback;
+
     std::map<EventType, std::vector<EventListener>> m_handlers;
 };

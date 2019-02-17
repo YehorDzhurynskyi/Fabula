@@ -41,7 +41,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RotatingBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Node.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Singleton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />

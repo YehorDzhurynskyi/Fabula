@@ -16,7 +16,8 @@
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 
 Camera::Camera()
-    : m_windowResizedListener(this)
+    : super(g_ApplicationLayer)
+    , m_windowResizedListener(this)
 {
     m_windowResizedListener.bind(EventType::WindowResized, [this](const Event& event)
     {

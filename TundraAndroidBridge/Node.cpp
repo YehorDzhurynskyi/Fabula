@@ -7,3 +7,7 @@ Node::Node(Layer* masterLayer)
     assert(m_masterLayer != nullptr);
 }
 
+Layer* Node::getMasterLayer()
+{
+    return m_masterLayer;
+}

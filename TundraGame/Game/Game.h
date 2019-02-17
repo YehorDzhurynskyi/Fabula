@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Game/Player.h"
 #include "Pool.h"
+#include "Layer.h"
 
 class Obstacle
 {
@@ -23,9 +24,11 @@ private:
     float m_scale = 0.0f;
 };
 
-class Game
+class Game : public Layer
 {
 public:
+    using super = Layer;
+
     static const float g_MapWidth;
     static const float g_ChunkGenerationOffset;
 

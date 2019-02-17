@@ -195,7 +195,7 @@ void run()
     glClearColor(0.98f, 0.98f, 0.98f, 1.0f);
 
     LayerStack& layers = Singleton<LayerStack>::get();
-    
+    g_ApplicationLayer = &layers.push();
 
     {
         Game game;

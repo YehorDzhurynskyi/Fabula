@@ -1,14 +1,15 @@
 #include "pch.h"
 #include "LayerStack.h"
-#include "SDL.h"
 
 void LayerStack::flushEvents()
 {
     for (const auto& event : m_eventQueue)
     {
-        for (auto& layer : m_layers)
+        for (auto layerIt = m_layers.rbegin();
+             layerIt != m_layers.rend();
+             ++layerIt)
         {
-            layer.handleEvent(*event);
+            (*layerIt)->handleEvent(*event);
         }
     }
 
@@ -19,16 +20,21 @@ void LayerStack::update()
 {
     for (auto& layer : m_layers)
     {
-        layer.update();
+        layer->update();
     }
-    //game.update();
 }
 
 void LayerStack::render() const
 {
     for (const auto& layer : m_layers)
     {
-        layer.render();
+        layer->render();
     }
-    //game.render();
+}
+
+void LayerStack::pop()
+{
+    assert(m_layers.size() > 1);
+
+    m_layers.back()->hide();
 }

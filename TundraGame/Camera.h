@@ -2,23 +2,16 @@
 
 #include "Event/Event.h"
 #include "Node.h"
+#include "Singleton.h"
 
-class Camera : public Node
+class Camera final : public Node, public Singleton<Camera>
 {
-private:
-    Camera();
-
 public:
-    static Camera& get()
-    {
-        static Camera instance;
-        return instance;
-    }
+    using super = Node;
 
     static const float g_MinimumVisibleWorldHeight;
 
-private:
-    void onWindowSizeChanged(i32 width, i32 height);
+    Camera();
 
 public:
     vec2f getScreenSize() const;
@@ -29,6 +22,10 @@ public:
     Transform toNDCSpace(const Transform& worldSpace) const;
     vec2f toNDCSpace(const vec2f& worldSpace) const;
 
+private:
+    void onWindowSizeChanged(i32 width, i32 height);
+
+public:
     vec2f Position;
     float Zoom = 1.0f;
 
