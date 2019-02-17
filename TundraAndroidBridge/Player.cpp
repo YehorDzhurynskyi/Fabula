@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "Game/Player.h"
-#include "Game/Game.h"
+#include "Game/GameLayer.h"
 
 #include "Renderer.h"
 
@@ -66,7 +66,7 @@ void Player::update()
         m_currentFrame = sprite.NOfFrames - 1 - m_currentFrame;
     }
 
-    const float worldLimit = (Game::g_MapWidth - Transform.Size.x) * 0.5f;
+    const float worldLimit = (GameLayer::g_MapWidth - Transform.Size.x) * 0.5f;
     Transform.Position.x = clamp<float>(Transform.Position.x, -worldLimit, worldLimit);
 
     update_Trail();

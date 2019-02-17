@@ -24,10 +24,10 @@ private:
     float m_scale = 0.0f;
 };
 
-class Game final : public Layer
+class GameLayer final : public Layer
 {
 public:
-    Game();
+    GameLayer();
 
     static const float g_MapWidth;
     static const float g_ChunkGenerationOffset;
@@ -51,7 +51,7 @@ protected:
         for (const auto& localPosition : chunk)
         {
             Obstacle& obstacle = *m_obstacles.push();
-            obstacle.Transform.Position.x = Game::g_MapWidth * 0.5f * localPosition.x;
+            obstacle.Transform.Position.x = GameLayer::g_MapWidth * 0.5f * localPosition.x;
             obstacle.Transform.Position.y = Camera::g_MinimumVisibleWorldHeight * 0.5f * localPosition.y + globalYPos;
             obstacle.SpriteURI = SpriteURI::Tree; // AS(SpriteURI, rand() % 2 ? SpriteURI::Tree : SpriteURI::Rock);
             obstacle.ColorTint = FBL_COLOR(0xff, 0xff, 0xff, 0xff);
@@ -93,4 +93,4 @@ protected:
 #endif
 };
 
-extern Game* g_Game;
+extern GameLayer* g_Game;

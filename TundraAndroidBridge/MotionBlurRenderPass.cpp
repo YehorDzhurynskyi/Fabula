@@ -9,7 +9,7 @@
 #endif
 
 #include "Renderer.h"
-#include "Game/Game.h"
+#include "Game/GameLayer.h"
 
 namespace
 {

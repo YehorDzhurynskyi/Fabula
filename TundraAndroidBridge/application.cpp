@@ -12,7 +12,7 @@
 #include "Renderer.h"
 
 #include "application.h"
-#include "Game/Game.h"
+#include "Game/GameLayer.h"
 #include "Singleton.h"
 #include "LayerStack.h"
 #include "ApplicationLayer.h"
@@ -197,7 +197,7 @@ void run()
 
     LayerStack& layers = LayerStack::get();
     layers.push<ApplicationLayer>();
-    g_Game = &layers.push<Game>();
+    g_Game = &layers.push<GameLayer>();
 
     {
         g_Running = Renderer::get().init();

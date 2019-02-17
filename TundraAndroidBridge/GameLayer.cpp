@@ -1,22 +1,22 @@
 #include "pch.h"
 
-#include "Game/Game.h"
+#include "Game/GameLayer.h"
 #include "Game/Level.h"
 
 #include "Renderer.h"
 #include "TextRenderer.h"
 
-const float Game::g_MapWidth = 15.0f;
-const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
+const float GameLayer::g_MapWidth = 15.0f;
+const float GameLayer::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;
 
-Game* g_Game = nullptr;
+GameLayer* g_Game = nullptr;
 
-Game::Game()
+GameLayer::GameLayer()
 {
     m_player.connect(*this);
 }
 
-void Game::update()
+void GameLayer::update()
 {
     static float nextYPosToGenerate = g_ChunkGenerationOffset;
 
@@ -46,7 +46,7 @@ void Game::update()
     Camera::get().Position.y = m_player.Transform.Position.y + cameraOffset;
 }
 
-void Game::render() const
+void GameLayer::render() const
 {
     glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -195,7 +195,7 @@ void Game::render() const
     }
 }
 
-void Game::generateNextChunk()
+void GameLayer::generateNextChunk()
 {
 #if 0
     static bool a;
@@ -237,7 +237,7 @@ void Game::generateNextChunk()
 #endif
 }
 
-const Player& Game::getPlayer() const
+const Player& GameLayer::getPlayer() const
 {
     return m_player;
 }

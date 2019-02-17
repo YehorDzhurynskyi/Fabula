@@ -4,7 +4,7 @@
 #include "application.h"
 #include "SDL_video.h"
 #include <algorithm>
-#include "Game/Game.h"
+#include "Game/GameLayer.h"
 
 #ifdef FBL_ANDROID
 #include "SDL_opengles2.h"
@@ -41,8 +41,8 @@ void Camera::onWindowSizeChanged(i32 width, i32 height)
     m_screenSize = vec2f(width, height);
 
     const float aspectRatio = m_screenSize.x / m_screenSize.y;
-    const float hBound = Game::g_MapWidth / aspectRatio;
-    m_visibleBounds = vec2f(Game::g_MapWidth, hBound);
+    const float hBound = GameLayer::g_MapWidth / aspectRatio;
+    m_visibleBounds = vec2f(GameLayer::g_MapWidth, hBound);
 }
 
 vec2f Camera::getScreenSize() const
