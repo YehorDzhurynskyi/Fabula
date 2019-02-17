@@ -4,76 +4,96 @@
 #include "types.h"
 #include "common.h"
 
-template<typename Type, size_t Capacity>
-class RotatingForwardIterator final
+namespace
+{
+    i32 rot_prev(const i32 pos, const size_t size)
+    {
+        return (pos + size - 1) % size;
+    }
+
+    i32 rot_next(const i32 pos, const size_t size)
+    {
+        return (pos + 1) % size;
+    }
+}
+
+template<typename Type>
+class RotatingIterator final
 {
 public:
-    using iterator_category = std::forward_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
     using value_type = Type;
     using difference_type = std::ptrdiff_t;
     using pointer = Type*;
     using reference = Type&;
 
-    RotatingForwardIterator(const i32 position, const i32 size, Type* dataOrigin)
+    RotatingIterator(const i32 position, const i32 cursor, Type* dataOrigin, const size_t size)
     : m_position(position)
-    , m_itemsLeft(size)
+    , m_cursor(cursor)
     , m_dataOrigin(dataOrigin)
-    {}
-
-    RotatingForwardIterator()
+    , m_size(size)
     {
-        reset();
+        assert(isValid());
     }
 
-    RotatingForwardIterator(const RotatingForwardIterator& rhs) = default;
-    RotatingForwardIterator(RotatingForwardIterator&& rhs) = default;
-    RotatingForwardIterator& operator=(const RotatingForwardIterator& rhs) = default;
-    RotatingForwardIterator& operator=(RotatingForwardIterator&& rhs) = default;
-    ~RotatingForwardIterator() = default;
+    RotatingIterator(const RotatingIterator& rhs) = default;
+    RotatingIterator(RotatingIterator&& rhs) = default;
+    RotatingIterator& operator=(const RotatingIterator& rhs) = default;
+    RotatingIterator& operator=(RotatingIterator&& rhs) = default;
+    ~RotatingIterator() = default;
 
     bool isValid() const
     {
         return
-            m_position >= 0 && m_position < Capacity &&
+            m_position >= 0 && m_position < m_size &&
             m_dataOrigin != nullptr &&
-            m_itemsLeft > 0 && m_itemsLeft <= Capacity;
+            m_cursor >= 0 && m_cursor <= m_size;
     }
 
-    void reset()
-    {
-        m_position = -1;
-        m_itemsLeft = 0;
-        m_dataOrigin = nullptr;
-    }
-
-    void swap(RotatingForwardIterator& rhs)
+    void swap(RotatingIterator& rhs)
     {
         std::swap(m_position, rhs.m_position);
+        std::swap(m_cursor, rhs.m_cursor);
         std::swap(m_dataOrigin, rhs.m_dataOrigin);
+        std::swap(m_size, rhs.m_size);
     }
 
-    RotatingForwardIterator& operator++()
+    RotatingIterator& operator++()
     {
         next();
         return *this;
     }
 
-    RotatingForwardIterator operator++(int)
+    RotatingIterator operator++(int)
     {
-        RotatingForwardIterator tmp(*this);
+        RotatingIterator tmp(*this);
         next();
         return tmp;
     }
 
-    bool operator==(const RotatingForwardIterator<Type, Capacity>& rhs) const
+    RotatingIterator& operator--()
+    {
+        prev();
+        return *this;
+    }
+
+    RotatingIterator operator--(int)
+    {
+        RotatingIterator tmp(*this);
+        prev();
+        return tmp;
+    }
+
+    bool operator==(const RotatingIterator<Type>& rhs) const
     {
         return
             m_position == rhs.m_position &&
-            m_itemsLeft == rhs.m_itemsLeft &&
-            m_dataOrigin == rhs.m_dataOrigin;
+            m_cursor == rhs.m_cursor &&
+            m_dataOrigin == rhs.m_dataOrigin &&
+            m_size == rhs.m_size;
     }
 
-    bool operator!=(const RotatingForwardIterator<Type, Capacity>& rhs) const
+    bool operator!=(const RotatingIterator<Type>& rhs) const
     {
         return !operator==(rhs);
     }
@@ -90,39 +110,44 @@ public:
         return m_dataOrigin[m_position];
     }
 
-    operator RotatingForwardIterator<const Type, Capacity>() const
+    operator RotatingIterator<const Type>() const
     {
-        return RotatingForwardIterator<const Type, Capacity>(m_position, m_itemsLeft, m_dataOrigin);
+        return RotatingIterator<const Type>(m_position, m_cursor, m_dataOrigin, m_size);
     }
 
 private:
     void next()
     {
         assert(isValid());
-        m_position = (m_position + 1) % Capacity;
-        --m_itemsLeft;
+        m_position = rot_next(m_position, m_size);
+        --m_cursor;
+    }
 
-        if (m_itemsLeft == 0)
-        {
-            reset();
-        }
+    void prev()
+    {
+        assert(isValid());
+        m_position = rot_prev(m_position, m_size);
+        ++m_cursor;
     }
 
 private:
     i32 m_position;
-    i32 m_itemsLeft;
+    i32 m_cursor;
     Type* m_dataOrigin;
+    const size_t m_size;
 };
 
 template<typename Type, size_t Capacity>
 class RotatingBuffer
 {
 public:
-    using iterator = RotatingForwardIterator<Type, Capacity>;
-    using const_iterator = RotatingForwardIterator<const Type, Capacity>;
+    using iterator = RotatingIterator<Type>;
+    using const_iterator = RotatingIterator<const Type>;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     RotatingBuffer()
-    : m_position(0)
+    : m_position(-1)
     , m_size(0)
     {}
 
@@ -138,12 +163,14 @@ public:
 
     Type& push(const Type& item)
     {
+        m_position = rot_next(m_position, Capacity);
         m_data[m_position] = item;
         return _push();
     }
 
     Type& push(Type&& item = Type())
     {
+        m_position = rot_next(m_position, Capacity);
         m_data[m_position] = std::move(item);
         return _push();
     }
@@ -151,35 +178,56 @@ public:
     iterator begin()
     {
         return m_size > 0 ?
-            iterator(m_position, m_size, m_data) :
+            iterator(rot_next(m_position, m_size), m_size, m_data, m_size) :
             end();
     }
 
     iterator end()
     {
-        return iterator();
+        return iterator(m_position, 0, m_data, m_size);
     }
 
     const_iterator begin() const
     {
         return m_size > 0 ?
-            const_iterator(m_position, m_size, m_data) :
+            const_iterator(rot_next(m_position, m_size), m_size, m_data, m_size) :
             end();
     }
 
     const_iterator end() const
     {
-        return const_iterator();
+        return const_iterator(m_position, 0, m_data, m_size);
+    }
+
+    reverse_iterator rbegin()
+    {
+        return m_size > 0 ?
+            reverse_iterator(end()) :
+            rend();
+    }
+
+    reverse_iterator rend()
+    {
+        return reverse_iterator(begin());
+    }
+
+    const_reverse_iterator rbegin() const
+    {
+        return m_size > 0 ?
+            const_reverse_iterator(end()) :
+            rend();
+    }
+
+    const_reverse_iterator rend() const
+    {
+        return const_reverse_iterator(begin());
     }
 
 private:
     Type& _push()
     {
         Type& result = m_data[m_position];
-
-        m_position = (m_position + 1) % Capacity;
         m_size = std::min<size_t>(m_size + 1, Capacity);
-
         return result;
     }
 
