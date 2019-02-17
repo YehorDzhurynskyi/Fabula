@@ -46,5 +46,5 @@ private:
     vec2f m_inertia;
     i32 m_currentFrame;
     EventListener m_directionSwitchListener;
-    RotatingBuffer<vec2f, 32> m_playerTrailBuffer;
+    RotatingBuffer<vec2f, 16> m_playerTrailBuffer;
 };
