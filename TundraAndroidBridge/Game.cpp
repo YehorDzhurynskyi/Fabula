@@ -11,6 +11,11 @@ const float Game::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorld
 
 Game* g_Game = nullptr;
 
+Game::Game()
+{
+    m_player.connect(*this);
+}
+
 void Game::update()
 {
     static float nextYPosToGenerate = g_ChunkGenerationOffset;

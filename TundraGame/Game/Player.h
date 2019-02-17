@@ -20,7 +20,7 @@ struct Particle
 
 static_assert(sizeof(Particle) == 32, "unexpected size");
 
-class Player : public Node
+class Player final : public Node
 {
 public:
     Player();
@@ -29,7 +29,9 @@ public:
     void render() const;
     void render_Trail() const;
 
-private:
+protected:
+    void onConnect(Layer& layer) override;
+
     void update_Trail();
     void update_Brake();
 

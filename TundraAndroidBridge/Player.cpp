@@ -22,16 +22,21 @@ float foo(float x)
 }
 
 Player::Player()
-    : m_directionSwitchListener(this)
 {
-    m_directionSwitchListener.bind(EventType::Click, [this](const Event& event)
+    m_directionSwitchListener.on(EventType::Click, [this](const Event& event)
     {
         assert(event.type() == EventType::Click);
+
         const ClickEvent& clickEvent = AS(const ClickEvent&, event);
         m_inertia = m_ownVelocity;
         m_ownVelocity.x = -1.0f * m_ownVelocity.x;
         m_inertiaDamping = 1.0f - m_inertiaDamping;
     });
+}
+
+void Player::onConnect(Layer& layer)
+{
+    m_directionSwitchListener.bind(layer);
 }
 
 void Player::update()

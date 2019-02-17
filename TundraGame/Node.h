@@ -6,26 +6,15 @@ class Node
 public:
     virtual ~Node() = default;
 
-    Layer* getMasterLayer()
+    void connect(Layer& layer)
     {
-        assert(m_masterLayer != nullptr && "Probably this node should be added to some Layer");
-        return m_masterLayer;
-    }
-
-    void connect(Layer& newLayer)
-    {
-        if (m_masterLayer != nullptr)
-        {
-            onDisconnect();
-        }
-
-        m_masterLayer = &newLayer;
-        onConnect();
+        assert(m_masterLayer == nullptr && "Can't reconnect `Node`");
+        m_masterLayer = &layer;
+        onConnect(layer);
     }
 
 protected:
-    virtual void onConnect() = 0;
-    virtual void onDisconnect() = 0;
+    virtual void onConnect(Layer& layer) = 0;
 
 private:
     Layer* m_masterLayer = nullptr;

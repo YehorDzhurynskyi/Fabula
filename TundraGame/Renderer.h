@@ -41,6 +41,9 @@ public:
     void present_Before();
     void present_After();
 
+protected:
+    void onConnect(Layer& layer) override;
+
 public:
     DynamicVertexBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
     DynamicVertexBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;

@@ -22,8 +22,7 @@ public:
     vec2f toNDCSpace(const vec2f& worldSpace) const;
 
 protected:
-    void onConnect() override;
-    void onDisconnect() override;
+    void onConnect(Layer& layer) override;
     void onWindowSizeChanged(i32 width, i32 height);
 
 public:

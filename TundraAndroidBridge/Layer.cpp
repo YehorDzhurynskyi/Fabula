@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "Layer.h"
 
-Layer::Layer()
-    : m_isActive(false)
-{
-    connect(*this);
-}
-
 Layer::~Layer()
 {
     for (auto&[eventType, handlers] : m_handlers)
     {
         for (auto& handler : handlers)
         {
-            handler.unbind();
+            handler->unbind();
         }
     }
 }
 
 bool Layer::handleEvent(const Event& event)
 {
-    std::vector<EventListener>& typeHandlers = m_handlers[event.type()];
+    std::vector<EventListener*>& typeHandlers = m_handlers[event.type()];
     for (const auto& listener : typeHandlers)
     {
-        listener(event);
+        (*listener)(event);
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,

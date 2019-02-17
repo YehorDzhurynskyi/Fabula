@@ -27,6 +27,8 @@ private:
 class Game final : public Layer
 {
 public:
+    Game();
+
     static const float g_MapWidth;
     static const float g_ChunkGenerationOffset;
 

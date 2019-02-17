@@ -57,12 +57,12 @@ public:
     i32 Height;
 };
 
-class Node;
+class Layer;
 using EventHandler = std::function<void(const Event& event)>;
 class EventListener
 {
 public:
-    EventListener(Node* owner);
+    EventListener();
     ~EventListener();
     EventListener(const EventListener& rhs) = delete;
     EventListener& operator=(const EventListener& rhs) = delete;
@@ -70,16 +70,21 @@ public:
     EventListener& operator=(EventListener&& rhs) = delete;
 
     bool isValid() const;
+#if 0
     void reset();
+#endif
 
-    void bind(EventType eventType, EventHandler handler);
+    void on(EventType eventType, EventHandler handler);
+    void bind(Layer& layer);
     void unbind();
 
+#if 0
     bool operator==(const EventListener& rhs) const;
+#endif
     void operator()(const Event& event) const;
 
 private:
-    Node* m_owner;
+    Layer* m_masterLayer;
     EventType m_eventType;
     EventHandler m_handler;
 };

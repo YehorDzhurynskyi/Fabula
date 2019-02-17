@@ -5,16 +5,16 @@
 #include <vector>
 #include "Node.h"
 
-class Layer : private Node
+class Layer
 {
     friend class EventListener;
 public:
-    Layer();
+    Layer() = default;
     Layer(const Layer& rhs) = delete;
     Layer& operator=(const Layer& rhs) = delete;
     Layer(Layer&& rhs) = default;
     Layer& operator=(Layer&& rhs) = default;
-    ~Layer();
+    virtual ~Layer();
 
     virtual void update() = 0;
     virtual void render() const = 0;
@@ -30,7 +30,7 @@ public:
     void setOnHideCallback(std::function<void(Layer*)> callback);
 
 private:
-    bool m_isActive;
+    bool m_isActive = false;
 
     std::function<void(Layer*)> m_onShowCallback;
     std::function<void(Layer*)> m_onHideCallback;
