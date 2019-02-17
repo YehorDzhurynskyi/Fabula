@@ -184,7 +184,7 @@ public:
 
     iterator end()
     {
-        return iterator(m_position, 0, m_data, m_size);
+        return iterator(rot_next(m_position, m_size), 0, m_data, m_size);
     }
 
     const_iterator begin() const
@@ -196,7 +196,7 @@ public:
 
     const_iterator end() const
     {
-        return const_iterator(m_position, 0, m_data, m_size);
+        return const_iterator(rot_next(m_position, m_size), 0, m_data, m_size);
     }
 
     reverse_iterator rbegin()
