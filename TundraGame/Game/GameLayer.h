@@ -26,6 +26,8 @@ private:
 
 class GameLayer final : public Layer
 {
+    friend class HUDLayer;
+
 public:
     GameLayer();
 

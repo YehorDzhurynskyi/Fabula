@@ -69,11 +69,15 @@ SpriteAtlas::SpriteArray&& initSprites()
     rock.Offset = vec2f(512, 512);
     rock.Size = vec2f(512, 512);
 
+    Sprite iconPause;
+    iconPause.Offset = vec2f(0, 384);
+    iconPause.Size = vec2f(128, 128);
+
     SpriteAtlas::SpriteArray result {
         glyph_0, glyph_1, glyph_2, glyph_3, glyph_4,
         glyph_5, glyph_6, glyph_7, glyph_8, glyph_9,
         glyph_M,
-        plane, circle, tree, rock
+        plane, circle, tree, rock, iconPause
     };
 
     for (auto& el : result)

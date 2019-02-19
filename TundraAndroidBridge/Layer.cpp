@@ -15,9 +15,11 @@ Layer::~Layer()
 bool Layer::handleEvent(const Event& event)
 {
     std::vector<EventListener*>& typeHandlers = m_handlers[event.type()];
+
+    bool needToPropagate = true;
     for (const auto& listener : typeHandlers)
     {
-        (*listener)(event);
+        needToPropagate = needToPropagate && listener->handle(event);
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
@@ -25,7 +27,7 @@ bool Layer::handleEvent(const Event& event)
                  event.name(),
                  typeHandlers.size());
 
-    return true;
+    return needToPropagate;
 }
 
 bool Layer::isActive() const

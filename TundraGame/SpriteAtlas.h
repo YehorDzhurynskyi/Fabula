@@ -20,6 +20,7 @@ enum class SpriteURI : u8
     Circle,
     Tree,
     Rock,
+    IconPause,
     COUNT
 };
 

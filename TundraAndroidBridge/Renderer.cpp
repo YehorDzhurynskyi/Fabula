@@ -21,6 +21,8 @@ Renderer::Renderer()
 
         glBindTexture(GL_TEXTURE_2D, m_target_Texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowResizedEvent.Width, windowResizedEvent.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+        return true;
     });
 }
 

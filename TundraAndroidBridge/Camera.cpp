@@ -26,6 +26,8 @@ Camera::Camera()
         assert(event.type() == EventType::WindowResized);
         const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
         onWindowSizeChanged(windowResizedEvent.Width, windowResizedEvent.Height);
+
+        return true;
     });
 }
 

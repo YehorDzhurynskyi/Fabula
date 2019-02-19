@@ -25,9 +25,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\MotionBlurRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\GameLayer.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\HUDLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
+	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\EventBus.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\TextRenderer.cpp" />
   </ItemGroup>
@@ -37,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event\Event.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)Event\EventBus.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LayerStack.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Node.h" />
@@ -46,8 +49,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Game/Game.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
+	<ClInclude Include="$(MSBuildThisFileDirectory)Game/GameLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />

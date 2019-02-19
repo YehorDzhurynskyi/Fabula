@@ -58,7 +58,7 @@ public:
 };
 
 class Layer;
-using EventHandler = std::function<void(const Event& event)>;
+using EventHandler = std::function<bool(const Event& event)>;
 class EventListener
 {
 public:
@@ -73,6 +73,7 @@ public:
 #if 0
     void reset();
 #endif
+    bool handle(const Event& event) const;
 
     void on(EventType eventType, EventHandler handler);
     void bind(Layer& layer);
@@ -81,7 +82,6 @@ public:
 #if 0
     bool operator==(const EventListener& rhs) const;
 #endif
-    void operator()(const Event& event) const;
 
 private:
     Layer* m_masterLayer;

@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Event/Event.h"
-#include "Singleton.h"
 #include "Layer.h"
-#include "Node.h"
 
 EventListener::EventListener()
     : m_masterLayer(nullptr)
@@ -95,10 +93,10 @@ bool EventListener::operator==(const EventListener& rhs) const
 }
 #endif
 
-void EventListener::operator()(const Event& event) const
+bool EventListener::handle(const Event& event) const
 {
     assert(isValid());
     assert(event.type() == m_eventType);
 
-    m_handler(event);
+    return m_handler(event);
 }

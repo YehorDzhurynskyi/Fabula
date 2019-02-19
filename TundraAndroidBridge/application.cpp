@@ -16,6 +16,8 @@
 #include "Singleton.h"
 #include "LayerStack.h"
 #include "ApplicationLayer.h"
+#include "HUDLayer.h"
+#include "Event/EventBus.h"
 
 #ifdef FBL_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -31,7 +33,7 @@ namespace
 
 void poll_events()
 {
-    LayerStack& layers = Singleton<LayerStack>::get();
+    EventBus& eventBus = EventBus::get();
 
     SDL_Event eventBuffer[4];
     SDL_PumpEvents();
@@ -66,7 +68,7 @@ void poll_events()
             case SDL_FINGERDOWN: // TODO: invastigate
 #endif
             {
-                ClickEvent* clickEvent = layers.enqueueEvent<ClickEvent>();
+                ClickEvent* clickEvent = eventBus.enqueueEvent<ClickEvent>();
                 if (event.type == SDL_MOUSEBUTTONDOWN)
                 {
                     i32 w;
@@ -97,7 +99,7 @@ void poll_events()
                 case SDL_WINDOWEVENT_RESTORED:
                 case SDL_WINDOWEVENT_FOCUS_GAINED:
                 {
-                    WindowFocusEvent* focusEvent = layers.enqueueEvent<WindowFocusEvent>();
+                    WindowFocusEvent* focusEvent = eventBus.enqueueEvent<WindowFocusEvent>();
                     focusEvent->Focused = true;
 
                     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus gained");
@@ -106,14 +108,14 @@ void poll_events()
                 case SDL_WINDOWEVENT_MINIMIZED:
                 case SDL_WINDOWEVENT_FOCUS_LOST:
                 {
-                    WindowFocusEvent* focusEvent = layers.enqueueEvent<WindowFocusEvent>();
+                    WindowFocusEvent* focusEvent = eventBus.enqueueEvent<WindowFocusEvent>();
                     focusEvent->Focused = false;
 
                     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT, "Window focus lost");
                 } break;
                 case SDL_WINDOWEVENT_SIZE_CHANGED:
                 {
-                    WindowResizedEvent* resizedEvent = layers.enqueueEvent<WindowResizedEvent>();
+                    WindowResizedEvent* resizedEvent = eventBus.enqueueEvent<WindowResizedEvent>();
                     resizedEvent->Width = event.window.data1;
                     resizedEvent->Height = event.window.data2;
 
@@ -198,6 +200,7 @@ void run()
     LayerStack& layers = LayerStack::get();
     layers.push<ApplicationLayer>();
     g_Game = &layers.push<GameLayer>();
+    layers.push<HUDLayer>();
 
     {
         g_Running = Renderer::get().init();
@@ -211,7 +214,8 @@ void run()
 
             layers.update();
             layers.render();
-            layers.flushEvents();
+
+            EventBus::get().flushEvents();
 
             SDL_GL_SwapWindow(g_SDLWindow);
 

@@ -1,19 +1,18 @@
 #include "pch.h"
 #include "LayerStack.h"
 
-void LayerStack::flushEvents()
+void LayerStack::handleEvent(const Event& event)
 {
-    for (const auto& event : m_eventQueue)
+    for (auto layerIt = m_layers.rbegin();
+         layerIt != m_layers.rend();
+         ++layerIt)
     {
-        for (auto layerIt = m_layers.rbegin();
-             layerIt != m_layers.rend();
-             ++layerIt)
+        const bool needToPropagate = (*layerIt)->handleEvent(event);
+        if (!needToPropagate)
         {
-            (*layerIt)->handleEvent(*event);
+            break;
         }
     }
-
-    m_eventQueue.clear();
 }
 
 void LayerStack::update()

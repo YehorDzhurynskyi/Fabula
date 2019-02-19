@@ -7,14 +7,6 @@
 class LayerStack : public Singleton<LayerStack>
 {
 public:
-    template<typename T, typename ...Args>
-    T* enqueueEvent(Args&& ...args)
-    {
-        static_assert(std::is_base_of<Event, T>::value, "should be derived from `Event`");
-        m_eventQueue.push_back(std::make_unique<T>(std::forward<Args>(args)...));
-        return static_cast<T*>(m_eventQueue.back().get());
-    }
-
     template<typename T, typename ... Args>
     T& push(Args&& ... args)
     {
@@ -28,12 +20,11 @@ public:
     }
     void pop();
 
-    void flushEvents();
+    void handleEvent(const Event& event);
 
     void update();
     void render() const;
 
 private:
     std::vector<std::unique_ptr<Layer>> m_layers;
-    std::vector<std::unique_ptr<Event>> m_eventQueue;
 };

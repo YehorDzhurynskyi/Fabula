@@ -31,6 +31,8 @@ Player::Player()
         m_inertia = m_ownVelocity;
         m_ownVelocity.x = -1.0f * m_ownVelocity.x;
         m_inertiaDamping = 1.0f - m_inertiaDamping;
+
+        return false;
     });
 }
 
