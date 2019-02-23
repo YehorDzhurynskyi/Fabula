@@ -1,14 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "common.h"
-
-#ifdef FBL_ANDROID
-#include "SDL_opengles2.h"
-#include "SDL_opengles2_gl2.h"
-#else
-#include "glew.h"
-#endif
+#include "Graphics/API/opengl.h"
 
 template<typename T, size_t Capacity>
 class DynamicVertexBuffer

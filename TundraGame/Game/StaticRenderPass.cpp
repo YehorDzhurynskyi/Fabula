@@ -1,14 +1,7 @@
 #include "pch.h"
 #include "Game/StaticRenderPass.h"
 
-#ifdef FBL_ANDROID
-#include "SDL_opengles2.h"
-#include "SDL_opengles2_gl2.h"
-#else
-#include "glew.h"
-#endif
-
-#include "CCC/Camera.h"
+#include "Graphics/API/opengl.h"
 #include "Graphics/Renderer.h"
 
 const char* g_StaticVertexShaderSource = ""

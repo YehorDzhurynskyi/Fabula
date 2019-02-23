@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Camera.h"
 
+#include "Graphics/API/opengl.h"
 #include "application.h"
 #include "SDL_video.h"
 #include "Layer/GameLayer.h"

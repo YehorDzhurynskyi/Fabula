@@ -56,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCC\Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\API\opengl.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Renderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\distance-field.h" />
