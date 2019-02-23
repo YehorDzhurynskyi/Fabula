@@ -23,7 +23,25 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Game\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game\StaticRenderPass.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Renderer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\TextRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\distance-field.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\edtaa3func.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\texture-atlas.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\texture-font.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\utf8-utils.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vector.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\ApplicationLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\Event\Event.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\Event\EventBus.cpp" />
@@ -40,7 +58,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Renderer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\TextRenderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\distance-field.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\edtaa3func.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\freetype-gl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\texture-atlas.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\texture-font.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\utf8-utils.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vec234.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer\ApplicationLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer\Event\Event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer\Event\EventBus.h" />

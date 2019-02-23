@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "TextRenderer.h"
-#include "Renderer.h"
+#include "Graphics/Renderer.h"
+
+TextRenderer::TextRenderer()
+{}
+
+TextRenderer::~TextRenderer()
+{}
 
 void TextRenderer::render_Text(const char* text, const vec2f position, const float rHeight)
 {

@@ -1,16 +1,17 @@
 #pragma once
 
-class TextRenderer
+#include "Library/Singleton.h"
+#include "freetypegl/freetype-gl.h"
+
+class TextRenderer : public Singleton<TextRenderer>
 {
-public:
-    static TextRenderer& get()
-    {
-        static TextRenderer instance;
-        return instance;
-    }
+    friend class Singleton<TextRenderer>;
 
 private:
-    TextRenderer() = default;
+    TextRenderer();
+
+public:
+    ~TextRenderer();
 
 public:
     void render_TextLeft(const char* text, const vec2f position, const float rHeight);
@@ -22,5 +23,8 @@ private:
 
     float calculateTextWidth(const char* text, const float rHeight) const;
     u32 parseColor(const char* start, const char* end) const;
+
+private:
+    texture_atlas_t* m_fontAtlas = nullptr;
 };
 

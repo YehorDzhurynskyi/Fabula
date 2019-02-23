@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "HUDLayer.h"
 #include "Graphics/Renderer.h"
-#include "Graphics/TextRenderer.h"
+#include "Graphics/Text/TextRenderer.h"
 #include "GameLayer.h"
 
 HUDLayer::HUDLayer()
