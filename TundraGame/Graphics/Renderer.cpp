@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Renderer.h"
-#include "Camera.h"
+#include "CCC/Camera.h"
 
 #include "SDL_image.h"
 

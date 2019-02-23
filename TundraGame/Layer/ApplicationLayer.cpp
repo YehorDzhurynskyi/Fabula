@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ApplicationLayer.h"
-#include "Renderer.h"
-#include "Camera.h"
+#include "Graphics/Renderer.h"
+#include "CCC/Camera.h"
 
 ApplicationLayer::ApplicationLayer()
 {

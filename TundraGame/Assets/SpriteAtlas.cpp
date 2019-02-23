@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "SpriteAtlas.h"
-#include "application.h"
-#include "SDL_image.h"
-#include "Camera.h"
 
 namespace
 {

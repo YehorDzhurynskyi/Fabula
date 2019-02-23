@@ -1,8 +1,5 @@
 #pragma once
 
-#include "SDL_render.h"
-#include <array>
-
 enum class SpriteURI : u8
 {
     Glyph_0 = 0,

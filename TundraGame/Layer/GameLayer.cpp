@@ -1,9 +1,10 @@
 #include "pch.h"
 
-#include "Game/GameLayer.h"
+#include "Layer/GameLayer.h"
 #include "Game/Level.h"
 
-#include "Renderer.h"
+#include "Graphics/Renderer.h"
+#include "CCC/Camera.h"
 
 const float GameLayer::g_MapWidth = 15.0f;
 const float GameLayer::g_ChunkGenerationOffset = 0.5f * Camera::g_MinimumVisibleWorldHeight;

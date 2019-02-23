@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Game/CircleCollider.h"
+#include "CircleCollider.h"
 
 CircleCollider::CircleCollider(const Transform& transform)
     : m_position(transform.Position)

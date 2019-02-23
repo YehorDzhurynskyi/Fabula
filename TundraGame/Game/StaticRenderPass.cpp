@@ -8,8 +8,8 @@
 #include "glew.h"
 #endif
 
-#include "Camera.h"
-#include "Renderer.h"
+#include "CCC/Camera.h"
+#include "Graphics/Renderer.h"
 
 const char* g_StaticVertexShaderSource = ""
 "attribute vec2 a_position;\n"

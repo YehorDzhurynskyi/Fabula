@@ -1,15 +1,8 @@
 #include "pch.h"
 #include "Game/MotionBlurRenderPass.h"
 
-#ifdef FBL_ANDROID
-#include "SDL_opengles2.h"
-#include "SDL_opengles2_gl2.h"
-#else
-#include "glew.h"
-#endif
-
-#include "Renderer.h"
-#include "Game/GameLayer.h"
+#include "Graphics/Renderer.h"
+#include "Layer/GameLayer.h"
 
 namespace
 {

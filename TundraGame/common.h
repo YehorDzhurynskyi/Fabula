@@ -1,16 +1,7 @@
 #pragma once
 
-#include <assert.h>
 #include "SDL_log.h"
 #include "SDL_assert.h"
-#include <cmath>
-#include <algorithm>
-
-#ifdef WIN32
-# define FBL_WIN32
-#else
-# define FBL_ANDROID
-#endif
 
 extern float g_DeltaTime;
 

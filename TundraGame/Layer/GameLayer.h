@@ -1,9 +1,9 @@
 #pragma once
 
-#include "SpriteAtlas.h"
-#include "Camera.h"
+#include "Assets/SpriteAtlas.h"
+#include "CCC/Camera.h"
 #include "Game/Player.h"
-#include "Pool.h"
+#include "Library/Pool.h"
 #include "Layer.h"
 
 class Obstacle

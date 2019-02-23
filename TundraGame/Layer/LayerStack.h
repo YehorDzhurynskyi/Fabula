@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Singleton.h"
 #include "Layer.h"
 #include <vector>
+#include "Library/Singleton.h"
 
 class LayerStack : public Singleton<LayerStack>
 {

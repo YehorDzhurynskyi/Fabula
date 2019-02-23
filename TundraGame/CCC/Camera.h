@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Event/Event.h"
-#include "Node.h"
-#include "Singleton.h"
+#include "Layer/Event/Event.h"
+#include "Layer/Node.h"
+#include "Library/Singleton.h"
 
 class Camera final : public Node, public Singleton<Camera>
 {

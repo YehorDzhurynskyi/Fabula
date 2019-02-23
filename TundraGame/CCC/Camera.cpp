@@ -3,15 +3,7 @@
 
 #include "application.h"
 #include "SDL_video.h"
-#include <algorithm>
-#include "Game/GameLayer.h"
-
-#ifdef FBL_ANDROID
-#include "SDL_opengles2.h"
-#include "SDL_opengles2_gl2.h"
-#else
-#include "glew.h"
-#endif
+#include "Layer/GameLayer.h"
 
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 

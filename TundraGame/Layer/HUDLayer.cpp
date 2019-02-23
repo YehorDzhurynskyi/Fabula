@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "HUDLayer.h"
-#include "Renderer.h"
-#include "TextRenderer.h"
-#include "Game/GameLayer.h"
+#include "Graphics/Renderer.h"
+#include "Graphics/TextRenderer.h"
+#include "GameLayer.h"
 
 HUDLayer::HUDLayer()
 {

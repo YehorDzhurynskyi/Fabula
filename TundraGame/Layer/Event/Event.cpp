@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Event/Event.h"
-#include "Layer.h"
+#include "Event.h"
+#include "Layer/Layer.h"
 
 EventListener::EventListener()
     : m_masterLayer(nullptr)

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "SpriteAtlas.h"
+#include "Assets/SpriteAtlas.h"
 
 #include "Game/StaticRenderPass.h"
 #include "Game/MotionBlurRenderPass.h"
 
-#include "Event/Event.h"
+#include "Layer/Event/Event.h"
 #include "DynamicVertexBuffer.h"
-#include "Singleton.h"
-#include "Node.h"
+#include "Library/Singleton.h"
+#include "Layer/Node.h"
 
 class Renderer final : public Node, public Singleton<Renderer>
 {

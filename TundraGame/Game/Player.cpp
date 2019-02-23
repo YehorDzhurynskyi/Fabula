@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 
 #include "Game/Player.h"
-#include "Game/GameLayer.h"
+#include "Layer/GameLayer.h"
 
-#include "Renderer.h"
+#include "Graphics/Renderer.h"
 
 namespace
 {
@@ -141,7 +141,7 @@ void Player::update_Brake()
 
             particle->Transform.Position = Transform.Position + vec2f(offsetx, offsety);
             particle->ColorTint = FBL_COLOR(0x88 + chnl, 0x88 + chnl, 0x88 + chnl, 0xff);
-            particle->Life = 1.0f * m_inertiaDamping;// *m_inertiaDamping;
+            particle->Life = 1.0f * m_inertiaDamping;
             particle->Velocity = m_inertia;
             timer = 0.01f;
         }

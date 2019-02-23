@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Event/EventBus.h"
-#include "LayerStack.h"
+#include "EventBus.h"
+#include "Layer/LayerStack.h"
 
 void EventBus::flushEvents()
 {

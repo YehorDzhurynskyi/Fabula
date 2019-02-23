@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Pool.h"
-#include "Event/Event.h"
-#include "RotatingBuffer.h"
-#include "Node.h"
+#include "Library/Pool.h"
+#include "Layer/Event/Event.h"
+#include "Library/RotatingBuffer.h"
+#include "Layer/Node.h"
 
 struct Particle
 {

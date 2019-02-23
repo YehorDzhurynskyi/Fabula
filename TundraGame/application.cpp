@@ -9,15 +9,15 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "Renderer.h"
+#include "Graphics/Renderer.h"
 
 #include "application.h"
-#include "Game/GameLayer.h"
-#include "Singleton.h"
-#include "LayerStack.h"
-#include "ApplicationLayer.h"
-#include "HUDLayer.h"
-#include "Event/EventBus.h"
+#include "Layer/GameLayer.h"
+#include "Library/Singleton.h"
+#include "Layer/LayerStack.h"
+#include "Layer/ApplicationLayer.h"
+#include "Layer/HUDLayer.h"
+#include "Layer/Event/EventBus.h"
 
 #ifdef FBL_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event.h"
-#include "Singleton.h"
+#include "Library/Singleton.h"
 #include <vector>
 
 class EventBus final : public Singleton<EventBus>
