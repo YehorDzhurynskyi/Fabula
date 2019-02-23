@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="3rdParty\SDL\include\begin_code.h">
       <Filter>Header Files</Filter>
     </ClInclude>

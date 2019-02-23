@@ -14,24 +14,24 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\ApplicationLayer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Event.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Layer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\LayerStack.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\StaticRenderPass.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\common.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\application.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Camera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\MotionBlurRenderPass.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\SpriteAtlas.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\GameLayer.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\HUDLayer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Level.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\CircleCollider.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Player.cpp" />
-	<ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\EventBus.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\Renderer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\TundraAndroidBridge\TextRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ApplicationLayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Event.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Layer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LayerStack.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StaticRenderPass.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)common.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)application.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Camera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MotionBlurRenderPass.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpriteAtlas.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameLayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HUDLayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Level.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CircleCollider.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventBus.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Renderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ApplicationLayer.h" />
@@ -39,10 +39,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event\Event.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Event\EventBus.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event\EventBus.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HUDLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LayerStack.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Node.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Pool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RotatingBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Singleton.h" />
@@ -50,7 +52,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteAtlas.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
-	<ClInclude Include="$(MSBuildThisFileDirectory)Game/GameLayer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game/GameLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/CircleCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Renderer.h" />
