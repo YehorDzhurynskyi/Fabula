@@ -16,6 +16,7 @@
 #include "distance-field.h"
 #include "texture-font.h"
 #include "utf8-utils.h"
+#include "strdup.h"
 
 #pragma warning(disable : 4703)
 
@@ -32,10 +33,6 @@ const struct {
     const char*  message;
 } FT_Errors[] =
 #include FT_ERRORS_H
-
-#if defined(_WIN32) || defined(_WIN64)
-# define strdup _strdup
-#endif
 
 // ------------------------------------------------- texture_font_load_face ---
 static int

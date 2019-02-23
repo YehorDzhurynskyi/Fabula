@@ -2,6 +2,7 @@
 
 #include "Library/Singleton.h"
 #include "freetypegl/freetype-gl.h"
+#include "freetypegl/vertex-buffer.h"
 
 class TextRenderer : public Singleton<TextRenderer>
 {
@@ -26,5 +27,7 @@ private:
 
 private:
     texture_atlas_t* m_fontAtlas = nullptr;
+    texture_font_t* m_font = nullptr;
+    vertex_buffer_t* m_textVertexBuffer = nullptr;
 };
 
