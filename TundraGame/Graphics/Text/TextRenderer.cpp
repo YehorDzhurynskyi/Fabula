@@ -35,11 +35,10 @@ const char* g_TextFragmentShaderSource = ""
 
 }
 
-TextRenderer::TextRenderer()
+bool TextRenderer::init()
 {
     m_fontAtlas = texture_atlas_new(512, 512, 1);
     m_font = texture_font_new_from_file(m_fontAtlas, 32, "fonts/Vera.ttf");
-    m_textVertexBuffer = vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f");
 
     glGenTextures(1, &m_fontAtlas->id);
     glBindTexture(GL_TEXTURE_2D, m_fontAtlas->id);
@@ -48,18 +47,90 @@ TextRenderer::TextRenderer()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_fontAtlas->width, m_fontAtlas->height, 0, GL_RED, GL_UNSIGNED_BYTE, m_fontAtlas->data);
+
+    const bool vertexShaderAttached = m_program.attachVertexShader(g_TextVertexShaderSource);
+    const bool fragmentShaderAttached = m_program.attachFragmentShader(g_TextFragmentShaderSource);
+
+    assert(vertexShaderAttached && fragmentShaderAttached);
+    if (!vertexShaderAttached || !fragmentShaderAttached)
+    {
+        return false;
+    }
+
+    m_program.build();
+
+    return true;
 }
 
-TextRenderer::~TextRenderer()
+void TextRenderer::shutdown()
 {
+    m_program.release();
+
     glDeleteTextures(1, &m_fontAtlas->id);
     m_fontAtlas->id = 0;
 
-    vertex_buffer_delete(m_textVertexBuffer);
     texture_font_delete(m_font);
     texture_atlas_delete(m_fontAtlas);
 }
 
+void TextRenderer::render_Text(const char* text, const vec2f position, const float scale)
+{
+    FOR(strlen(text))
+    {
+        texture_glyph_t* glyph = texture_font_get_glyph(m_font, text + index);
+        if (glyph != nullptr)
+        {
+            float kerning = 0.0f;
+            if (index > 0)
+            {
+                kerning = texture_glyph_get_kerning(glyph, text + index - 1);
+            }
+            pen->x += kerning;
+            int x0 = (int)(pen->x + glyph->offset_x);
+            int y0 = (int)(pen->y + glyph->offset_y);
+            int x1 = (int)(x0 + glyph->width);
+            int y1 = (int)(y0 - glyph->height);
+            float s0 = glyph->s0;
+            float t0 = glyph->t0;
+            float s1 = glyph->s1;
+            float t1 = glyph->t1;
+
+            GLuint indices[] = { 0,1,2,0,2,3 };
+
+            {
+                GlyphData& glyphData = m_textVertexBuffer.push();
+                glyphData.Position = vec2f(x0, y0);
+                glyphData.UV = vec2f(s0, t0);
+                glyphData.Color = FBL_COLOR_BLACK;
+            }
+
+            {
+                GlyphData& glyphData = m_textVertexBuffer.push();
+                glyphData.Position = vec2f(x0, y1);
+                glyphData.UV = vec2f(s0, t1);
+                glyphData.Color = FBL_COLOR_BLACK;
+            }
+
+            {
+                GlyphData& glyphData = m_textVertexBuffer.push();
+                glyphData.Position = vec2f(x1, y1);
+                glyphData.UV = vec2f(s1, t1);
+                glyphData.Color = FBL_COLOR_BLACK;
+            }
+
+            {
+                GlyphData& glyphData = m_textVertexBuffer.push();
+                glyphData.Position = vec2f(x1, y0);
+                glyphData.UV = vec2f(s1, t0);
+                glyphData.Color = FBL_COLOR_BLACK;
+            }
+
+            pen->x += glyph->advance_x;
+        }
+    }
+}
+
+#if 0
 void TextRenderer::render_Text(const char* text, const vec2f position, const float rHeight)
 {
     assert(rHeight >= 0.0f && rHeight <= 1.0f);
@@ -247,3 +318,4 @@ u32 TextRenderer::parseColor(const char* start, const char* end) const
     }
     return FBL_COLOR(rgba[0], rgba[1], rgba[2], rgba[3]);
 }
+#endif

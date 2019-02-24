@@ -37,49 +37,26 @@ const char* g_StaticFragmentShaderSource = ""
 
 bool StaticRenderPass::init()
 {
-    const ShaderID vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_StaticVertexShaderSource);
-    const ShaderID fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_StaticFragmentShaderSource);
+    const bool vertexShaderAttached = m_program.attachVertexShader(g_StaticVertexShaderSource);
+    const bool fragmentShaderAttached = m_program.attachFragmentShader(g_StaticFragmentShaderSource);
 
-    assert(vertexShader != 0 && fragmentShader != 0);
-    if (vertexShader == 0 || fragmentShader == 0)
+    assert(vertexShaderAttached && fragmentShaderAttached);
+    if (!vertexShaderAttached || !fragmentShaderAttached)
     {
         return false;
     }
 
-    m_program = glCreateProgram();
-    glAttachShader(m_program, vertexShader);
-    glAttachShader(m_program, fragmentShader);
+    m_program.build();
 
-    glLinkProgram(m_program);
-
-    GLint isLinked = 0;
-    glGetProgramiv(m_program, GL_LINK_STATUS, &isLinked);
-    if (isLinked == GL_FALSE)
-    {
-        char log[4096];
-        glGetShaderInfoLog(m_program, sizeof(log), nullptr, log);
-        SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        glDeleteProgram(m_program);
-        return false;
-    }
-
-    glDetachShader(m_program, vertexShader);
-    glDetachShader(m_program, fragmentShader);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    m_positionLocation = glGetAttribLocation(m_program, "a_position");
-    m_uvLocation = glGetAttribLocation(m_program, "a_uvtex");
-    m_colorTintLocation = glGetAttribLocation(m_program, "a_color_tint");
+    m_positionLocation = m_program.getAttributeLocation("a_position");
+    m_uvLocation = m_program.getAttributeLocation("a_uvtex");
+    m_colorTintLocation = m_program.getAttributeLocation("a_color_tint");
 
     if (m_positionLocation < 0 ||
         m_uvLocation < 0 ||
         m_colorTintLocation < 0)
     {
-        glDeleteProgram(m_program);
+        m_program.release();
         return false;
     }
 
@@ -88,7 +65,7 @@ bool StaticRenderPass::init()
 
 void StaticRenderPass::shutdown()
 {
-    glDeleteProgram(m_program);
+    m_program.release();
 }
 
 void StaticRenderPass::bind()
@@ -104,7 +81,7 @@ void StaticRenderPass::bind()
         glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
     }
 
-    glUseProgram(m_program);
+    m_program.use();
 
     glEnableVertexAttribArray(m_positionLocation);
     glEnableVertexAttribArray(m_colorTintLocation);

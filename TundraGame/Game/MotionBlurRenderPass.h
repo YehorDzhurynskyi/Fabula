@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Graphics/Shader/ShaderProgram.h"
+
 class MotionBlurRenderPass
 {
 public:
@@ -10,7 +12,7 @@ public:
     void unbind();
 
 private:
-    ProgramID m_program;
+    ShaderProgram m_program;
 
     ShaderLocationID m_positionLocation;
 

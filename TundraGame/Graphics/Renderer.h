@@ -28,8 +28,6 @@ public:
     };
     static_assert(sizeof(Color_UV_Data) == 12, "Unexpected size of vertex struct");
 
-    static u32 compile_shader(i32 shaderType, const char* sourceCode);
-
 public:
     bool init();
     void shutdown();

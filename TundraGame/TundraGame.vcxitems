@@ -59,6 +59,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\Layer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\LayerStack.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Physics\CircleCollider.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Shader\ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Assets\SpriteAtlas.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Physics\CircleCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)platform.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Shader\ShaderProgram.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/Level.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game/GameLayer.h" />

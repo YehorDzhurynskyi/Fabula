@@ -37,6 +37,7 @@ void HUDLayer::render() const
         Renderer::get().render(SpriteURI::IconPause, t, FBL_WHITE_COLOR);
     }
 
+#if 0
     {
         char b[32];
         sprintf(b, "[22, 22, 22, ff]%i m", (i32)g_Game->m_player.DistanceCovered);
@@ -79,6 +80,7 @@ void HUDLayer::render() const
 
         Renderer::get().present_After();
     }
+#endif
 }
 
 void HUDLayer::onConnect(Layer& layer)

@@ -44,52 +44,29 @@ const char* g_MotionBlurFragmentShaderSource = ""
 
 bool MotionBlurRenderPass::init()
 {
-    const ShaderID vertexShader = Renderer::compile_shader(GL_VERTEX_SHADER, g_MotionBlurVertexShaderSource);
-    const ShaderID fragmentShader = Renderer::compile_shader(GL_FRAGMENT_SHADER, g_MotionBlurFragmentShaderSource);
+    const bool vertexShaderAttached = m_program.attachVertexShader(g_MotionBlurVertexShaderSource);
+    const bool fragmentShaderAttached = m_program.attachFragmentShader(g_MotionBlurFragmentShaderSource);
 
-    assert(vertexShader != 0 && fragmentShader != 0);
-    if (vertexShader == 0 || fragmentShader == 0)
+    assert(vertexShaderAttached && fragmentShaderAttached);
+    if (!vertexShaderAttached || !fragmentShaderAttached)
     {
         return false;
     }
 
-    m_program = glCreateProgram();
-    glAttachShader(m_program, vertexShader);
-    glAttachShader(m_program, fragmentShader);
+    m_program.build();
 
-    glLinkProgram(m_program);
+    m_positionLocation = m_program.getAttributeLocation("a_position");
 
-    GLint isLinked = 0;
-    glGetProgramiv(m_program, GL_LINK_STATUS, &isLinked);
-    if (isLinked == GL_FALSE)
-    {
-        char log[4096];
-        glGetShaderInfoLog(m_program, sizeof(log), nullptr, log);
-        SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-        glDeleteProgram(m_program);
-        return false;
-    }
-
-    glDetachShader(m_program, vertexShader);
-    glDetachShader(m_program, fragmentShader);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    m_positionLocation = glGetAttribLocation(m_program, "a_position");
-
-    m_blurVecLocation = glGetUniformLocation(m_program, "u_blurVec");
-    m_blurVecOffsetLocation = glGetUniformLocation(m_program, "u_blurVecOffset");
-    m_screenSizeLocation = glGetUniformLocation(m_program, "u_screenSize");
+    m_blurVecLocation = m_program.getUniformLocation("u_blurVec");
+    m_blurVecOffsetLocation = m_program.getUniformLocation("u_blurVecOffset");
+    m_screenSizeLocation = m_program.getUniformLocation("u_screenSize");
 
     if (m_positionLocation < 0 ||
         m_blurVecLocation < 0 ||
         m_blurVecOffsetLocation < 0 ||
         m_screenSizeLocation < 0)
     {
-        glDeleteProgram(m_program);
+        m_program.release();
         return false;
     }
 
@@ -98,7 +75,7 @@ bool MotionBlurRenderPass::init()
 
 void MotionBlurRenderPass::shutdown()
 {
-    glDeleteProgram(m_program);
+    m_program.release();
 }
 
 void MotionBlurRenderPass::bind()
@@ -108,7 +85,7 @@ void MotionBlurRenderPass::bind()
         glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
     }
 
-    glUseProgram(m_program);
+    m_program.use();
 
     {
         const vec2f& currentPlayerPosition = g_Game->getPlayer().Transform.Position;

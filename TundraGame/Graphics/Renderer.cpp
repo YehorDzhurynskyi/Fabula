@@ -107,26 +107,6 @@ void Renderer::shutdown()
     m_motionBlurPass.shutdown();
 }
 
-u32 Renderer::compile_shader(i32 shaderType, const char* sourceCode)
-{
-    const ShaderID shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, &sourceCode, nullptr);
-    glCompileShader(shader);
-
-    GLint isCompiled = 0;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-    if (isCompiled == GL_FALSE)
-    {
-        char log[4096];
-        glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
-        SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
-        glDeleteShader(shader);
-        return 0;
-    }
-
-    return shader;
-}
-
 void Renderer::render(const SpriteURI uri, const Transform& transform, const u32 colorTint)
 {
     render(SpriteAtlas::at(uri).Offset, SpriteAtlas::at(uri).Size, transform, colorTint);
