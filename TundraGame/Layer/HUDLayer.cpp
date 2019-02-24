@@ -37,40 +37,6 @@ void HUDLayer::render() const
         Renderer::get().render(SpriteURI::IconPause, t, FBL_COLOR_WHITE);
     }
 
-#if 0
-    {
-        char b[32];
-        sprintf(b, "[22, 22, 22, ff]%i m", (i32)g_Game->m_player.DistanceCovered);
-        TextRenderer::get().render_TextCenter(b, vec2f(0.0f, 0.85f), 0.035f);
-    }
-
-    {
-        char b[32];
-        sprintf(b, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
-        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.9f), 0.02f);
-    }
-
-#ifdef _DEBUG
-    {
-        char b[32];
-        sprintf(b, "[ff, 22, 22, ff]%i", g_Game->m_player.BrakeParticles.Count);
-        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.8f), 0.02f);
-    }
-
-    {
-        char b[32];
-        sprintf(b, "[ff, 22, ff, ff]%i", g_Game->m_player.TrailParticles.Count);
-        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.7f), 0.02f);
-    }
-
-    {
-        char b[32];
-        sprintf(b, "[00, 63, 4a, ff]%i", g_Game->m_obstacles.Count);
-        TextRenderer::get().render_TextLeft(b, vec2f(-0.8f, 0.6f), 0.02f);
-    }
-#endif
-
-#endif
     {
         Renderer::get().present_Before();
 
@@ -81,6 +47,42 @@ void HUDLayer::render() const
 
         Renderer::get().present_After();
     }
+
+#if 0
+    {
+        char b[32];
+        sprintf(b, "[22, 22, 22, ff]%i m", (i32)g_Game->m_player.DistanceCovered);
+        TextRenderer::get().render_Text(b, vec2f(0.0f, 0.85f));
+    }
+
+    {
+        char b[32];
+        sprintf(b, "[0, 0, 0, ff]%i", (i32)(1.0f / g_DeltaTime));
+        TextRenderer::get().render_Text(b, vec2f(-0.8f, 0.9f));
+    }
+
+#ifdef _DEBUG
+    {
+        char b[32];
+        sprintf(b, "[ff, 22, 22, ff]%i", g_Game->m_player.BrakeParticles.Count);
+        TextRenderer::get().render_Text(b, vec2f(-0.8f, 0.8f));
+    }
+
+    {
+        char b[32];
+        sprintf(b, "[ff, 22, ff, ff]%i", g_Game->m_player.TrailParticles.Count);
+        TextRenderer::get().render_Text(b, vec2f(-0.8f, 0.7f));
+    }
+
+    {
+        char b[32];
+        sprintf(b, "[00, 63, 4a, ff]%i", g_Game->m_obstacles.Count);
+        TextRenderer::get().render_Text(b, vec2f(-0.8f, 0.6f));
+    }
+#endif
+#endif
+    TextRenderer::get().render_Text("Hello", vec2f(0.0f, 0.0f));
+    TextRenderer::get().present();
 }
 
 void HUDLayer::onConnect(Layer& layer)

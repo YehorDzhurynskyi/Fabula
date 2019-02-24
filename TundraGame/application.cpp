@@ -11,6 +11,7 @@
 #include "Layer/ApplicationLayer.h"
 #include "Layer/HUDLayer.h"
 #include "Layer/Event/EventBus.h"
+#include "Graphics/Text/TextRenderer.h"
 
 #ifdef FBL_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
@@ -197,6 +198,7 @@ void run()
 
     {
         g_Running = Renderer::get().init();
+        g_Running = g_Running && TextRenderer::get().init();
         assert(g_Running);
 
         while (g_Running)
@@ -227,6 +229,7 @@ void run()
         }
 
         Renderer::get().shutdown();
+        TextRenderer::get().shutdown();
     }
 
     SDL_GL_DeleteContext(glContext);

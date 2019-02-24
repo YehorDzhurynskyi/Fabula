@@ -89,3 +89,8 @@ vec2f Camera::toNDCSpace(const vec2f& worldSpace) const
 
     return NDCPosition;
 }
+
+vec2f Camera::screenSpace_To_NDCSpace(const vec2f& screenSpace) const
+{
+    return (2.0f * (screenSpace / getScreenSize())) - 1.0f;
+}

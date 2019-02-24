@@ -21,6 +21,8 @@ public:
     Transform toNDCSpace(const Transform& worldSpace) const;
     vec2f toNDCSpace(const vec2f& worldSpace) const;
 
+    vec2f screenSpace_To_NDCSpace(const vec2f& screenSpace) const;
+
 protected:
     void onConnect(Layer& layer) override;
     void onWindowSizeChanged(i32 width, i32 height);

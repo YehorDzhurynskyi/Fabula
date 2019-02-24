@@ -32,5 +32,7 @@ float rand01();
 float to_radians(const float angle);
 
 #define FBL_COLOR(_r, _g, _b, _a) ((u32)(_a << 24 | _b << 16 | _g << 8 | _r))
+
 #define FBL_COLOR_WHITE FBL_COLOR(0xff, 0xff, 0xff, 0xff)
 #define FBL_COLOR_BLACK FBL_COLOR(0x0, 0x0, 0x0, 0xff)
+#define FBL_COLOR_MAGENTA FBL_COLOR(0xff, 0x0, 0xff, 0xff)
