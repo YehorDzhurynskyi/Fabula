@@ -75,6 +75,7 @@ void TextRenderer::shutdown()
 
 void TextRenderer::render_Text(const char* text, const vec2f position, const float scale)
 {
+#if 0
     FOR(strlen(text))
     {
         texture_glyph_t* glyph = texture_font_get_glyph(m_font, text + index);
@@ -128,6 +129,7 @@ void TextRenderer::render_Text(const char* text, const vec2f position, const flo
             pen->x += glyph->advance_x;
         }
     }
+#endif
 }
 
 #if 0

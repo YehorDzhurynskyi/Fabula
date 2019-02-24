@@ -1,80 +1,47 @@
 #pragma once
 
-#include "types.h"
+#include "DynamicBuffer.h"
 #include "Graphics/API/opengl.h"
 
 template<typename T, size_t Capacity>
-class DynamicIndexBuffer
+class DynamicIndexBuffer : public DynamicBuffer<T, Capacity>
 {
 public:
     DynamicIndexBuffer()
-        : m_size(0)
     {
-        glGenBuffers(1, &m_VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW);
+        glGenBuffers(1, &m_IBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW);
     }
 
-    DynamicVertexBuffer(const DynamicVertexBuffer& rhs) = delete;
-    DynamicVertexBuffer& operator=(const DynamicVertexBuffer& rhs) = delete;
-    DynamicVertexBuffer(DynamicVertexBuffer&& rhs) = delete;
-    DynamicVertexBuffer& operator=(DynamicVertexBuffer&& rhs) = delete;
+    DynamicIndexBuffer(const DynamicIndexBuffer& rhs) = delete;
+    DynamicIndexBuffer& operator=(const DynamicIndexBuffer& rhs) = delete;
+    DynamicIndexBuffer(DynamicIndexBuffer&& rhs) = delete;
+    DynamicIndexBuffer& operator=(DynamicIndexBuffer&& rhs) = delete;
 
-    ~DynamicVertexBuffer()
+    ~DynamicIndexBuffer()
     {
-        glDeleteBuffers(1, &m_VBO);
+        glDeleteBuffers(1, &m_IBO);
     }
 
     void bind()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    }
-
-    T& push(T&& value = T())
-    {
-        assert(m_size < Capacity);
-        m_data[m_size] = std::move(value);
-        return m_data[m_size++];
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     }
 
     void flush()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_size * sizeof(T), (void*)m_data);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data);
 
-        m_size = 0;
+        this->m_size = 0;
     }
 
-    size_t capacity() const
+    IndexBufferID getIndexBufferID() const
     {
-        return Capacity;
-    }
-
-    size_t size() const
-    {
-        return m_size;
-    }
-
-    VertexBufferID getVertexBufferID()
-    {
-        return m_VBO;
-    }
-
-    const T& operator[](const i32 idx)
-    {
-        assert(idx >= 0 && idx < m_size);
-        return m_data[idx];
-    }
-
-    const T& operator[](const i32 idx) const
-    {
-        assert(idx >= 0 && idx < m_size);
-        return m_data[idx];
+        return m_IBO;
     }
 
 private:
-    T m_data[Capacity];
-    size_t m_size;
-
     IndexBufferID m_IBO;
 };

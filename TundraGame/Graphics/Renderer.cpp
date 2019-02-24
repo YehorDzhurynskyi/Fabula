@@ -66,12 +66,6 @@ bool Renderer::init()
         SDL_FreeSurface(atlasSurface);
     }
 
-    { // IBO
-        glGenBuffers(1, &m_IBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, g_MaxIndicesCount * sizeof(u16), nullptr, GL_DYNAMIC_DRAW);
-    }
-
     { // FBO & Target Texture
         glGenFramebuffers(1, &m_FBO);
         glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
@@ -97,8 +91,6 @@ bool Renderer::init()
 void Renderer::shutdown()
 {
     glDeleteFramebuffers(1, &m_FBO);
-
-    glDeleteBuffers(1, &m_IBO);
 
     glDeleteTextures(1, &m_target_Texture);
     glDeleteTextures(1, &m_atlas_Texture);
@@ -164,13 +156,12 @@ void Renderer::render(const vec2f uvOffset, const vec2f uvSize, const Transform&
     }
 
     const i32 offset = m_currentSpriteCount * 4;
-    u16* indices = &m_clientIndexBuffer[m_currentSpriteCount * 6];
-    indices[0] = 0 + offset;
-    indices[1] = 1 + offset;
-    indices[2] = 2 + offset;
-    indices[3] = 2 + offset;
-    indices[4] = 1 + offset;
-    indices[5] = 3 + offset;
+    m_IBO.push(0 + offset);
+    m_IBO.push(1 + offset);
+    m_IBO.push(2 + offset);
+    m_IBO.push(2 + offset);
+    m_IBO.push(1 + offset);
+    m_IBO.push(3 + offset);
 
     ++m_currentSpriteCount;
 }
@@ -180,9 +171,7 @@ void Renderer::present_Before()
     assert(m_currentSpriteCount <= g_MaxVerticesCount / 4);
 
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_currentSpriteCount * 6 * sizeof(u16), (void*)m_clientIndexBuffer);
-
+        m_IBO.flush();
         Position_VBO.flush();
         Color_UV_VBO.flush();
     }

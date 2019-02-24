@@ -1,24 +1,18 @@
 #pragma once
 
-#include "types.h"
+#include "DynamicBuffer.h"
 #include "Graphics/API/opengl.h"
 
 template<typename T, size_t Capacity>
-class DynamicVertexBuffer
+class DynamicVertexBuffer : public DynamicBuffer<T, Capacity>
 {
 public:
     DynamicVertexBuffer()
-        : m_size(0)
     {
         glGenBuffers(1, &m_VBO);
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
         glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW);
     }
-
-    DynamicVertexBuffer(const DynamicVertexBuffer& rhs) = delete;
-    DynamicVertexBuffer& operator=(const DynamicVertexBuffer& rhs) = delete;
-    DynamicVertexBuffer(DynamicVertexBuffer&& rhs) = delete;
-    DynamicVertexBuffer& operator=(DynamicVertexBuffer&& rhs) = delete;
 
     ~DynamicVertexBuffer()
     {
@@ -30,51 +24,19 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     }
 
-    T& push(T&& value = T())
-    {
-        assert(m_size < Capacity);
-        m_data[m_size] = std::move(value);
-        return m_data[m_size++];
-    }
-
     void flush()
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, m_size * sizeof(T), (void*)m_data);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data);
 
-        m_size = 0;
+        this->m_size = 0;
     }
 
-    size_t capacity() const
-    {
-        return Capacity;
-    }
-
-    size_t size() const
-    {
-        return m_size;
-    }
-
-    VertexBufferID getVertexBufferID()
+    VertexBufferID getVertexBufferID() const
     {
         return m_VBO;
     }
 
-    const T& operator[](const i32 idx)
-    {
-        assert(idx >= 0 && idx < m_size);
-        return m_data[idx];
-    }
-
-    const T& operator[](const i32 idx) const
-    {
-        assert(idx >= 0 && idx < m_size);
-        return m_data[idx];
-    }
-
 private:
-    T m_data[Capacity];
-    size_t m_size;
-
     VertexBufferID m_VBO;
 };

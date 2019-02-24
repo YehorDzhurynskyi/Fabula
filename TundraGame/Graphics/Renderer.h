@@ -9,6 +9,7 @@
 #include "DynamicVertexBuffer.h"
 #include "Library/Singleton.h"
 #include "Layer/Node.h"
+#include "DynamicIndexBuffer.h"
 
 class Renderer final : public Node, public Singleton<Renderer>
 {
@@ -52,12 +53,10 @@ public: // TODO: fix to private
 
     FrameBufferID m_FBO;
 
-    IndexBufferID m_IBO;
-
     TextureID m_atlas_Texture;
     TextureID m_target_Texture;
 
-    u16 m_clientIndexBuffer[g_MaxIndicesCount];
+    DynamicIndexBuffer<u16, g_MaxIndicesCount> m_IBO;
 
     i32 m_currentSpriteCount;
 

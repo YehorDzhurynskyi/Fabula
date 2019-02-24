@@ -34,7 +34,7 @@ void HUDLayer::render() const
         t.Position = vec2f(0.9f, 0.9f);
         t.Size = vec2f(0.05f, 0.05f);
 
-        Renderer::get().render(SpriteURI::IconPause, t, FBL_WHITE_COLOR);
+        Renderer::get().render(SpriteURI::IconPause, t, FBL_COLOR_WHITE);
     }
 
 #if 0
@@ -70,6 +70,7 @@ void HUDLayer::render() const
     }
 #endif
 
+#endif
     {
         Renderer::get().present_Before();
 
@@ -80,7 +81,6 @@ void HUDLayer::render() const
 
         Renderer::get().present_After();
     }
-#endif
 }
 
 void HUDLayer::onConnect(Layer& layer)

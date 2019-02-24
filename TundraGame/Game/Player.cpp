@@ -174,7 +174,7 @@ void Player::render() const
     Renderer::get().render(AnimatedSpriteURI::Player,
                            m_currentFrame,
                            Camera::get().toNDCSpace(Transform),
-                           FBL_WHITE_COLOR);
+                           FBL_COLOR_WHITE);
 }
 
 void Player::render_Trail() const

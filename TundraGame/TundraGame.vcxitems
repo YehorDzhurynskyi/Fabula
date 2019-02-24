@@ -44,12 +44,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vector.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vertex-attribute.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vertex-buffer.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\ApplicationLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Layer\Event\Event.cpp" />
@@ -67,6 +61,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)common.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)application.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\API\opengl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\DynamicBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\DynamicIndexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\DynamicVertexBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Renderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\distance-field.h" />
@@ -78,8 +74,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\utf8-utils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vec234.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vector.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vertex-attribute.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\freetypegl\vertex-buffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer\ApplicationLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Layer\Event\Event.h" />
