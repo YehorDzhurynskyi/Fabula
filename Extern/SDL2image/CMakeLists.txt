@@ -29,7 +29,9 @@ target_sources(SDL2image
 )
 
 target_include_directories(SDL2image
-    INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_link_libraries(SDL2image

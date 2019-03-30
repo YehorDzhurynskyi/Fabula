@@ -52,16 +52,16 @@ bool TextRenderer::init()
         return false;
     }
 
-    m_fontAtlas = texture_atlas_new(512, 512, 1);
-    m_font = texture_font_new_from_file(m_fontAtlas, 32, "Assets/Staatliches-Regular.ttf");
+    //m_fontAtlas = texture_atlas_new(512, 512, 1);
+    //m_font = texture_font_new_from_file(m_fontAtlas, 32, "Assets/Staatliches-Regular.ttf");
 
-    glGenTextures(1, &m_fontAtlas->id);
-    glBindTexture(GL_TEXTURE_2D, m_fontAtlas->id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_fontAtlas->width, m_fontAtlas->height, 0, GL_RED, GL_UNSIGNED_BYTE, m_fontAtlas->data);
+    //glGenTextures(1, &m_fontAtlas->id);
+    //glBindTexture(GL_TEXTURE_2D, m_fontAtlas->id);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_fontAtlas->width, m_fontAtlas->height, 0, GL_RED, GL_UNSIGNED_BYTE, m_fontAtlas->data);
 
     m_program.build();
 
@@ -84,15 +84,16 @@ void TextRenderer::shutdown()
 {
     m_program.release();
 
-    glDeleteTextures(1, &m_fontAtlas->id);
-    m_fontAtlas->id = 0;
+    //glDeleteTextures(1, &m_fontAtlas->id);
+    //m_fontAtlas->id = 0;
 
-    texture_font_delete(m_font);
-    texture_atlas_delete(m_fontAtlas);
+    //texture_font_delete(m_font);
+    //texture_atlas_delete(m_fontAtlas);
 }
 
 void TextRenderer::render_Text(const char* text, const vec2f position)
 {
+#if 0
     vec2f pen = position;
     FOR(strlen(text))
     {
@@ -154,6 +155,7 @@ void TextRenderer::render_Text(const char* text, const vec2f position)
             pen.x += glyph->advance_x / Camera::get().getScreenSize().x;
         }
     }
+#endif
 }
 
 void TextRenderer::present()
@@ -161,7 +163,7 @@ void TextRenderer::present()
     m_VBO.flush();
     m_IBO.flush();
 
-    glBindTexture(GL_TEXTURE_2D, m_fontAtlas->id);
+    //glBindTexture(GL_TEXTURE_2D, m_fontAtlas->id);
 
     {
         m_VBO.bind();

@@ -168,12 +168,10 @@ void run()
         REVEAL_SDL_ERROR("SDL window creation failed")
     }
 
-    SDL_GLContext glContext = SDL_GL_CreateContext(g_SDLWindow);
+    const SDL_GLContext glContext = SDL_GL_CreateContext(g_SDLWindow);
 
-#ifdef FBL_WIN32
-    GLenum glewStatus = glewInit();
-    assert(glewStatus == GLEW_OK);
-#endif
+    const bool gladStatus = gladLoadGL();
+    assert(gladStatus);
 
     SDL_GL_SetSwapInterval(1);
 #ifdef _DEBUG

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Library/Singleton.h"
-#include "freetypegl/freetype-gl.h"
 #include "Graphics/Shader/ShaderProgram.h"
 #include "Graphics/DynamicVertexBuffer.h"
 #include "Graphics/DynamicIndexBuffer.h"
@@ -47,9 +46,6 @@ private:
     ShaderLocationID m_positionLocation;
     ShaderLocationID m_uvLocation;
     ShaderLocationID m_colorLocation;
-
-    texture_atlas_t* m_fontAtlas = nullptr;
-    texture_font_t* m_font = nullptr;
 
     DynamicVertexBuffer<GlyphData, g_MaxVerticesCount> m_VBO;
     DynamicIndexBuffer<u16, g_MaxIndicesCount> m_IBO;
