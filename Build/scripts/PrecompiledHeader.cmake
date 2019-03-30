@@ -76,6 +76,8 @@ function(export_all_flags _filename)
 endfunction()
 
 function(add_precompiled_header _target _input)
+
+  message(AUTHOR_WARNING " =============== Test for Clang! =============== ")
   cmake_parse_arguments(_PCH "FORCEINCLUDE" "SOURCE_CXX;SOURCE_C" "" ${ARGN})
 
   get_filename_component(_input_we ${_input} NAME_WE)
