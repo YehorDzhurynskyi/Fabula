@@ -1,0 +1,5 @@
+if(MSVC) # or other generator platform which support multi-configuration build
+    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Multi-configuration types" FORCE)
+endif()
+
+set(GLM_TEST_ENABLE OFF CACHE BOOL "Generate Unit tests for 'glm' lib")
