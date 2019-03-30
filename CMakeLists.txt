@@ -7,9 +7,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # === Extern
-# SDL2
-add_subdirectory(Extern/SDL2)
-
 # glad (opengl glew lib)
 add_subdirectory(Extern/glad)
 
@@ -26,8 +23,15 @@ target_include_directories(png
     PRIVATE "${CMAKE_BINARY_DIR}/Extern/zlib"
 )
 
+# freetype
+add_subdirectory(Extern/freetype)
+
+# SDL2
+add_subdirectory(Extern/SDL2)
+add_subdirectory(Extern/SDL2image)
+
 # General
-set_target_properties(SDL2 SDL2main glad glm zlib png pnggenfiles
+set_target_properties(SDL2 SDL2main SDL2image glad glm zlib png pnggenfiles freetype
     PROPERTIES FOLDER Extern
 )
 

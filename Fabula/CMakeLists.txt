@@ -32,4 +32,5 @@ target_link_libraries(Fabula
     glm
     zlib
     png
+    freetype
 )

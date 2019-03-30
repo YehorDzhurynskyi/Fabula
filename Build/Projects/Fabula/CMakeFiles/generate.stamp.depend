@@ -1,7 +1,0 @@
-# CMake generation dependency list for this directory.
-C:/Program Files/CMake/share/cmake-3.14/Modules/CMakeParseArguments.cmake
-C:/Program Files/CMake/share/cmake-3.14/Modules/FindOpenGL.cmake
-C:/Program Files/CMake/share/cmake-3.14/Modules/FindPackageHandleStandardArgs.cmake
-C:/Program Files/CMake/share/cmake-3.14/Modules/FindPackageMessage.cmake
-C:/Users/kadzh_000/Source/Repos/Tundra/Build/scripts/PrecompiledHeader.cmake
-C:/Users/kadzh_000/Source/Repos/Tundra/Fabula/CMakeLists.txt

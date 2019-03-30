@@ -185,6 +185,9 @@ endif ()
 
 
 # Find dependencies
+
+message(AUTHOR_WARNING " =============== Link and add support for HarfBuzz =============== ")
+
 if (FT_WITH_HARFBUZZ)
   find_package(HarfBuzz 1.3.0 REQUIRED)
 else ()
