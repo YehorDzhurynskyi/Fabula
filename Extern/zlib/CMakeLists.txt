@@ -91,7 +91,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 #============================================================================
 
 set(ZLIB_PUBLIC_HDRS
-    ${CMAKE_CURRENT_BINARY_DIR}/zconf.h
+    zconf.h
     zlib.h
 )
 set(ZLIB_PRIVATE_HDRS
@@ -183,16 +183,17 @@ if(MINGW)
     set(ZLIB_DLL_SRCS ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj)
 endif(MINGW)
 
-set(ZLIB_ALL_SRCS "${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS}")
+set(ZLIB_SRCS_LIST ${ZLIB_SRCS})
+list(APPEND ZLIB_SRCS_LIST ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 if(BUILD_SHARED_LIBS)
-    set(ZLIB_ALL_SRCS "${ZLIB_ALL_SRCS} ${ZLIB_DLL_SRCS}")
-else()
+    list(APPEND ZLIB_SRCS_LIST ${ZLIB_DLL_SRCS})
+endif()
 
-add_library(zlib ${ZLIB_ALL_SRCS})
+add_library(zlib ${ZLIB_SRCS_LIST})
 if(BUILD_SHARED_LIBS)
     set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
     set_target_properties(zlib PROPERTIES SOVERSION 1)
-else()
+endif()
 
 if(BUILD_SHARED_LIBS AND NOT CYGWIN)
     # This property causes shared libraries on Linux to have the full version
