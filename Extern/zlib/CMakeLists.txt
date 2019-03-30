@@ -183,12 +183,18 @@ if(MINGW)
     set(ZLIB_DLL_SRCS ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj)
 endif(MINGW)
 
-add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
-add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
-set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
-set_target_properties(zlib PROPERTIES SOVERSION 1)
+set(ZLIB_ALL_SRCS "${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS}")
+if(BUILD_SHARED_LIBS)
+    set(ZLIB_ALL_SRCS "${ZLIB_ALL_SRCS} ${ZLIB_DLL_SRCS}")
+else()
 
-if(NOT CYGWIN)
+add_library(zlib ${ZLIB_ALL_SRCS})
+if(BUILD_SHARED_LIBS)
+    set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
+    set_target_properties(zlib PROPERTIES SOVERSION 1)
+else()
+
+if(BUILD_SHARED_LIBS AND NOT CYGWIN)
     # This property causes shared libraries on Linux to have the full version
     # encoded into their final filename.  We disable this on Cygwin because
     # it causes cygz-${ZLIB_FULL_VERSION}.dll to be created when cygz.dll
@@ -201,8 +207,8 @@ endif()
 
 if(UNIX)
     # On unix-like platforms the library is almost always called libz
-   set_target_properties(zlib zlibstatic PROPERTIES OUTPUT_NAME z)
-   if(NOT APPLE)
+   set_target_properties(zlib PROPERTIES OUTPUT_NAME z)
+   if(BUILD_SHARED_LIBS AND NOT APPLE)
      set_target_properties(zlib PROPERTIES LINK_FLAGS "-Wl,--version-script,\"${CMAKE_CURRENT_SOURCE_DIR}/zlib.map\"")
    endif()
 elseif(BUILD_SHARED_LIBS AND WIN32)
@@ -211,7 +217,7 @@ elseif(BUILD_SHARED_LIBS AND WIN32)
 endif()
 
 if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL )
-    install(TARGETS zlib zlibstatic
+    install(TARGETS zlib
         RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
         ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
         LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
@@ -226,6 +232,7 @@ if(NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL )
     install(FILES ${ZLIB_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
 endif()
 
+#[[==
 #============================================================================
 # Example binaries
 #============================================================================
@@ -247,3 +254,4 @@ if(HAVE_OFF64_T)
     target_link_libraries(minigzip64 zlib)
     set_target_properties(minigzip64 PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64")
 endif()
+==]] # End of comment
