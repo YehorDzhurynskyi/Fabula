@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\CMakeFiles\e4167e66efa4197f11e2311330532ca4\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\SDL2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\SDL2\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{77481B16-1B68-37C5-B73D-1FAEF1463464}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.14/Modules/CMakeASMInformation.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/Compiler/MSVC-ASM.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/GNUInstallDirs.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Build/Projects/CMakeFiles/3.14.0/CMakeASMCompiler.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/CMakeLists.txt
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/scripts/genchk.cmake.in
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/scripts/genout.cmake.in
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/scripts/gensrc.cmake.in
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/scripts/pnglibconf.h.prebuilt

@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckFunctionExists.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/CheckTypeSize.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/zlib/CMakeLists.txt
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/zlib/zconf.h.cmakein
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/zlib/zlib.pc.cmakein

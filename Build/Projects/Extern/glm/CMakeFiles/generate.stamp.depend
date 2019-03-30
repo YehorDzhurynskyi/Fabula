@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.14/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+C:/Program Files/CMake/share/cmake-3.14/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.14/Modules/WriteBasicConfigVersionFile.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/CMakeLists.txt
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/cmake/CMakePackageConfigHelpers.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/cmake/GNUInstallDirs.cmake
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/cmake/glm.pc.in
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/cmake/glmBuildConfig.cmake.in
+C:/Users/kadzh_000/Source/Repos/Tundra/Extern/glm/cmake/glmConfig.cmake.in

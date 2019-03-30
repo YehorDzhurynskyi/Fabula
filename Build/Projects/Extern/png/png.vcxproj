@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{27A44C23-66F1-3596-8F79-7F52E2578849}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>png</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">png.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libpng16d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">png.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libpng16</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\zlib;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kadzh_000/Source/Repos/Tundra -BC:/Users/kadzh_000/Source/Repos/Tundra/Build/Projects --check-stamp-file C:/Users/kadzh_000/Source/Repos/Tundra/Build/Projects/Extern/png/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.14\Modules\CMakeASMInformation.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\Compiler\MSVC-ASM.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\GNUInstallDirs.cmake;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\CMakeFiles\3.14.0\CMakeASMCompiler.cmake;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\CMakeLists.txt;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\genchk.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\genout.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\gensrc.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\pnglibconf.h.prebuilt;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/kadzh_000/Source/Repos/Tundra -BC:/Users/kadzh_000/Source/Repos/Tundra/Build/Projects --check-stamp-file C:/Users/kadzh_000/Source/Repos/Tundra/Build/Projects/Extern/png/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/kadzh_000/Source/Repos/Tundra/Extern/png/CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.14\Modules\CMakeASMInformation.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\CheckCSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\Compiler\MSVC-ASM.cmake;C:\Program Files\CMake\share\cmake-3.14\Modules\GNUInstallDirs.cmake;C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\CMakeFiles\3.14.0\CMakeASMCompiler.cmake;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\CMakeLists.txt;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\genchk.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\genout.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\gensrc.cmake.in;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\scripts\pnglibconf.h.prebuilt;C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\png.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngconf.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\pnglibconf.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngpriv.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngdebug.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pnginfo.h" />
+    <ClInclude Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngstruct.h" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\png.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngerror.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngget.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngmem.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngpread.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngread.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngrio.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngrtran.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngrutil.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngset.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngtrans.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngwio.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngwrite.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngwtran.c" />
+    <ClCompile Include="C:\Users\kadzh_000\Source\Repos\Tundra\Extern\png\pngwutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\ZERO_CHECK.vcxproj">
+      <Project>{28D24EB8-C6A5-37E8-8951-B5AD57AEDC5B}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\kadzh_000\Source\Repos\Tundra\Build\Projects\Extern\png\pnggenfiles.vcxproj">
+      <Project>{C60505D1-6E34-3F82-80CB-5E76F6D897B9}</Project>
+      <Name>pnggenfiles</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
