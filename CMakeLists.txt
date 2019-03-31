@@ -30,6 +30,13 @@ add_subdirectory(Extern/freetype)
 # SDL2
 add_subdirectory(Extern/SDL2)
 add_subdirectory(Extern/SDL2image)
+target_include_directories(SDL2image
+    PRIVATE "${CMAKE_SOURCE_DIR}/Extern/png"
+    PRIVATE "${CMAKE_BINARY_DIR}/Extern/png"
+)
+target_compile_definitions(SDL2image
+    PRIVATE LOAD_PNG
+)
 
 # General
 set_target_properties(SDL2 SDL2main SDL2image glad glm zlib png pnggenfiles freetype
