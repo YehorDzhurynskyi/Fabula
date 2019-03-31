@@ -5,6 +5,7 @@
 #include "SDL_image.h"
 
 #include "API/opengl.h"
+#include <SDL_opengles2.h>
 
 Renderer::Renderer()
     : m_currentSpriteCount(0)
@@ -14,8 +15,8 @@ Renderer::Renderer()
         assert(event.type() == EventType::WindowResized);
         const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
 
-        glBindTexture(GL_TEXTURE_2D, m_target_Texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowResizedEvent.Width, windowResizedEvent.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, m_target_Texture));
+        FBL_GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowResizedEvent.Width, windowResizedEvent.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr));
 
         return true;
     });
@@ -41,13 +42,13 @@ bool Renderer::init()
     }
 
     { // Texture Atlas
-        glGenTextures(1, &m_atlas_Texture);
-        glBindTexture(GL_TEXTURE_2D, m_atlas_Texture);
+        FBL_GL_CALL(glGenTextures(1, &m_atlas_Texture));
+        FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, m_atlas_Texture));
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 
         SDL_Surface* atlasSurface = IMG_Load("Assets/atlas.png");
         if (atlasSurface == nullptr)
@@ -55,29 +56,29 @@ bool Renderer::init()
             REVEAL_SDL_ERROR("Failed to load sprite atlas")
         }
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, atlasSurface->w, atlasSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, atlasSurface->pixels);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        FBL_GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, atlasSurface->w, atlasSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, atlasSurface->pixels));
+        FBL_GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 
         SDL_FreeSurface(atlasSurface);
     }
 
     { // FBO & Target Texture
-        glGenFramebuffers(1, &m_FBO);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+        FBL_GL_CALL(glGenFramebuffers(1, &m_FBO));
+        FBL_GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, m_FBO));
 
-        glGenTextures(1, &m_target_Texture);
-        glBindTexture(GL_TEXTURE_2D, m_target_Texture);
+        FBL_GL_CALL(glGenTextures(1, &m_target_Texture));
+        FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, m_target_Texture));
 
         const vec2f screenSize = Camera::get().getScreenSize();
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenSize.x, screenSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        FBL_GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenSize.x, screenSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr));
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+        FBL_GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_target_Texture, 0);
+        FBL_GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_target_Texture, 0));
 
-        initialized = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        initialized = FBL_GL_CALL(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
+        FBL_GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
     }
 
     return initialized;
@@ -85,10 +86,10 @@ bool Renderer::init()
 
 void Renderer::shutdown()
 {
-    glDeleteFramebuffers(1, &m_FBO);
+    FBL_GL_CALL(glDeleteFramebuffers(1, &m_FBO));
 
-    glDeleteTextures(1, &m_target_Texture);
-    glDeleteTextures(1, &m_atlas_Texture);
+    FBL_GL_CALL(glDeleteTextures(1, &m_target_Texture));
+    FBL_GL_CALL(glDeleteTextures(1, &m_atlas_Texture));
 
     m_staticPass.shutdown();
     m_motionBlurPass.shutdown();

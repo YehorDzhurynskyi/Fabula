@@ -2,7 +2,7 @@
 #include "application.h"
 #include "SDL_main.h"
 
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
 # undef main
 #endif
 

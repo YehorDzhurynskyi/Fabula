@@ -12,7 +12,7 @@ set(Fabula_SRCS
     application.cpp
     common.h
     common.cpp
-    platform.h
+    environment.h
     types.h
 
     Assets/SpriteAtlas.cpp
@@ -35,6 +35,7 @@ set(Fabula_SRCS
     Graphics/DynamicVertexBuffer.h
     Graphics/Renderer.cpp
     Graphics/Renderer.h
+    Graphics/API/opengl.cpp
     Graphics/API/opengl.h
     Graphics/Shader/ShaderProgram.cpp
     Graphics/Shader/ShaderProgram.h

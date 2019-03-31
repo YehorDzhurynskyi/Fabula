@@ -9,9 +9,9 @@ class DynamicIndexBuffer : public DynamicBuffer<T, Capacity>
 public:
     DynamicIndexBuffer()
     {
-        glGenBuffers(1, &m_IBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW);
+        FBL_GL_CALL(glGenBuffers(1, &m_IBO));
+        FBL_GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO));
+        FBL_GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW));
     }
 
     DynamicIndexBuffer(const DynamicIndexBuffer& rhs) = delete;
@@ -21,18 +21,18 @@ public:
 
     ~DynamicIndexBuffer()
     {
-        glDeleteBuffers(1, &m_IBO);
+        FBL_GL_CALL(glDeleteBuffers(1, &m_IBO));
     }
 
     void bind()
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+        FBL_GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO));
     }
 
     void flush()
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data);
+        FBL_GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO));
+        FBL_GL_CALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data));
 
         this->m_size = 0;
     }

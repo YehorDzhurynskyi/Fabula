@@ -20,7 +20,7 @@ const char* g_StaticVertexShaderSource = ""
 "}\n";
 
 const char* g_StaticFragmentShaderSource = ""
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
 "#version 140\n"
 #endif
 "precision mediump float;\n"
@@ -72,25 +72,25 @@ void StaticRenderPass::bind()
 {
     {
         Renderer::get().Position_VBO.bind();
-        glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
+        FBL_GL_CALL(glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0));
     }
 
     {
         Renderer::get().Color_UV_VBO.bind();
-        glVertexAttribPointer(m_colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, ColorTint));
-        glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV));
+        FBL_GL_CALL(glVertexAttribPointer(m_colorTintLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, ColorTint)));
+        FBL_GL_CALL(glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Color_UV_Data), (void*)offsetof(Renderer::Color_UV_Data, UV)));
     }
 
     m_program.use();
 
-    glEnableVertexAttribArray(m_positionLocation);
-    glEnableVertexAttribArray(m_colorTintLocation);
-    glEnableVertexAttribArray(m_uvLocation);
+    FBL_GL_CALL(glEnableVertexAttribArray(m_positionLocation));
+    FBL_GL_CALL(glEnableVertexAttribArray(m_colorTintLocation));
+    FBL_GL_CALL(glEnableVertexAttribArray(m_uvLocation));
 }
 
 void StaticRenderPass::unbind()
 {
-    glDisableVertexAttribArray(m_positionLocation);
-    glDisableVertexAttribArray(m_colorTintLocation);
-    glDisableVertexAttribArray(m_uvLocation);
+    FBL_GL_CALL(glDisableVertexAttribArray(m_positionLocation));
+    FBL_GL_CALL(glDisableVertexAttribArray(m_colorTintLocation));
+    FBL_GL_CALL(glDisableVertexAttribArray(m_uvLocation));
 }

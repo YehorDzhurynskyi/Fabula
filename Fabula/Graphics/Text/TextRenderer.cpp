@@ -23,7 +23,7 @@ const char* g_TextVertexShaderSource = ""
 "}\n";
 
 const char* g_TextFragmentShaderSource = ""
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
 "#version 140\n"
 #endif
 "precision mediump float;\n"
@@ -167,22 +167,22 @@ void TextRenderer::present()
 
     {
         m_VBO.bind();
-        glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(GlyphData), (void*)offsetof(GlyphData, Position));
-        glVertexAttribPointer(m_colorLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GlyphData), (void*)offsetof(GlyphData, Color));
-        glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(GlyphData), (void*)offsetof(GlyphData, UV));
+        FBL_GL_CALL(glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(GlyphData), (void*)offsetof(GlyphData, Position)));
+        FBL_GL_CALL(glVertexAttribPointer(m_colorLocation, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(GlyphData), (void*)offsetof(GlyphData, Color)));
+        FBL_GL_CALL(glVertexAttribPointer(m_uvLocation, 2, GL_FLOAT, GL_FALSE, sizeof(GlyphData), (void*)offsetof(GlyphData, UV)));
     }
 
     m_program.use();
 
-    glEnableVertexAttribArray(m_positionLocation);
-    glEnableVertexAttribArray(m_colorLocation);
-    glEnableVertexAttribArray(m_uvLocation);
+    FBL_GL_CALL(glEnableVertexAttribArray(m_positionLocation));
+    FBL_GL_CALL(glEnableVertexAttribArray(m_colorLocation));
+    FBL_GL_CALL(glEnableVertexAttribArray(m_uvLocation));
 
-    glDrawElements(GL_TRIANGLES, m_IBO.size(), GL_UNSIGNED_SHORT, (void*)0);
+    FBL_GL_CALL(glDrawElements(GL_TRIANGLES, m_IBO.size(), GL_UNSIGNED_SHORT, (void*)0));
 
-    glDisableVertexAttribArray(m_positionLocation);
-    glDisableVertexAttribArray(m_colorLocation);
-    glDisableVertexAttribArray(m_uvLocation);
+    FBL_GL_CALL(glDisableVertexAttribArray(m_positionLocation));
+    FBL_GL_CALL(glDisableVertexAttribArray(m_colorLocation));
+    FBL_GL_CALL(glDisableVertexAttribArray(m_uvLocation));
 }
 #if 0
 void TextRenderer::render_Text(const char* text, const vec2f position, const float rHeight)

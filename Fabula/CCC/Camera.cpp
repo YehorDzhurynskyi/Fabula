@@ -31,7 +31,7 @@ void Camera::onConnect(Layer& layer)
 
 void Camera::onWindowSizeChanged(i32 width, i32 height)
 {
-    glViewport(0, 0, width, height);
+    FBL_GL_CALL(glViewport(0, 0, width, height));
 
     m_screenSize = vec2f(width, height);
 

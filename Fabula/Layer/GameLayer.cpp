@@ -48,8 +48,8 @@ void GameLayer::update()
 
 void GameLayer::render() const
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO);
-    glClear(GL_COLOR_BUFFER_BIT);
+    FBL_GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, Renderer::get().m_FBO));
+    FBL_GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
 
     m_player.render();
 
@@ -66,22 +66,22 @@ void GameLayer::render() const
         Renderer::get().present_Before();
 
         {
-            glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+            FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture));
             Renderer::get().m_staticPass.bind();
 
-            glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+            FBL_GL_CALL(glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0));
 
             Renderer::get().m_staticPass.unbind();
         }
 
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
+        FBL_GL_CALL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+        FBL_GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
 
         {
-            glBindTexture(GL_TEXTURE_2D, Renderer::get().m_target_Texture);
+            FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, Renderer::get().m_target_Texture));
             Renderer::get().m_motionBlurPass.bind();
 
-            glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+            FBL_GL_CALL(glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0));
 
             Renderer::get().m_motionBlurPass.unbind();
         }
@@ -93,9 +93,9 @@ void GameLayer::render() const
     {
         Renderer::get().present_Before();
 
-        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+        FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture));
         Renderer::get().m_staticPass.bind();
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, Renderer::get().m_currentSpriteCount);
+        FBL_GL_CALL(glDrawArrays(GL_TRIANGLE_STRIP, 0, Renderer::get().m_currentSpriteCount));
         Renderer::get().m_staticPass.unbind();
 
         Renderer::get().present_After();
@@ -154,9 +154,9 @@ void GameLayer::render() const
     {
         Renderer::get().present_Before();
 
-        glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture);
+        FBL_GL_CALL(glBindTexture(GL_TEXTURE_2D, Renderer::get().m_atlas_Texture));
         Renderer::get().m_staticPass.bind();
-        glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0);
+        FBL_GL_CALL(glDrawElements(GL_TRIANGLES, Renderer::get().m_currentSpriteCount * 6, GL_UNSIGNED_SHORT, (void*)0));
         Renderer::get().m_staticPass.unbind();
 
         Renderer::get().present_After();

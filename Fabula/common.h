@@ -10,7 +10,7 @@ extern float g_DeltaTime;
 #define REVEAL_SDL_ERROR(_msg)                                                                                  \
     SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "SDL ERROR: %s, SDL_GetError(): %s", _msg, SDL_GetError());   \
     SDL_ClearError();                                                                                           \
-    SDL_TriggerBreakpoint();                                                                                    \
+    FBL_DEBUG_TRIGGER_BREAKPOINT();                                                                                    \
     exit(-1);                                                                                                   \
                                                                                                                 \
 

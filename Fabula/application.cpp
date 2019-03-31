@@ -13,7 +13,7 @@
 #include "Layer/Event/EventBus.h"
 #include "Graphics/Text/TextRenderer.h"
 
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 #else
 const u32 WinFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
@@ -144,7 +144,7 @@ void run()
     const i32 winWidth = 450;
     const i32 winHeight = 800;
 
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 #else
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
@@ -170,8 +170,7 @@ void run()
 
     const SDL_GLContext glContext = SDL_GL_CreateContext(g_SDLWindow);
 
-    const bool gladStatus = gladLoadGL();
-    assert(gladStatus);
+    fbl_init_opengl();
 
     SDL_GL_SetSwapInterval(1);
 #ifdef _DEBUG
@@ -185,9 +184,9 @@ void run()
     i32 fps = 0;
     float elapsedTime = 0.0f;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0.98f, 0.98f, 0.98f, 1.0f);
+    FBL_GL_CALL(glEnable(GL_BLEND));
+    FBL_GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    FBL_GL_CALL(glClearColor(0.98f, 0.98f, 0.98f, 1.0f));
 
     LayerStack& layers = LayerStack::get();
     layers.push<ApplicationLayer>();

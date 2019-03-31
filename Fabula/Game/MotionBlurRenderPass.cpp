@@ -16,7 +16,7 @@ const char* g_MotionBlurVertexShaderSource = ""
 "}\n";
 
 const char* g_MotionBlurFragmentShaderSource = ""
-#ifdef FBL_WIN32
+#ifdef FBL_PLATFORM_WIN32
 "#version 140\n"
 #endif
 "precision mediump float;\n"
@@ -82,7 +82,7 @@ void MotionBlurRenderPass::bind()
 {
     {
         Renderer::get().Position_VBO.bind();
-        glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0);
+        FBL_GL_CALL(glVertexAttribPointer(m_positionLocation, 2, GL_FLOAT, GL_FALSE, sizeof(vec2f), (void*)0));
     }
 
     m_program.use();
@@ -94,17 +94,17 @@ void MotionBlurRenderPass::bind()
         const vec2f& blurVec = (currentPlayerPosition - m_prevPlayerPosition) * 0.08f;
         const vec2f& blurVecOffset = blurVec * 0.75f;
 
-        glUniform2f(m_blurVecLocation, -blurVec.x, blurVec.y);
-        glUniform2f(m_blurVecOffsetLocation, -blurVecOffset.x, blurVecOffset.y);
-        glUniform2f(m_screenSizeLocation, screenSize.x, screenSize.y);
+        FBL_GL_CALL(glUniform2f(m_blurVecLocation, -blurVec.x, blurVec.y));
+        FBL_GL_CALL(glUniform2f(m_blurVecOffsetLocation, -blurVecOffset.x, blurVecOffset.y));
+        FBL_GL_CALL(glUniform2f(m_screenSizeLocation, screenSize.x, screenSize.y));
 
         m_prevPlayerPosition = currentPlayerPosition;
     }
 
-    glEnableVertexAttribArray(m_positionLocation);
+    FBL_GL_CALL(glEnableVertexAttribArray(m_positionLocation));
 }
 
 void MotionBlurRenderPass::unbind()
 {
-    glDisableVertexAttribArray(m_positionLocation);
+    FBL_GL_CALL(glDisableVertexAttribArray(m_positionLocation));
 }
