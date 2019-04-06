@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
 # Config
-include(Build/config.cmake)
-include(Build/scripts/Fabula.cmake)
+include("${CMAKE_SOURCE_DIR}/Build/config.cmake")
+include("${CMAKE_SOURCE_DIR}/Build/scripts/Fabula.cmake")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

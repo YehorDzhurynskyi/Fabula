@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(Fabula VERSION 1.0.0)
 
-include("${CMAKE_SOURCE_DIR}/Build/scripts/PrecompiledHeader.cmake")
+fbl_include_script(PrecompiledHeader.cmake)
 
 set(Fabula_SRCS
     pch.h
@@ -69,7 +69,7 @@ set(Fabula_SRCS
 add_executable(Fabula ${Fabula_SRCS})
 add_precompiled_header(Fabula pch.h SOURCE_CXX pch.cpp)
 
-fabula_pack_sources(${Fabula_SRCS})
+fbl_pack_sources(${Fabula_SRCS})
 
 if(ANDROID) # it is just mock
     find_package(OpenGLES2 REQUIRED)

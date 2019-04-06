@@ -1,4 +1,4 @@
-function(fabula_pack_sources)
+function(fbl_pack_sources)
     if(NOT MSVC OR NOT WIN32)
         message(FATAL_ERROR "This function doesn't support selected platform, it's necessary replace slashes by back-slashes only on WIN platform")
     endif()
@@ -12,4 +12,11 @@ function(fabula_pack_sources)
         string(REPLACE "/" "\\" _source_path_msvc "${_source_path}")
         source_group("${_source_path_msvc}" FILES "${_source}")
     endforeach()
-endfunction(assign_source_group)
+endfunction()
+
+function(fbl_include_script)
+    foreach(_script IN ITEMS ${ARGN})
+        include("${CMAKE_SOURCE_DIR}/Build/scripts/${_script}")
+    endforeach()
+endfunction()
+
