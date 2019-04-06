@@ -111,8 +111,8 @@ target_include_directories(Fabula
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
-add_custom_command(TARGET Fabula POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/Data"
-        $<TARGET_FILE_DIR:Fabula>
-)
+# add_custom_command(TARGET Fabula POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_directory
+#         "${CMAKE_SOURCE_DIR}/Data"
+#         $<TARGET_FILE_DIR:Fabula>
+# )
