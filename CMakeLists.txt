@@ -21,11 +21,6 @@ add_subdirectory(Extern/zlib)
 
 # libpng
 add_subdirectory(Extern/png)
-target_include_directories(png
-    PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/Extern/zlib"
-        "${CMAKE_BINARY_DIR}/Extern/zlib"
-)
 
 # freetype
 add_subdirectory(Extern/freetype)
@@ -33,15 +28,6 @@ add_subdirectory(Extern/freetype)
 # SDL2
 add_subdirectory(Extern/SDL2)
 add_subdirectory(Extern/SDL2image)
-target_include_directories(SDL2image
-    PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/Extern/png"
-        "${CMAKE_BINARY_DIR}/Extern/png"
-)
-target_compile_definitions(SDL2image
-    PRIVATE
-        LOAD_PNG
-)
 
 # General
 set_target_properties(

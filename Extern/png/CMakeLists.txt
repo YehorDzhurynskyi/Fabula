@@ -268,7 +268,7 @@ endif()
 
 find_program(AWK NAMES gawk awk)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+#include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if(NOT AWK OR ANDROID)
   # No awk available to generate sources; use pre-built pnglibconf.h
@@ -520,13 +520,25 @@ if(PNG_DEBUG)
 endif()
 
 # NOW BUILD OUR TARGET
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 unset(PNG_LIB_TARGETS)
 
 set(PNG_LIB_NAME_STATIC png_static)
 add_library(png ${libpng_sources})
 set(PNG_LIB_TARGETS png)
+
+target_link_libraries(png
+    PRIVATE
+        zlib
+)
+
+target_include_directories(png
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
 set_target_properties(png PROPERTIES
   OUTPUT_NAME "${PNG_LIB_NAME}"
   CLEAN_DIRECT_OUTPUT 1

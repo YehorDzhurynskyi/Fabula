@@ -34,7 +34,15 @@ target_include_directories(SDL2image
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
+target_compile_definitions(SDL2image
+    PRIVATE
+        LOAD_PNG
+)
+
 target_link_libraries(SDL2image
-    png
-    SDL2
+    PUBLIC
+        SDL2
+
+    PRIVATE
+        png
 )
