@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
+set(FBL_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 # Config
 include("${CMAKE_CURRENT_SOURCE_DIR}/Build/config.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/Build/scripts/FabulaHelpers.cmake")

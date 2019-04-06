@@ -16,7 +16,7 @@ endfunction()
 
 function(fbl_include_script)
     foreach(_script IN ITEMS ${ARGN})
-        include("${CMAKE_SOURCE_DIR}/Build/scripts/${_script}")
+        include("${FBL_DIR}/Build/scripts/${_script}")
     endforeach()
 endfunction()
 
