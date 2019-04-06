@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(FBL_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(FBL_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH "")
 
 # Config
 include("${CMAKE_CURRENT_SOURCE_DIR}/Build/config.cmake")

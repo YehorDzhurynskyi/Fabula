@@ -263,7 +263,7 @@ install(FILES
 	"${CMAKE_CURRENT_BINARY_DIR}/glmConfigVersion.cmake"
 	DESTINATION ${GLM_INSTALL_CONFIGDIR})
 
-add_library(glm INTERFACE)
+# add_library(glm INTERFACE)
 target_include_directories(glm INTERFACE
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
