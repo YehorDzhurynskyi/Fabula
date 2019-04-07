@@ -18,18 +18,6 @@ set(Fabula_SRCS
     Assets/SpriteAtlas.cpp
     Assets/SpriteAtlas.h
 
-    CCC/Camera.h
-    CCC/Camera.cpp
-
-    Game/Level.cpp
-    Game/Level.h
-    Game/MotionBlurRenderPass.cpp
-    Game/MotionBlurRenderPass.h
-    Game/Player.cpp
-    Game/Player.h
-    Game/StaticRenderPass.cpp
-    Game/StaticRenderPass.h
-
     Graphics/DynamicBuffer.h
     Graphics/DynamicIndexBuffer.h
     Graphics/DynamicVertexBuffer.h
@@ -42,17 +30,11 @@ set(Fabula_SRCS
     Graphics/Text/TextRenderer.cpp
     Graphics/Text/TextRenderer.h
 
-    Layer/ApplicationLayer.cpp
-    Layer/ApplicationLayer.h
-    Layer/GameLayer.cpp
-    Layer/GameLayer.h
-    Layer/HUDLayer.cpp
-    Layer/HUDLayer.h
     Layer/Layer.cpp
     Layer/Layer.h
     Layer/LayerStack.cpp
     Layer/LayerStack.h
-    Layer/Node.h
+    Layer/LayerNode.h
     Layer/Event/Event.cpp
     Layer/Event/Event.h
     Layer/Event/EventBus.cpp

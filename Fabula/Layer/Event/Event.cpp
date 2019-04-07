@@ -2,9 +2,17 @@
 #include "Event.h"
 #include "Layer/Layer.h"
 
+EventTypeID EventTypeIDNone = 0;
+EventTypeID g_TypeIDCounter = EventTypeIDNone;
+
+EventTypeID IEvent::GetEventTypeID() const
+{
+    return m_TypeID;
+}
+
 EventListener::EventListener()
     : m_masterLayer(nullptr)
-    , m_eventType(EventType::None)
+    , m_eventType(EventTypeIDNone)
     , m_handler(nullptr)
 {}
 
@@ -21,10 +29,10 @@ bool EventListener::isValid() const
     return
         m_handler &&
         m_masterLayer != nullptr &&
-        m_eventType != EventType::None;
+        m_eventType != EventTypeIDNone;
 }
 
-void EventListener::on(EventType eventType, EventHandler handler)
+void EventListener::on(EventTypeID eventType, EventHandler handler)
 {
     m_eventType = eventType;
     m_handler = handler;
@@ -53,50 +61,11 @@ void EventListener::unbind()
     assert(listenerIt != typeHandlers.end());
     typeHandlers.erase(listenerIt);
 }
-#if 0
-EventListener::EventListener(EventListener&& rhs)
-{
-    m_owner = std::move(rhs.m_owner);
-    m_eventType = std::move(rhs.m_eventType);
-    m_handler = std::move(rhs.m_handler);
 
-    rhs.reset();
-
-    assert(isValid() && !rhs.isValid());
-}
-
-EventListener& EventListener::operator=(EventListener&& rhs)
-{
-    m_owner = std::move(rhs.m_owner);
-    m_eventType = std::move(rhs.m_eventType);
-    m_handler = std::move(rhs.m_handler);
-
-    rhs.reset();
-
-    assert(isValid() && !rhs.isValid());
-
-    return *this;
-}
-
-void EventListener::reset()
-{
-    m_owner = nullptr;
-    m_eventType = EventType::None;
-    m_handler = nullptr;
-}
-
-bool EventListener::operator==(const EventListener& rhs) const
-{
-    return
-        m_owner == rhs.m_owner &&
-        m_eventType == rhs.m_eventType;
-}
-#endif
-
-bool EventListener::handle(const Event& event) const
+bool EventListener::handle(const IEvent& event) const
 {
     assert(isValid());
-    assert(event.type() == m_eventType);
+    assert(event.GetEventTypeID() == m_eventType);
 
     return m_handler(event);
 }

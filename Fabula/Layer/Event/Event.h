@@ -1,63 +1,48 @@
 #pragma once
 
-#define EmitEventRTTI(_type)    \
-                                \
-virtual EventType type() const  \
-{                               \
-    return EventType::_type;    \
-}                               \
-                                \
-virtual const char* name() const\
-{                               \
-    return #_type;              \
-}                               \
-                                \
+#define EmitEventRTTI(_type)                \
+                                            \
+_type()                                     \
+{                                           \
+    m_TypeID = get_event_type_id<_type>();  \
+}                                           \
+                                            \
+static EventTypeID TypeID()                 \
+{                                           \
+    return get_event_type_id<_type>();      \
+}                                           \
+                                            \
+const char* GetName() const override        \
+{                                           \
+    return #_type;                          \
+}                                           \
+                                            \
 
-enum class EventType : u8
+using EventTypeID = i32;
+extern EventTypeID EventTypeIDNone;
+extern EventTypeID g_TypeIDCounter;
+
+template<typename T>
+EventTypeID get_event_type_id()
 {
-    None = 0,
-    Click,
-    WindowFocus,
-    WindowResized
-};
+    static EventTypeID typeId = ++g_TypeIDCounter;
+    return typeId;
+}
 
-struct Event
+struct IEvent
 {
-    EmitEventRTTI(None)
-
 public:
-    virtual ~Event() = default;
-};
+    virtual ~IEvent() = default;
+    virtual const char* GetName() const = 0;
+    EventTypeID GetEventTypeID() const;
 
-struct ClickEvent : public Event
-{
-    EmitEventRTTI(Click)
-
-public:
-    float NDCXPos;
-    float NDCYPos;
-};
-
-struct WindowFocusEvent : public Event
-{
-    EmitEventRTTI(WindowFocus)
-
-public:
-    bool Focused;
-};
-
-struct WindowResizedEvent : public Event
-{
-    EmitEventRTTI(WindowResized)
-
-public:
-    i32 Width;
-    i32 Height;
+protected:
+    EventTypeID m_TypeID;
 };
 
 class Layer;
-using EventHandler = std::function<bool(const Event& event)>;
-class EventListener
+using EventHandler = std::function<bool(const IEvent& event)>;
+class EventListener final
 {
 public:
     EventListener();
@@ -68,21 +53,14 @@ public:
     EventListener& operator=(EventListener&& rhs) = delete;
 
     bool isValid() const;
-#if 0
-    void reset();
-#endif
-    bool handle(const Event& event) const;
+    bool handle(const IEvent& event) const;
 
-    void on(EventType eventType, EventHandler handler);
+    void on(EventTypeID eventType, EventHandler handler);
     void bind(Layer& layer);
     void unbind();
 
-#if 0
-    bool operator==(const EventListener& rhs) const;
-#endif
-
 private:
     Layer* m_masterLayer;
-    EventType m_eventType;
+    EventTypeID m_eventType;
     EventHandler m_handler;
 };

@@ -9,11 +9,11 @@
 #include "Fabula/Game/MotionBlurRenderPass.h"
 
 #include "Fabula/Layer/Event/Event.h"
-#include "Fabula/Layer/Node.h"
+#include "Fabula/Layer/LayerNode.h"
 
 #include "Fabula/Library/Singleton.h"
 
-class Renderer final : public Node, public Singleton<Renderer>
+class Renderer final : public LayerNode, public Singleton<Renderer>
 {
 friend class Singleton<Renderer>;
 

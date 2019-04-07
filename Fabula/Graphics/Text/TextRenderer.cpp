@@ -2,7 +2,6 @@
 #include "TextRenderer.h"
 
 #include "Graphics/API/opengl.h"
-#include "CCC/Camera.h"
 
 namespace
 {

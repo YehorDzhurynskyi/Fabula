@@ -10,7 +10,7 @@ public:
     template<typename T, typename ...Args>
     T* enqueueEvent(Args&& ...args)
     {
-        static_assert(std::is_base_of<Event, T>::value, "should be derived from `Event`");
+        static_assert(std::is_base_of<IEvent, T>::value, "should be derived from `Event`");
         m_eventQueue.push_back(std::make_unique<T>(std::forward<Args>(args)...));
         return static_cast<T*>(m_eventQueue.back().get());
     }
@@ -18,5 +18,5 @@ public:
     void flushEvents();
 
 private:
-    std::vector<std::unique_ptr<Event>> m_eventQueue;
+    std::vector<std::unique_ptr<IEvent>> m_eventQueue;
 };

@@ -16,21 +16,8 @@ public:
     virtual void update() = 0;
     virtual void render() const = 0;
 
-    bool handleEvent(const Event& event);
-
-    bool isActive() const;
-
-    void show();
-    void hide();
-
-    void setOnShowCallback(std::function<void(Layer*)> callback);
-    void setOnHideCallback(std::function<void(Layer*)> callback);
+    bool handleEvent(const IEvent& event);
 
 private:
-    bool m_isActive = false;
-
-    std::function<void(Layer*)> m_onShowCallback;
-    std::function<void(Layer*)> m_onHideCallback;
-
-    std::map<EventType, std::vector<EventListener*>> m_handlers;
+    std::map<EventTypeID, std::vector<EventListener*>> m_handlers;
 };

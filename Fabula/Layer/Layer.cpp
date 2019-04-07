@@ -12,9 +12,9 @@ Layer::~Layer()
     }
 }
 
-bool Layer::handleEvent(const Event& event)
+bool Layer::handleEvent(const IEvent& event)
 {
-    std::vector<EventListener*>& typeHandlers = m_handlers[event.type()];
+    std::vector<EventListener*>& typeHandlers = m_handlers[event.GetEventTypeID()];
 
     bool needToPropagate = true;
     for (const auto& listener : typeHandlers)
@@ -24,45 +24,8 @@ bool Layer::handleEvent(const Event& event)
 
     SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
                  "Event `%s` handled by %i listeners",
-                 event.name(),
+                 event.GetName(),
                  typeHandlers.size());
 
     return needToPropagate;
-}
-
-bool Layer::isActive() const
-{
-    return m_isActive;
-}
-
-void Layer::show()
-{
-    assert(!m_isActive);
-
-    m_isActive = true;
-    if (m_onShowCallback)
-    {
-        m_onShowCallback(this);
-    }
-}
-
-void Layer::hide()
-{
-    assert(m_isActive);
-
-    m_isActive = false;
-    if (m_onHideCallback)
-    {
-        m_onHideCallback(this);
-    }
-}
-
-void Layer::setOnShowCallback(std::function<void(Layer*)> callback)
-{
-    m_onShowCallback = callback;
-}
-
-void Layer::setOnHideCallback(std::function<void(Layer*)> callback)
-{
-    m_onHideCallback = callback;
 }

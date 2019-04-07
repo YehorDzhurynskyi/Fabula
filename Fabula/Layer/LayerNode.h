@@ -1,10 +1,12 @@
 #pragma once
 
+#include <assert.h>
+
 class Layer;
-class Node
+class LayerNode
 {
 public:
-    virtual ~Node() = default;
+    virtual ~LayerNode() = default;
 
     void connect(Layer& layer)
     {

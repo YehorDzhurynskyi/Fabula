@@ -20,7 +20,7 @@ public:
     }
     void pop();
 
-    void handleEvent(const Event& event);
+    void handleEvent(const IEvent& event);
 
     void update();
     void render() const;
