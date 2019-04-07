@@ -20,3 +20,10 @@ function(fbl_include_script)
     endforeach()
 endfunction()
 
+function(fbl_status_message _message)
+    message(STATUS "**********************[FABULA][STATUS] ${_message}")
+endfunction()
+
+function(fbl_fatal_message _message)
+    message(FATAL_ERROR "**********************[FABULA][FATAL ERROR] ${_message}")
+endfunction()

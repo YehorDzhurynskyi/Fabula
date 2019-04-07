@@ -11,22 +11,29 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # === Extern
 # glad (opengl glew lib)
+fbl_status_message("Configuring Extern/glad")
 add_subdirectory(Extern/glad)
 
 # glm
+fbl_status_message("Configuring Extern/glm")
 add_subdirectory(Extern/glm)
 
 # zlib
+fbl_status_message("Configuring Extern/zlib")
 add_subdirectory(Extern/zlib)
 
 # libpng
+fbl_status_message("Configuring Extern/png")
 add_subdirectory(Extern/png)
 
 # freetype
+fbl_status_message("Configuring Extern/freetype")
 add_subdirectory(Extern/freetype)
 
 # SDL2
+fbl_status_message("Configuring Extern/SDL2")
 add_subdirectory(Extern/SDL2)
+fbl_status_message("Configuring Extern/SDL2image")
 add_subdirectory(Extern/SDL2image)
 
 # General
@@ -47,4 +54,5 @@ set_target_properties(
 
 # === Custom
 # Fabula
+fbl_status_message("Configuring Fabula")
 add_subdirectory(Fabula)

@@ -110,9 +110,13 @@ target_include_directories(Fabula
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
 
-add_custom_command(TARGET Fabula POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/Data"
-        $<TARGET_FILE_DIR:Fabula>
-)
-
+if(EXISTS "${CMAKE_SOURCE_DIR}/Data")
+    add_custom_command(TARGET Fabula POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/Data"
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    )
+    fbl_status_message("[CUSTOM POST BUILD STEP] Move project `Data` into Fabula binary directory")
+else()
+    fbl_fatal_message("Project `Data` should be located here: ${CMAKE_SOURCE_DIR}/Data")
+endif()
