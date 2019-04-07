@@ -8,8 +8,8 @@ set(Fabula_SRCS
     pch.h
     pch.cpp
     main.cpp
-    application.h
-    application.cpp
+    IApplication.h
+    IApplication.cpp
     common.h
     common.cpp
     environment.h
@@ -66,31 +66,33 @@ set(Fabula_SRCS
     Physics/CircleCollider.h
 )
 
-add_executable(Fabula ${Fabula_SRCS})
+add_library(Fabula ${Fabula_SRCS})
 add_precompiled_header(Fabula pch.h SOURCE_CXX pch.cpp)
 
 fbl_pack_sources(${Fabula_SRCS})
 
 if(ANDROID) # it is just mock
     find_package(OpenGLES2 REQUIRED)
-
-    target_link_libraries(Fabula
-        ${OPENGLES2_LIBRARY}
-    )
+    set(GFX_LIBRARY ${OPENGLES2_LIBRARY})
 else()
     find_package(OpenGL REQUIRED)
+    set(GFX_LIBRARY ${OPENGL_LIBRARY})
+endif()
 
-    target_link_libraries(Fabula
-        ${OPENGL_LIBRARY}
-    )
+if(NOT DEFINED GFX_LIBRARY)
+    fbl_fatal_message("GFX_LIBRARY is not found")
+else()
+    fbl_status_message("GFX_LIBRARY is set to: ${GFX_LIBRARY}")
 endif()
 
 target_link_libraries(Fabula
-    SDL2
-    SDL2image
-    glad
-    glm
-    freetype
+    PUBLIC
+        ${GFX_LIBRARY}
+        SDL2
+        SDL2image
+        glad
+        glm
+        freetype
 )
 
 set_target_properties(Fabula
@@ -101,22 +103,15 @@ set_target_properties(Fabula
 )
 
 target_compile_definitions(Fabula
-    PRIVATE _USE_MATH_DEFINES
+    PRIVATE
+        _USE_MATH_DEFINES
 )
 
 target_include_directories(Fabula
     PUBLIC
+        ${FBL_DIR}
+
+    PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 )
-
-if(EXISTS "${CMAKE_SOURCE_DIR}/Data")
-    add_custom_command(TARGET Fabula POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_SOURCE_DIR}/Data"
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-    )
-    fbl_status_message("[CUSTOM POST BUILD STEP] Move project `Data` into Fabula binary directory")
-else()
-    fbl_fatal_message("Project `Data` should be located here: ${CMAKE_SOURCE_DIR}/Data")
-endif()

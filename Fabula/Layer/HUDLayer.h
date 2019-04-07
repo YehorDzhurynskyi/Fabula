@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Layer.h"
+#include "Node.h"
 
 class HUDLayer : public Layer, public Node
 {

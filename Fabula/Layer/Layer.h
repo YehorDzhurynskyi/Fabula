@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Event/Event.h"
-#include <map>
-#include <vector>
-#include "Node.h"
 
 class Layer
 {

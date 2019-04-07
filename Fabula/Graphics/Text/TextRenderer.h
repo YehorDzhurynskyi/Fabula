@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Library/Singleton.h"
-#include "Graphics/Shader/ShaderProgram.h"
-#include "Graphics/DynamicVertexBuffer.h"
-#include "Graphics/DynamicIndexBuffer.h"
+#include "Fabula/Graphics/Shader/ShaderProgram.h"
+#include "Fabula/Graphics/DynamicVertexBuffer.h"
+#include "Fabula/Graphics/DynamicIndexBuffer.h"
+
+#include "Fabula/Library/Singleton.h"
 
 class TextRenderer : public Singleton<TextRenderer>
 {

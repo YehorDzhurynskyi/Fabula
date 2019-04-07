@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Layer/Event/Event.h"
-#include "Layer/Node.h"
-#include "Library/Singleton.h"
+#include "Fabula/Layer/Event/Event.h"
+#include "Fabula/Layer/Node.h"
+
+#include "Fabula/Library/Singleton.h"
 
 class Camera final : public Node, public Singleton<Camera>
 {

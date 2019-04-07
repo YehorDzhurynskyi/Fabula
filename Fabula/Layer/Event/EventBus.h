@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Event.h"
-#include "Library/Singleton.h"
-#include <vector>
+
+#include "Fabula/Library/Singleton.h"
 
 class EventBus final : public Singleton<EventBus>
 {

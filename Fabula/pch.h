@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cassert>
 #include <cstdint>
+#include <functional>
 
 #include "types.h"
 #include "common.h"

@@ -5,7 +5,6 @@
 #include "SDL_image.h"
 
 #include "API/opengl.h"
-#include <SDL_opengles2.h>
 
 Renderer::Renderer()
     : m_currentSpriteCount(0)

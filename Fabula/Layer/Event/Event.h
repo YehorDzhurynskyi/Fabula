@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 #define EmitEventRTTI(_type)    \
                                 \
 virtual EventType type() const  \

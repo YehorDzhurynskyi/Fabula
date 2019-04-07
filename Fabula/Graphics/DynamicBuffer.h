@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.h"
+#include "Fabula/types.h"
 
 template<typename T, size_t Capacity>
 class DynamicBuffer

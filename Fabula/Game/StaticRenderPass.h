@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/Shader/ShaderProgram.h"
+#include "Fabula/Graphics/Shader/ShaderProgram.h"
 
 class StaticRenderPass
 {

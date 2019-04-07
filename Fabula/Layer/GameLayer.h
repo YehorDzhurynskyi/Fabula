@@ -1,10 +1,14 @@
 #pragma once
 
-#include "Assets/SpriteAtlas.h"
-#include "CCC/Camera.h"
-#include "Game/Player.h"
-#include "Library/Pool.h"
 #include "Layer.h"
+
+#include "Fabula/Assets/SpriteAtlas.h"
+
+#include "Fabula/CCC/Camera.h"
+
+#include "Fabula/Game/Player.h"
+
+#include "Fabula/Library/Pool.h"
 
 class Obstacle
 {

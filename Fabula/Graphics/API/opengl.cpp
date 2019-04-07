@@ -25,4 +25,8 @@ void fbl_init_opengl()
     assert(gladStatus);
 
     glad_set_post_callback(glcall_post_callback);
+
+    FBL_GL_CALL(glEnable(GL_BLEND));
+    FBL_GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    FBL_GL_CALL(glClearColor(0.98f, 0.98f, 0.98f, 1.0f));
 }

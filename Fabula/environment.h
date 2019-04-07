@@ -17,3 +17,5 @@
 #else
 # define FBL_DEBUG_TRIGGER_BREAKPOINT
 #endif
+
+#define FBL_API

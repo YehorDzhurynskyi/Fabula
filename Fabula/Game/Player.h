@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Library/Pool.h"
-#include "Layer/Event/Event.h"
-#include "Library/RotatingBuffer.h"
-#include "Layer/Node.h"
+#include "Fabula/Layer/Event/Event.h"
+#include "Fabula/Layer/Node.h"
+
+#include "Fabula/Library/Pool.h"
+#include "Fabula/Library/RotatingBuffer.h"
 
 struct Particle
 {

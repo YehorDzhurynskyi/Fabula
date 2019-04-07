@@ -1,15 +1,17 @@
 #pragma once
 
-#include "Assets/SpriteAtlas.h"
-
-#include "Game/StaticRenderPass.h"
-#include "Game/MotionBlurRenderPass.h"
-
-#include "Layer/Event/Event.h"
 #include "DynamicVertexBuffer.h"
-#include "Library/Singleton.h"
-#include "Layer/Node.h"
 #include "DynamicIndexBuffer.h"
+
+#include "Fabula/Assets/SpriteAtlas.h"
+
+#include "Fabula/Game/StaticRenderPass.h"
+#include "Fabula/Game/MotionBlurRenderPass.h"
+
+#include "Fabula/Layer/Event/Event.h"
+#include "Fabula/Layer/Node.h"
+
+#include "Fabula/Library/Singleton.h"
 
 class Renderer final : public Node, public Singleton<Renderer>
 {

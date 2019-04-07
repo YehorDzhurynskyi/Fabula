@@ -1,17 +1,18 @@
 #include "pch.h"
 #include "Camera.h"
 
+#include "IApplication.h"
 #include "Graphics/API/opengl.h"
-#include "application.h"
-#include "SDL_video.h"
 #include "Layer/GameLayer.h"
+
+#include "SDL_video.h"
 
 const float Camera::g_MinimumVisibleWorldHeight = 24.0f;
 
 Camera::Camera()
 {
     i32 w, h;
-    SDL_GetWindowSize(g_SDLWindow, &w, &h);
+    SDL_GetWindowSize(fbl::g_Application->GetSDLWindow(), &w, &h);
     onWindowSizeChanged(w, h);
 
     m_windowResizedListener.on(EventType::WindowResized, [this](const Event& event)

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "DynamicBuffer.h"
-#include "Graphics/API/opengl.h"
+
+#include "Fabula/Graphics/API/opengl.h"
 
 template<typename T, size_t Capacity>
 class DynamicIndexBuffer : public DynamicBuffer<T, Capacity>
