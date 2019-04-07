@@ -17,8 +17,6 @@ public:
         m_layers.push_back(std::make_unique<T>(std::forward<Args>(args)...));
 
         Layer& layer = *m_layers.back().get();
-        layer.show();
-
         return AS(T&, layer);
     }
     void pop();
