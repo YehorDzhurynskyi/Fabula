@@ -2,6 +2,9 @@
 
 #include <assert.h>
 
+namespace fbl
+{
+
 class Layer;
 class LayerNode
 {
@@ -21,3 +24,5 @@ protected:
 private:
     Layer* m_masterLayer = nullptr;
 };
+
+}

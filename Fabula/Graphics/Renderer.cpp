@@ -9,7 +9,7 @@
 Renderer::Renderer()
     : m_currentSpriteCount(0)
 {
-    m_windowResizedListener.on(EventType::WindowResized, [this](const Event& event)
+    m_windowResizedListener.on(EventType::WindowResized, [this](const fbl::IEvent& event)
     {
         assert(event.type() == EventType::WindowResized);
         const WindowResizedEvent& windowResizedEvent = AS(const WindowResizedEvent&, event);
@@ -21,7 +21,7 @@ Renderer::Renderer()
     });
 }
 
-void Renderer::onConnect(Layer& layer)
+void Renderer::onConnect(fbl::Layer& layer)
 {
     m_windowResizedListener.bind(layer);
 }

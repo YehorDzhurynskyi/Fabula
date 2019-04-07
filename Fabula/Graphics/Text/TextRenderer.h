@@ -6,6 +6,9 @@
 
 #include "Fabula/Library/Singleton.h"
 
+namespace fbl
+{
+
 class TextRenderer : public Singleton<TextRenderer>
 {
 public:
@@ -51,3 +54,5 @@ private:
     DynamicVertexBuffer<GlyphData, g_MaxVerticesCount> m_VBO;
     DynamicIndexBuffer<u16, g_MaxIndicesCount> m_IBO;
 };
+
+}

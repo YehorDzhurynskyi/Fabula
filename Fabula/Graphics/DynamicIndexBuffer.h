@@ -4,6 +4,9 @@
 
 #include "Fabula/Graphics/API/opengl.h"
 
+namespace fbl
+{
+
 template<typename T, size_t Capacity>
 class DynamicIndexBuffer : public DynamicBuffer<T, Capacity>
 {
@@ -46,3 +49,5 @@ public:
 private:
     IndexBufferID m_IBO;
 };
+
+}

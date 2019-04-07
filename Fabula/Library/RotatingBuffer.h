@@ -16,6 +16,9 @@ namespace
     }
 }
 
+namespace fbl
+{
+
 template<typename Type>
 class RotatingIterator final
 {
@@ -23,14 +26,14 @@ public:
     using iterator_category = std::bidirectional_iterator_tag;
     using value_type = Type;
     using difference_type = std::ptrdiff_t;
-    using pointer = Type*;
-    using reference = Type&;
+    using pointer = Type * ;
+    using reference = Type & ;
 
     RotatingIterator(const i32 position, const i32 cursor, Type* dataOrigin, const size_t size)
-    : m_position(position)
-    , m_cursor(cursor)
-    , m_dataOrigin(dataOrigin)
-    , m_size(size)
+        : m_position(position)
+        , m_cursor(cursor)
+        , m_dataOrigin(dataOrigin)
+        , m_size(size)
     {
         assert(isValid());
     }
@@ -146,8 +149,8 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     RotatingBuffer()
-    : m_position(-1)
-    , m_size(0)
+        : m_position(-1)
+        , m_size(0)
     {}
 
     size_t capacity() const
@@ -235,3 +238,5 @@ private:
     size_t m_size;
     Type m_data[Capacity];
 };
+
+}

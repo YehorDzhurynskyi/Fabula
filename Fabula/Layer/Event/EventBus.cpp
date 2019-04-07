@@ -2,6 +2,9 @@
 #include "EventBus.h"
 #include "Layer/LayerStack.h"
 
+namespace fbl
+{
+
 void EventBus::flushEvents()
 {
     for (const auto& event : m_eventQueue)
@@ -9,4 +12,6 @@ void EventBus::flushEvents()
         LayerStack::get().handleEvent(*event);
     }
     m_eventQueue.clear();
+}
+
 }

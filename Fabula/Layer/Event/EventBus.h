@@ -4,6 +4,9 @@
 
 #include "Fabula/Library/Singleton.h"
 
+namespace fbl
+{
+
 class EventBus final : public Singleton<EventBus>
 {
 public:
@@ -20,3 +23,5 @@ public:
 private:
     std::vector<std::unique_ptr<IEvent>> m_eventQueue;
 };
+
+}

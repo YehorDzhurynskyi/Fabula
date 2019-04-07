@@ -4,6 +4,9 @@
 
 #include "Fabula/Library/Singleton.h"
 
+namespace fbl
+{
+
 class LayerStack : public Singleton<LayerStack>
 {
 public:
@@ -28,3 +31,5 @@ public:
 private:
     std::vector<std::unique_ptr<Layer>> m_layers;
 };
+
+}

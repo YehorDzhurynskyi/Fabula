@@ -1,22 +1,25 @@
 #pragma once
 
-#define EmitEventRTTI(_type)                \
-                                            \
-_type()                                     \
-{                                           \
-    m_TypeID = get_event_type_id<_type>();  \
-}                                           \
-                                            \
-static EventTypeID TypeID()                 \
-{                                           \
-    return get_event_type_id<_type>();      \
-}                                           \
-                                            \
-const char* GetName() const override        \
-{                                           \
-    return #_type;                          \
-}                                           \
-                                            \
+#define EmitEventRTTI(_type)                    \
+                                                \
+_type()                                         \
+{                                               \
+    m_TypeID = fbl::get_event_type_id<_type>(); \
+}                                               \
+                                                \
+static fbl::EventTypeID TypeID()                \
+{                                               \
+    return fbl::get_event_type_id<_type>();     \
+}                                               \
+                                                \
+const char* GetName() const override            \
+{                                               \
+    return #_type;                              \
+}                                               \
+                                                \
+
+namespace fbl
+{
 
 using EventTypeID = i32;
 extern EventTypeID EventTypeIDNone;
@@ -64,3 +67,5 @@ private:
     EventTypeID m_eventType;
     EventHandler m_handler;
 };
+
+}

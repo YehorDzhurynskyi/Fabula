@@ -2,6 +2,9 @@
 
 #include "Fabula/types.h"
 
+namespace fbl
+{
+
 template<typename T, size_t Capacity>
 class DynamicBuffer
 {
@@ -46,3 +49,5 @@ protected:
     T m_data[Capacity];
     size_t m_size = 0;
 };
+
+}

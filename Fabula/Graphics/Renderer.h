@@ -13,7 +13,7 @@
 
 #include "Fabula/Library/Singleton.h"
 
-class Renderer final : public LayerNode, public Singleton<Renderer>
+class Renderer final : public fbl::LayerNode, public fbl::Singleton<Renderer>
 {
 friend class Singleton<Renderer>;
 
@@ -43,11 +43,11 @@ public:
     void present_After();
 
 protected:
-    void onConnect(Layer& layer) override;
+    void onConnect(fbl::Layer& layer) override;
 
 public:
-    DynamicVertexBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
-    DynamicVertexBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;
+    fbl::DynamicVertexBuffer<vec2f, g_MaxVerticesCount> Position_VBO;
+    fbl::DynamicVertexBuffer<Color_UV_Data, g_MaxVerticesCount> Color_UV_VBO;
 
 public: // TODO: fix to private
     StaticRenderPass m_staticPass;
@@ -58,9 +58,9 @@ public: // TODO: fix to private
     TextureID m_atlas_Texture;
     TextureID m_target_Texture;
 
-    DynamicIndexBuffer<u16, g_MaxIndicesCount> m_IBO;
+    fbl::DynamicIndexBuffer<u16, g_MaxIndicesCount> m_IBO;
 
     i32 m_currentSpriteCount;
 
-    EventListener m_windowResizedListener;
+    fbl::EventListener m_windowResizedListener;
 };

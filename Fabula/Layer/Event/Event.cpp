@@ -2,6 +2,9 @@
 #include "Event.h"
 #include "Layer/Layer.h"
 
+namespace fbl
+{
+
 EventTypeID EventTypeIDNone = 0;
 EventTypeID g_TypeIDCounter = EventTypeIDNone;
 
@@ -68,4 +71,6 @@ bool EventListener::handle(const IEvent& event) const
     assert(event.GetEventTypeID() == m_eventType);
 
     return m_handler(event);
+}
+
 }

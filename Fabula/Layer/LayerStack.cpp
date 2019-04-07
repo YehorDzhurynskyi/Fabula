@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "LayerStack.h"
 
+namespace fbl
+{
+
 void LayerStack::handleEvent(const IEvent& event)
 {
     for (auto layerIt = m_layers.rbegin();
@@ -35,4 +38,6 @@ void LayerStack::pop()
 {
     assert(m_layers.size() > 1);
     m_layers.pop_back();
+}
+
 }

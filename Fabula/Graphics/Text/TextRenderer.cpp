@@ -40,6 +40,9 @@ const char* g_TextFragmentShaderSource = ""
 
 }
 
+namespace fbl
+{
+
 bool TextRenderer::init()
 {
     const bool vertexShaderAttached = m_program.attachVertexShader(g_TextVertexShaderSource);
@@ -372,3 +375,5 @@ u32 TextRenderer::parseColor(const char* start, const char* end) const
     return FBL_COLOR(rgba[0], rgba[1], rgba[2], rgba[3]);
 }
 #endif
+
+}

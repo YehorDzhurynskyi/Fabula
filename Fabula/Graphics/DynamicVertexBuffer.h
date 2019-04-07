@@ -4,6 +4,9 @@
 
 #include "Fabula/Graphics/API/opengl.h"
 
+namespace fbl
+{
+
 template<typename T, size_t Capacity>
 class DynamicVertexBuffer : public DynamicBuffer<T, Capacity>
 {
@@ -41,3 +44,5 @@ public:
 private:
     VertexBufferID m_VBO;
 };
+
+}

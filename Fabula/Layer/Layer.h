@@ -2,6 +2,9 @@
 
 #include "Event/Event.h"
 
+namespace fbl
+{
+
 class Layer
 {
     friend class EventListener;
@@ -21,3 +24,5 @@ public:
 private:
     std::map<EventTypeID, std::vector<EventListener*>> m_handlers;
 };
+
+}

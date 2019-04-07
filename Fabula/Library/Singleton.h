@@ -1,5 +1,8 @@
 #pragma once
 
+namespace fbl
+{
+
 template<typename T>
 class Singleton
 {
@@ -13,3 +16,5 @@ public:
 protected:
     Singleton() = default;
 };
+
+}

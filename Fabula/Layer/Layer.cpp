@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Layer.h"
 
+namespace fbl
+{
+
 Layer::~Layer()
 {
     for (auto&[eventType, handlers] : m_handlers)
@@ -28,4 +31,6 @@ bool Layer::handleEvent(const IEvent& event)
                  typeHandlers.size());
 
     return needToPropagate;
+}
+
 }

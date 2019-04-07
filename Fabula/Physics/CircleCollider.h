@@ -1,5 +1,8 @@
 #pragma once
 
+namespace fbl
+{
+
 class CircleCollider
 {
 public:
@@ -12,3 +15,5 @@ private:
     float m_radius;
     const vec2f& m_position;
 };
+
+}

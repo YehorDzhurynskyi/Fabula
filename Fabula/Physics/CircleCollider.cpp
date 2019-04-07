@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CircleCollider.h"
 
+namespace fbl
+{
+
 CircleCollider::CircleCollider(const Transform& transform)
     : m_position(transform.Position)
 {
@@ -15,4 +18,6 @@ CircleCollider::CircleCollider(const vec2f& position, const float radius)
 bool CircleCollider::vs(const CircleCollider& rhs, vec2f& outNormal)
 {
     return false;
+}
+
 }

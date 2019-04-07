@@ -1,5 +1,8 @@
 #pragma once
 
+namespace fbl
+{
+
 template<typename T, size_t N>
 class Pool
 {
@@ -64,17 +67,17 @@ public:
         return m_nodes.begin();
     }
 
-    auto end() -> typename std::array<Node, N>::iterator
+        auto end() -> typename std::array<Node, N>::iterator
     {
         return m_nodes.end();
     }
 
-    auto begin() const -> typename std::array<Node, N>::const_iterator
+        auto begin() const -> typename std::array<Node, N>::const_iterator
     {
         return m_nodes.begin();
     }
 
-    auto end() const -> typename std::array<Node, N>::const_iterator
+        auto end() const -> typename std::array<Node, N>::const_iterator
     {
         return m_nodes.end();
     }
@@ -90,3 +93,4 @@ private:
     Node* m_firstAvailableNode;
 };
 
+}
