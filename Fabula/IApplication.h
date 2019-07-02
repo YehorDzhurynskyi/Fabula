@@ -1,25 +1,28 @@
 #pragma once
 
+struct SDL_Window;
+
 namespace fbl
 {
-    class IApplication
+    class FBL_API IApplication
     {
     public:
         IApplication() = default;
         virtual ~IApplication() = default;
 
-        virtual bool Init() = 0;
+        virtual void Init() = 0;
         virtual void Shutdown() = 0;
 
-        void Start();
+        virtual void Run() = 0;
+
         void Terminate();
         bool IsRunning() const;
 
-    protected:
-        virtual void Run() = 0;
+        SDL_Window* GetSDLWindow();
 
-    private:
+    protected:
         bool m_IsRunning = false;
+        SDL_Window* m_SDLWindow = nullptr;
     };
 
     std::unique_ptr<IApplication> create_application();

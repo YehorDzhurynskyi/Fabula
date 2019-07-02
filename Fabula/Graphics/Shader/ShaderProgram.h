@@ -1,12 +1,9 @@
 #pragma once
 
-namespace fbl
-{
-
 class ShaderProgram final
 {
 private:
-    static ShaderID compile_shader(fblS32 shaderType, const char* sourceCode);
+    static ShaderID compile_shader(i32 shaderType, const char* sourceCode);
 
 public:
     ~ShaderProgram();
@@ -34,6 +31,3 @@ private:
     ShaderID m_vertexShader = 0;
     ShaderID m_fragmentShader = 0;
 };
-
-}
-
