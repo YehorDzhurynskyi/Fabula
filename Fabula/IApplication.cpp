@@ -18,6 +18,6 @@ SDL_Window* IApplication::GetSDLWindow()
 
 void IApplication::Terminate()
 {
-    m_IsRunning = false;s
+    m_IsRunning = false;
 }
 }
