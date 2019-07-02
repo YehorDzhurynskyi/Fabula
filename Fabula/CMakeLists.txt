@@ -23,6 +23,13 @@ set(Fabula_SRCS
     Graphics/Shader/ShaderProgram.cpp
     Graphics/Shader/ShaderProgram.h
 
+    Graphics/Camera/Camera.cpp
+    Graphics/Camera/Camera.h
+    Graphics/Camera/CameraOrtho.cpp
+    Graphics/Camera/CameraOrtho.h
+    Graphics/Camera/CameraPerspective.cpp
+    Graphics/Camera/CameraPerspective.h
+
     Library/Pool.h
     Library/RotatingBuffer.h
     Library/Singleton.h

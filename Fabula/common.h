@@ -1,13 +1,15 @@
 #pragma once
 
+#include "SDL_log.h"
+
 extern fblFloat g_DeltaTime;
 
 #define fblFor(_n) for (int index = 0; index < _n; ++index)
 
-#define fblLog(...) (SDL_Log(#__VA_ARGS__))
+#define fblLog(...) SDL_Log(#__VA_ARGS__)
 
-#define fblAssert(_assertion, ...)                                          \
-    do { if (!(_assertion)) { fblLog(__VA_ARGS__); assert(_assertion) } }   \
+#define fblAssert(_assertion, ...)                                                      \
+    do { if (!(_assertion)) { fblLog(#__VA_ARGS__); assert(_assertion); } } while (0)   \
 
 #define fblTriggerBreakpoint() __debugbreak()
 

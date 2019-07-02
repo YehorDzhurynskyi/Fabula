@@ -7,9 +7,9 @@
 namespace fbl
 {
 
-ShaderID ShaderProgram::compile_shader(fblS32 shaderType, const char* sourceCode)
+fblShaderID ShaderProgram::compile_shader(fblS32 shaderType, const char* sourceCode)
 {
-    const ShaderID shader = fblGLCall(glCreateShader(shaderType));
+    const fblShaderID shader = fblGLCall(glCreateShader(shaderType));
     fblGLCall(glShaderSource(shader, 1, &sourceCode, nullptr));
     fblGLCall(glCompileShader(shader));
 
@@ -127,12 +127,12 @@ void ShaderProgram::use() const
     fblGLCall(glUseProgram(m_program));
 }
 
-ShaderLocationID ShaderProgram::getAttributeLocation(const char* name) const
+fblShaderLocationID ShaderProgram::getAttributeLocation(const char* name) const
 {
     return fblGLCall(glGetAttribLocation(m_program, name));
 }
 
-ShaderLocationID ShaderProgram::getUniformLocation(const char* name) const
+fblShaderLocationID ShaderProgram::getUniformLocation(const char* name) const
 {
     return fblGLCall(glGetUniformLocation(m_program, name));
 }

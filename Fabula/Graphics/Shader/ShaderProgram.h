@@ -6,7 +6,7 @@ namespace fbl
 class ShaderProgram final
 {
 private:
-    static ShaderID compile_shader(fblS32 shaderType, const char* sourceCode);
+    static fblShaderID compile_shader(fblS32 shaderType, const char* sourceCode);
 
 public:
     ~ShaderProgram();
@@ -20,8 +20,8 @@ public:
 
     bool build();
 
-    ShaderLocationID getAttributeLocation(const char* name) const;
-    ShaderLocationID getUniformLocation(const char* name) const;
+    fblShaderLocationID getAttributeLocation(const char* name) const;
+    fblShaderLocationID getUniformLocation(const char* name) const;
 
     void use() const;
 
@@ -29,10 +29,10 @@ private:
     void deleteShaders();
 
 private:
-    ProgramID m_program = 0;
+    fblProgramID m_program = 0;
 
-    ShaderID m_vertexShader = 0;
-    ShaderID m_fragmentShader = 0;
+    fblShaderID m_vertexShader = 0;
+    fblShaderID m_fragmentShader = 0;
 };
 
 }
