@@ -3,7 +3,6 @@
 
 namespace fbl
 {
-
 IApplication* g_Application = nullptr;
 
 bool IApplication::IsRunning() const
@@ -11,15 +10,14 @@ bool IApplication::IsRunning() const
     return m_IsRunning;
 }
 
-void IApplication::Start()
+SDL_Window* IApplication::GetSDLWindow()
 {
-    m_IsRunning = true;
-    Run();
+    assert(m_SDLWindow != nullptr);
+    return m_SDLWindow;
 }
 
 void IApplication::Terminate()
 {
     m_IsRunning = false;
 }
-
 }

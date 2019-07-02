@@ -11,10 +11,8 @@ int main(int argc, char* argv[])
     std::unique_ptr<fbl::IApplication> app = fbl::create_application();
     fbl::g_Application = app.get();
 
-    if (app->Init())
-    {
-        app->Start();
-    }
+    app->Init();
+    app->Run();
     app->Shutdown();
 
     return 0;
