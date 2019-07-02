@@ -13,25 +13,25 @@ class DynamicVertexBuffer : public DynamicBuffer<T, Capacity>
 public:
     DynamicVertexBuffer()
     {
-        FBL_GL_CALL(glGenBuffers(1, &m_VBO));
-        FBL_GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
-        FBL_GL_CALL(glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW));
+        fblGLCall(glGenBuffers(1, &m_VBO));
+        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+        fblGLCall(glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, GL_DYNAMIC_DRAW));
     }
 
     ~DynamicVertexBuffer()
     {
-        FBL_GL_CALL(glDeleteBuffers(1, &m_VBO));
+        fblGLCall(glDeleteBuffers(1, &m_VBO));
     }
 
     void bind()
     {
-        FBL_GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
     }
 
     void flush()
     {
-        FBL_GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
-        FBL_GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data));
+        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+        fblGLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, this->m_size * sizeof(T), (void*)this->m_data));
 
         this->m_size = 0;
     }
