@@ -12,6 +12,5 @@
 #include <functional>
 
 #include "types.h"
-#include "Graphics/types.h"
 #include "common.h"
-#include "config.h"
+#include "environment.h"

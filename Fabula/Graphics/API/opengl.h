@@ -2,10 +2,10 @@
 
 #include "glad.h"
 
-#ifdef _DEBUG
-# define fblGLCall(_x) (glad_debug_##_x)
+#ifdef FBL_CONFIG_DEBUG
+# define FBL_GL_CALL(_x) (glad_debug_##_x)
 #else
-# define fblGLCall(_x) (glad_##_x)
+# define FBL_GL_CALL(_x) (glad_##_x)
 #endif
 
 void fbl_init_opengl();
