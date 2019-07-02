@@ -2,29 +2,21 @@
 
 #include <glm/vec2.hpp>
 
-using u8 = uint8_t;
-using u16 = uint16_t;
-using u32 = uint32_t;
-using u64 = uint64_t;
+using fblChar = char;
+using fblBool = bool;
 
-using i8 = int8_t;
-using i16 = int16_t;
-using i32 = int32_t;
-using i64 = int64_t;
+using fblFloat = float;
+using fblDouble = float;
 
-using vec2f = glm::vec2;
-using vec2i = glm::ivec2;
+using fblU8 = uint8_t;
+using fblU16 = uint16_t;
+using fblU32 = uint32_t;
+using fblU64 = uint64_t;
 
-using ProgramID = u32;
-using ShaderID = u32;
-using TextureID = u32;
-using VertexBufferID = u32;
-using IndexBufferID = u32;
-using FrameBufferID = u32;
-using ShaderLocationID = i32;
+using fblS8 = int8_t;
+using fblS16 = int16_t;
+using fblS32 = int32_t;
+using fblS64 = int64_t;
 
-struct Transform
-{
-    vec2f Position = { 0.0f, 0.0f };
-    vec2f Size = { 1.0f, 1.0f };
-};
+using fblV2f = glm::vec2;
+using fblV2i = glm::ivec2;
