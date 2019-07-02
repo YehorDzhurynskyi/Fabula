@@ -27,8 +27,8 @@ fbl_status_message("Configuring Extern/png")
 add_subdirectory(Extern/png)
 
 # freetype
-fbl_status_message("Configuring Extern/freetype")
-add_subdirectory(Extern/freetype)
+#fbl_status_message("Configuring Extern/freetype")
+#add_subdirectory(Extern/freetype)
 
 # SDL2
 fbl_status_message("Configuring Extern/SDL2")
@@ -46,7 +46,7 @@ set_target_properties(
     zlib
     png
     pnggenfiles
-    freetype
+#    freetype
 
     PROPERTIES
         FOLDER Extern

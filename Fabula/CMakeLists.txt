@@ -11,41 +11,21 @@ set(Fabula_SRCS
     IApplication.h
     IApplication.cpp
     common.h
-    common.cpp
-    environment.h
+    config.h
     types.h
 
-    Assets/SpriteAtlas.cpp
-    Assets/SpriteAtlas.h
-
+    Graphics/types.h
     Graphics/DynamicBuffer.h
     Graphics/DynamicIndexBuffer.h
     Graphics/DynamicVertexBuffer.h
-    Graphics/Renderer.cpp
-    Graphics/Renderer.h
     Graphics/API/opengl.cpp
     Graphics/API/opengl.h
     Graphics/Shader/ShaderProgram.cpp
     Graphics/Shader/ShaderProgram.h
-    Graphics/Text/TextRenderer.cpp
-    Graphics/Text/TextRenderer.h
-
-    Layer/Layer.cpp
-    Layer/Layer.h
-    Layer/LayerStack.cpp
-    Layer/LayerStack.h
-    Layer/LayerNode.h
-    Layer/Event/Event.cpp
-    Layer/Event/Event.h
-    Layer/Event/EventBus.cpp
-    Layer/Event/EventBus.h
 
     Library/Pool.h
     Library/RotatingBuffer.h
     Library/Singleton.h
-
-    Physics/CircleCollider.cpp
-    Physics/CircleCollider.h
 )
 
 add_library(Fabula ${Fabula_SRCS})
@@ -74,7 +54,7 @@ target_link_libraries(Fabula
         SDL2image
         glad
         glm
-        freetype
+#        freetype
 )
 
 set_target_properties(Fabula
