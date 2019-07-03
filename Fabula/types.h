@@ -11,6 +11,8 @@ using fblBool = bool;
 using fblFloat = float;
 using fblDouble = float;
 
+using fblSize_t = size_t;
+
 using fblU8 = uint8_t;
 using fblU16 = uint16_t;
 using fblU32 = uint32_t;

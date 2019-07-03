@@ -15,9 +15,9 @@ set(Fabula_SRCS
     types.h
 
     Graphics/types.h
-    Graphics/DynamicBuffer.h
-    Graphics/DynamicIndexBuffer.h
-    Graphics/DynamicVertexBuffer.h
+    Graphics/Buffer/Buffer.h
+    Graphics/Buffer/IndexBuffer.h
+    Graphics/Buffer/VertexBuffer.h
     Graphics/API/opengl.cpp
     Graphics/API/opengl.h
     Graphics/Shader/ShaderProgram.cpp
