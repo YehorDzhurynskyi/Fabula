@@ -15,6 +15,8 @@ set(Fabula_SRCS
     types.h
 
     Graphics/types.h
+    Graphics/Scene.h
+    Graphics/Scene.cpp
     Graphics/Buffer/Buffer.h
     Graphics/Buffer/IndexBuffer.h
     Graphics/Buffer/VertexBuffer.h
@@ -64,12 +66,7 @@ target_link_libraries(Fabula
 #        freetype
 )
 
-set_target_properties(Fabula
-    PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO
-)
+fbl_set_default_target_properties(Fabula)
 
 target_compile_definitions(Fabula
     PRIVATE

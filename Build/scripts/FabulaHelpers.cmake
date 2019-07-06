@@ -27,3 +27,12 @@ endfunction()
 function(fbl_fatal_message _message)
     message(FATAL_ERROR "**********************[FABULA][FATAL ERROR] ${_message}")
 endfunction()
+
+function(fbl_set_default_target_properties _target)
+    set_target_properties(${_target}
+        PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED YES
+            CXX_EXTENSIONS NO
+    )
+endfunction()
