@@ -21,127 +21,121 @@ enum class BufferUsage : fblU32
     DynamicDraw = GL_DYNAMIC_DRAW
 };
 
-template<typename T, size_t Capacity, BufferTarget Target, BufferUsage Usage>
+template<BufferTarget Target, BufferUsage Usage>
 class Buffer
 {
 public:
-    Buffer()
-	{
+    explicit Buffer(fblSize_t capacity)
+        : m_Capacity(capacity)
+        , m_BufferID(0)
+        , m_MappedData(nullptr)
+        , m_Offset(0)
+        , m_Bounded(false)
+    {
         fblGLCall(glGenBuffers(1, &m_BufferID));
-        fblGLCall(glBindBuffer(Target, m_BufferID));
-        fblGLCall(glBufferData(Target, Capacity * sizeof(T), nullptr, (GLenum)Usage));
-	}
+        fblGLCall(glBindBuffer((GLenum)Target, m_BufferID));
+        fblGLCall(glBufferData((GLenum)Target, m_Capacity, nullptr, (GLenum)Usage));
+    }
 
     ~Buffer()
-	{
-		fblGLCall(glDeleteBuffers(1, &m_BufferID));
-	}
+    {
+        fblGLCall(glDeleteBuffers(1, &m_BufferID));
+    }
 
     Buffer(const Buffer& rhs) = delete;
     Buffer& operator=(const Buffer& rhs) = delete;
     Buffer(Buffer&& rhs) = delete;
     Buffer& operator=(Buffer&& rhs) = delete;
 
-	void Bind()
-	{
-		if (!m_Bounded)
-		{
-			fblGLCall(glBindBuffer(Target, m_BufferID));
-			m_Bounded = true;
-		}
-	}
-	
-	void Unbind()
-	{
-		m_Bounded = false;
-		fblGLCall(glBindBuffer(Target, 0));
-	}
-	
+    void Bind()
+    {
+        if (!m_Bounded)
+        {
+            fblGLCall(glBindBuffer((GLenum)Target, m_BufferID));
+            m_Bounded = true;
+        }
+    }
+
+    void Unbind()
+    {
+        fblAssert(m_Bounded, "Object should have been bounded before");
+
+        m_Bounded = false;
+
+        fblGLCall(glBindBuffer((GLenum)Target, 0));
+    }
+
     size_t GetCapacity() const
     {
-        return Capacity;
+        return m_Capacity;
     }
 
-protected:
-	fblBufferID m_BufferID;
-
-private:
-	fblBool m_Bounded;
-};
-
-template<typename T, size_t Capacity, BufferTarget Target, BufferUsage Usage>
-class StaticBuffer : public Buffer<T, Capacity, Target, Usage>
-{
-public:
-	void SubData(fblU32 offset, const void* data, fblSize_t size)
-	{
-		fblGLCall(glBufferSubData(Target, offset, size, data));
-	}
-};
-
-template<typename T, size_t Capacity, BufferTarget Target, BufferUsage Usage>
-class DynamicBuffer : public Buffer<T, Capacity, Target, Usage>
-{
-public:
+    template<typename T>
     T& Push(T&& value = T())
     {
-        fblAssert(m_Size < Capacity, "Out of bounds");
-		
-		if (!IsMapped())
-		{
-			Map();
-		}
+        fblAssert(m_Offset < this->m_Capacity, "Out of bounds");
 
-        m_MappedData[m_Size] = std::move(value);
-        return m_MappedData[m_Size++];
+        Bind();
+
+        if (!IsMapped())
+        {
+            Map();
+        }
+
+        const fblU32 offset = m_Offset;
+        m_Offset += sizeof(T);
+
+        m_MappedData[offset] = std::move(value);
+        return m_MappedData[offset];
     }
 
-	void Flush()
+    void Flush()
     {
-		Unmap();
-        m_Size = 0;
+        Bind();
+
+        if (IsMapped())
+        {
+            Unmap();
+        }
     }
-	
-protected:
-	void Map()
-	{
-		Bind();
-		
-		// TODO: handle access mode in some way
-		m_MappedData = (T*)fblGLCall(glMapBuffer(Target, GL_READ_WRITE));
-		fblAssert(m_MappedData != nullptr, "Error on buffer object mapping");
-	}
-
-	void Unmap()
-	{
-		Bind();
-		const fblBool status = fblGLcall(glUnmapBuffer(Target));
-		fblAssert(status, "Error on buffer object unmapping");
-
-		m_MappedData = nullptr;
-	}
-
-	fblBool IsMapped() const
-	{
-		return m_MappedData != nullptr;
-	}
 
 protected:
-	T* m_MappedData = nullptr;
-	fblSize_t m_Size = 0;
+    void Map()
+    {
+        Bind();
+
+        // TODO: handle access mode in some way
+        m_MappedData = (fblU8*)fblGLCall(glMapBuffer((GLenum)Target, GL_READ_WRITE));
+        fblAssert(m_MappedData != nullptr, "Error on buffer object mapping");
+    }
+
+    void Unmap()
+    {
+        Bind();
+
+        const fblBool status = fblGLCall(glUnmapBuffer((GLenum)Target));
+        fblAssert(status, "Error on buffer object unmapping");
+
+        m_Offset = 0;
+        m_MappedData = nullptr;
+    }
+
+    fblBool IsMapped() const
+    {
+        return m_MappedData != nullptr;
+    }
+
+protected:
+    const fblSize_t m_Capacity;
+    fblBufferID m_BufferID;
+
+private:
+    fblU8* m_MappedData;
+    fblU32 m_Offset;
+    fblBool m_Bounded;
 };
 
-    StaticRead = GL_STATIC_READ,
-    StaticDraw = GL_STATIC_DRAW,
-    DynamicRead = GL_DYNAMIC_READ,
-    DynamicDraw = GL_DYNAMIC_DRAW
-
-template<typename T, size_t Capacity>
-using VertexBufferDynamicDraw = DynamicBuffer<T, Capacity, BufferTarget::VertexBuffer, BufferUsage::DynamicDraw>;
-using VertexBufferDynamic = VertexBufferDynamicDraw;
-
-template<typename T, size_t Capacity>
-using VertexBufferStaticDraw = DynamicBuffer<T, Capacity, BufferTarget::VertexBuffer, BufferUsage::StaticDraw>;
-using VertexBufferStatic = VertexBufferStaticDraw;
+template<BufferUsage Usage>
+using IndexBuffer = Buffer<BufferTarget::IndexBuffer, Usage>;
 
 }

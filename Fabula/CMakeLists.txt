@@ -8,17 +8,16 @@ set(Fabula_SRCS
     pch.h
     pch.cpp
     main.cpp
-    IApplication.h
     IApplication.cpp
+    IApplication.h
     common.h
     config.h
     types.h
 
     Graphics/types.h
-    Graphics/VertexArray.h
     Graphics/VertexArray.cpp
+    Graphics/VertexArray.h
     Graphics/Buffer/Buffer.h
-    Graphics/Buffer/IndexBuffer.h
     Graphics/Buffer/VertexBuffer.h
     Graphics/API/opengl.cpp
     Graphics/API/opengl.h

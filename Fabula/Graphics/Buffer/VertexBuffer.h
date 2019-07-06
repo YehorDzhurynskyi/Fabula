@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Buffer.h"
-#include "common.h"
-#include <vector>
 
 namespace fbl
 {
@@ -43,61 +41,50 @@ private:
     std::vector<Attribute> m_Attributes;
 };
 
-template<typename T, size_t Capacity>
-class VertexBuffer : public Buffer<T, Capacity>
+template<BufferUsage Usage>
+class VertexBuffer : public Buffer<BufferTarget::VertexBuffer, Usage>
 {
 public:
-    VertexBuffer(const BufferUsage usage, VertexBufferLayout&& layout)
-        : m_Layout(std::move(layout))
+    using super = Buffer;
+
+public:
+    explicit VertexBuffer(fblSize_t capacity, VertexBufferLayout&& layout)
+        : super(capacity)
+        , m_Layout(std::move(layout))
+    {}
+
+    void BindLayout()
     {
-        fblGLCall(glGenBuffers(1, &m_VBO));
-        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
-        fblGLCall(glBufferData(GL_ARRAY_BUFFER, Capacity * sizeof(T), nullptr, (GLenum)usage));
-    }
+        this->Bind();
 
-    VertexBuffer(const VertexBuffer& rhs) = delete;
-    VertexBuffer& operator=(const VertexBuffer& rhs) = delete;
-    VertexBuffer(VertexBuffer&& rhs) = delete;
-    VertexBuffer& operator=(VertexBuffer&& rhs) = delete;
-
-    ~VertexBuffer()
-    {
-        fblGLCall(glDeleteBuffers(1, &m_VBO));
-    }
-
-    void Bind()
-    {
-        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
-
-		fblShaderLocationID location = 0;
+        fblShaderLocationID location = 0;
         for (const VertexBufferLayout::Attribute& attr : m_Layout)
         {
+            fblGLCall(glEnableVertexAttribArray(location));
             fblGLCall(glVertexAttribPointer(
-                location++,
+                location,
                 VertexBufferLayout::Attribute::CountOfDataType(attr.Type),
                 VertexBufferLayout::Attribute::GLTypeOfDataType(attr.Type),
                 attr.Normalized,
                 0,
                 (void*)attr.Offset
             ));
+            ++location;
         }
     }
 
-    void Flush()
+    void UnbindLayout()
     {
-        fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
-        fblGLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, this->m_Size * sizeof(T), (void*)this->m_Data));
+        this->Unbind();
 
-        this->m_Size = 0;
+        fblShaderLocationID location = 0;
+        for (const VertexBufferLayout::Attribute& attr : m_Layout)
+        {
+            fblGLCall(glDisableVertexAttribArray(location++));
+        }
     }
 
-    fblVertexBufferID GetVertexBufferID() const
-    {
-        return m_VBO;
-    }
-
-private:
-    fblVertexBufferID m_VBO;
+protected:
     VertexBufferLayout m_Layout;
 };
 

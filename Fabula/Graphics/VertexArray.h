@@ -1,5 +1,6 @@
+#pragma once
+
 #include "Fabula/Graphics/Buffer/VertexBuffer.h"
-#include "Fabula/Graphics/Buffer/IndexBuffer.h"
 
 namespace fbl
 {
@@ -7,17 +8,28 @@ namespace fbl
 class VertexArray
 {
 public:
-	VertexArray();
-	~VertexArray();
-	
-	void Bind();
-	void Unbind();
-	
-	void BindVertexBuffer(VertexBuffer& buffer);
-	void BindIndexBuffer(IndexBuffer& buffer);
+    VertexArray();
+    ~VertexArray();
+
+    void Bind();
+    void Unbind();
+
+    template<BufferUsage Usage>
+    void BindVertexBuffer(VertexBuffer<Usage>& buffer)
+    {
+        Bind();
+        buffer.BindLayout();
+    }
+
+    template<BufferUsage Usage>
+    void BindIndexBuffer(IndexBuffer<Usage>& buffer)
+    {
+        Bind();
+        buffer.Bind();
+    }
 
 protected:
-	fblVertexArrayID m_VAO;
+    fblVertexArrayID m_VAO;
 };
 
 }
