@@ -15,8 +15,8 @@ set(Fabula_SRCS
     types.h
 
     Graphics/types.h
-    Graphics/Scene.h
-    Graphics/Scene.cpp
+    Graphics/VertexArray.h
+    Graphics/VertexArray.cpp
     Graphics/Buffer/Buffer.h
     Graphics/Buffer/IndexBuffer.h
     Graphics/Buffer/VertexBuffer.h

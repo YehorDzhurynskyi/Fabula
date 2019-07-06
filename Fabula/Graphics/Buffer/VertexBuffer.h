@@ -21,7 +21,6 @@ public:
             Float, Float2, Float3, Float4
         };
 
-        fblShaderLocationID Location;
         DataType Type;
         fblBool Normalized;
         fblU32 Offset;
@@ -69,10 +68,12 @@ public:
     void Bind()
     {
         fblGLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VBO));
+
+		fblShaderLocationID location = 0;
         for (const VertexBufferLayout::Attribute& attr : m_Layout)
         {
             fblGLCall(glVertexAttribPointer(
-                attr.Location,
+                location++,
                 VertexBufferLayout::Attribute::CountOfDataType(attr.Type),
                 VertexBufferLayout::Attribute::GLTypeOfDataType(attr.Type),
                 attr.Normalized,
