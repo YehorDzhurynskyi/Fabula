@@ -95,11 +95,6 @@ target_link_libraries(Fabula
 
 fbl_set_default_target_properties(Fabula)
 
-target_compile_definitions(Fabula
-    PRIVATE
-        _USE_MATH_DEFINES
-)
-
 target_include_directories(Fabula
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
