@@ -1,5 +1,6 @@
 #include "Fabula/pch.h"
 #include "CameraOrtho.h"
+#include "glm/ext/matrix_clip_space.inl"
 
 namespace fbl
 {
@@ -20,7 +21,13 @@ fblMat3x3F CameraOrtho::CalculateProjectionMatrix2D()
 fblMat4x4F CameraOrtho::CalculateProjectionMatrix3D()
 {
     fblAssert(IsValid(), "Ortho Camera's parameters are not valid");
-    return fblMat4x4F();
+
+    return glm::ortho(m_FrameDimension.LeftTop.x,
+                      m_FrameDimension.RightBottom.x,
+                      m_FrameDimension.RightBottom.y,
+                      m_FrameDimension.LeftTop.y,
+                      m_Near,
+                      m_Far);
 }
 
 void CameraOrtho::SetFrameDimension(const fblRect& dimension)

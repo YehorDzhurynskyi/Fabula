@@ -31,7 +31,7 @@ fblMat4x4F Camera::CalculateViewMatrix3D()
 
 void Camera::LookAt(const fblV3F& position, const fblV3F& poi, const fblV3F& up)
 {
-    
+    // TODO: implement
 }
 
 void Camera::SetFar(const fblFloat far)
