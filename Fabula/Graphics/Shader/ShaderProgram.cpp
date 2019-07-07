@@ -27,114 +27,121 @@ fblShaderID ShaderProgram::compile_shader(fblS32 shaderType, const char* sourceC
     return shader;
 }
 
-void ShaderProgram::release()
+void ShaderProgram::Release()
 {
-    deleteShaders();
-    if (isBuilt())
+    DeleteShaders();
+    if (IsBuilt())
     {
-        fblGLCall(glDeleteProgram(m_program));
-        m_program = 0;
+        fblGLCall(glDeleteProgram(m_Program));
+        m_Program = 0;
     }
 }
 
 ShaderProgram::~ShaderProgram()
 {
-    release();
+    Release();
 }
 
-bool ShaderProgram::isBuilt() const
+bool ShaderProgram::IsBuilt() const
 {
-    return m_program > 0;
+    return m_Program > 0;
 }
 
-bool ShaderProgram::attachVertexShader(const char* sourceCode)
+bool ShaderProgram::AttachVertexShader(const char* sourceCode)
 {
-    assert(!isBuilt());
+    fblAssert(!IsBuilt(), "Shader shouldn't be built here");
 
-    m_vertexShader = compile_shader(GL_VERTEX_SHADER, sourceCode);
+    m_VertexShader = compile_shader(GL_VERTEX_SHADER, sourceCode);
 
-    return m_vertexShader > 0;
+    return m_VertexShader > 0;
 }
 
-bool ShaderProgram::attachFragmentShader(const char* sourceCode)
+bool ShaderProgram::AttachFragmentShader(const char* sourceCode)
 {
-    assert(!isBuilt());
+    fblAssert(!IsBuilt(), "Shader shouldn't be built here");
 
-    m_fragmentShader = compile_shader(GL_FRAGMENT_SHADER, sourceCode);
+    m_FragmentShader = compile_shader(GL_FRAGMENT_SHADER, sourceCode);
 
-    return m_fragmentShader > 0;
+    return m_FragmentShader > 0;
 }
 
-bool ShaderProgram::build()
+bool ShaderProgram::Build()
 {
-    assert(!isBuilt());
-    assert(m_vertexShader > 0 && m_fragmentShader > 0);
+    fblAssert(!IsBuilt(), "Shader shouldn't be built here");
+    fblAssert(m_VertexShader > 0 && m_FragmentShader > 0, "Shaders should be compiled here");
 
-    if (m_vertexShader == 0 || m_fragmentShader == 0)
+    if (m_VertexShader == 0 || m_FragmentShader == 0)
     {
         return false;
     }
 
-    m_program = fblGLCall(glCreateProgram());
-    fblGLCall(glAttachShader(m_program, m_vertexShader));
-    fblGLCall(glAttachShader(m_program, m_fragmentShader));
+    m_Program = fblGLCall(glCreateProgram());
+    fblGLCall(glAttachShader(m_Program, m_VertexShader));
+    fblGLCall(glAttachShader(m_Program, m_FragmentShader));
 
-    fblGLCall(glLinkProgram(m_program));
+    fblGLCall(glLinkProgram(m_Program));
 
     GLint isLinked = 0;
-    fblGLCall(glGetProgramiv(m_program, GL_LINK_STATUS, &isLinked));
+    fblGLCall(glGetProgramiv(m_Program, GL_LINK_STATUS, &isLinked));
     if (isLinked == GL_FALSE)
     {
         char log[4096];
-        fblGLCall(glGetShaderInfoLog(m_program, sizeof(log), nullptr, log));
+        fblGLCall(glGetShaderInfoLog(m_Program, sizeof(log), nullptr, log));
         SDL_LogCritical(SDL_LOG_CATEGORY_RENDER, "%s\n", log);
 
-        deleteShaders();
+        DeleteShaders();
 
-        fblGLCall(glDeleteProgram(m_program));
+        fblGLCall(glDeleteProgram(m_Program));
 
         return false;
     }
 
-    fblGLCall(glDetachShader(m_program, m_vertexShader));
-    fblGLCall(glDetachShader(m_program, m_fragmentShader));
+    fblGLCall(glDetachShader(m_Program, m_VertexShader));
+    fblGLCall(glDetachShader(m_Program, m_FragmentShader));
 
-    deleteShaders();
+    DeleteShaders();
 
-    return m_program > 0;
+    return m_Program > 0;
 }
 
-void ShaderProgram::deleteShaders()
+void ShaderProgram::DeleteShaders()
 {
-    if (m_vertexShader > 0)
+    if (m_VertexShader > 0)
     {
-        fblGLCall(glDeleteShader(m_vertexShader));
+        fblGLCall(glDeleteShader(m_VertexShader));
     }
 
-    if (m_fragmentShader > 0)
+    if (m_FragmentShader > 0)
     {
-        fblGLCall(glDeleteShader(m_fragmentShader));
+        fblGLCall(glDeleteShader(m_FragmentShader));
     }
 
-    m_vertexShader = 0;
-    m_fragmentShader = 0;
+    m_VertexShader = 0;
+    m_FragmentShader = 0;
 }
 
-void ShaderProgram::use() const
+void ShaderProgram::Bind()
 {
-    assert(isBuilt());
+    fblAssert(IsBuilt(), "Shader should be built here");
 
-    fblGLCall(glUseProgram(m_program));
+    fblGLCall(glUseProgram(m_Program));
 }
 
-fblShaderLocationID ShaderProgram::getAttributeLocation(const char* name) const
+void ShaderProgram::Unbind()
 {
-    return fblGLCall(glGetAttribLocation(m_program, name));
+    fblAssert(IsBuilt(), "Shader should be built here");
+
+    fblGLCall(glUseProgram(0));
 }
 
-fblShaderLocationID ShaderProgram::getUniformLocation(const char* name) const
+fblShaderLocationID ShaderProgram::GetAttributeLocation(const char* name) const
 {
-    return fblGLCall(glGetUniformLocation(m_program, name));
+    return fblGLCall(glGetAttribLocation(m_Program, name));
+}
+
+fblShaderLocationID ShaderProgram::GetUniformLocation(const char* name) const
+{
+    return fblGLCall(glGetUniformLocation(m_Program, name));
 }
 
 }

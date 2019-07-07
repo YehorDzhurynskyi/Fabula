@@ -28,5 +28,5 @@ void fbl_init_opengl()
 
     fblGLCall(glEnable(GL_BLEND));
     fblGLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-    fblGLCall(glClearColor(0.98f, 0.98f, 0.98f, 1.0f));
+    fblGLCall(glClearColor(0.8f, 0.8f, 1.0f, 1.0f));
 }

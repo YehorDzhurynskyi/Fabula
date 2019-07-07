@@ -11,28 +11,29 @@ private:
 public:
     ~ShaderProgram();
 
-    void release();
+    void Release();
 
-    bool isBuilt() const;
+    bool IsBuilt() const;
 
-    bool attachVertexShader(const char* sourceCode);
-    bool attachFragmentShader(const char* sourceCode);
+    bool AttachVertexShader(const char* sourceCode);
+    bool AttachFragmentShader(const char* sourceCode);
 
-    bool build();
+    bool Build();
 
-    fblShaderLocationID getAttributeLocation(const char* name) const;
-    fblShaderLocationID getUniformLocation(const char* name) const;
+    fblShaderLocationID GetAttributeLocation(const char* name) const;
+    fblShaderLocationID GetUniformLocation(const char* name) const;
 
-    void use() const;
-
-private:
-    void deleteShaders();
+    void Bind();
+    void Unbind();
 
 private:
-    fblProgramID m_program = 0;
+    void DeleteShaders();
 
-    fblShaderID m_vertexShader = 0;
-    fblShaderID m_fragmentShader = 0;
+private:
+    fblProgramID m_Program = 0;
+
+    fblShaderID m_VertexShader = 0;
+    fblShaderID m_FragmentShader = 0;
 };
 
 }
