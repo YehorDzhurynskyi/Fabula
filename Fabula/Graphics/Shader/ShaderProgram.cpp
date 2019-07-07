@@ -1,7 +1,7 @@
-#include "pch.h"
+#include "Fabula/pch.h"
 #include "ShaderProgram.h"
 
-#include "Graphics/API/opengl.h"
+#include "Fabula/Graphics/API/opengl.h"
 #include <SDL.h>
 
 namespace fbl
