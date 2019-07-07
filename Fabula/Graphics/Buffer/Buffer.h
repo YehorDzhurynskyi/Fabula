@@ -71,7 +71,7 @@ public:
     }
 
     template<typename T>
-    T& Push(T&& value = T())
+    void Push(T&& value = T())
     {
         fblAssert(m_Offset < this->m_Capacity, "Out of bounds");
 
@@ -82,11 +82,8 @@ public:
             Map();
         }
 
-        const fblU32 offset = m_Offset;
+        memcpy(m_MappedData + m_Offset, &value, sizeof(T));
         m_Offset += sizeof(T);
-
-        m_MappedData[offset] = std::move(value);
-        return m_MappedData[offset];
     }
 
     void Flush()

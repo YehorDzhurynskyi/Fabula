@@ -1,34 +1,31 @@
 #pragma once
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/mat3x3.hpp>
-#include <glm/mat4x4.hpp>
+#include <EpiLib/types.h>
 
-using fblChar = char;
-using fblBool = bool;
+using fblChar = epiChar;
+using fblBool = epiBool;
 
-using fblFloat = float;
-using fblDouble = float;
+using fblFloat = epiFloat;
+using fblDouble = epiDouble;
 
 using fblSize_t = size_t;
 
-using fblU8 = uint8_t;
-using fblU16 = uint16_t;
-using fblU32 = uint32_t;
-using fblU64 = uint64_t;
+using fblU8 = epiU8;
+using fblU16 = epiU16;
+using fblU32 = epiU32;
+using fblU64 = epiU64;
 
-using fblS8 = int8_t;
-using fblS16 = int16_t;
-using fblS32 = int32_t;
-using fblS64 = int64_t;
+using fblS8 = epiS8;
+using fblS16 = epiS16;
+using fblS32 = epiS32;
+using fblS64 = epiS64;
 
-using fblV2F = glm::vec2;
-using fblV2S = glm::ivec2;
-using fblV3F = glm::vec3;
+using fblV2F = epiV2F;
+using fblV2S = epiV2S;
+using fblV3F = epiV3F;
 
-using fblMat3x3F = glm::mat3x3;
-using fblMat4x4F = glm::mat4x4;
+using fblMat3x3F = epiMat3x3F;
+using fblMat4x4F = epiMat4x4F;
 
 struct fblRect
 {

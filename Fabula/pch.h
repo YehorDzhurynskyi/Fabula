@@ -11,7 +11,7 @@
 #include <cstdint>
 #include <functional>
 
-#include "types.h"
-#include "Graphics/types.h"
-#include "common.h"
-#include "config.h"
+#include "Fabula/types.h"
+#include "Fabula/Graphics/types.h"
+#include "Fabula/common.h"
+#include "Fabula/config.h"
