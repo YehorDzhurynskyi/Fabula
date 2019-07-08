@@ -23,15 +23,18 @@ public:
     void LookAt(const fblV3F& position, const fblV3F& poi, const fblV3F& up);
 
     void SetFar(const fblFloat far);
-    void SetNear(const fblFloat near);
     fblFloat GetFar() const;
+    void SetNear(const fblFloat near);
     fblFloat GetNear() const;
+    void SetAspectRatio(const fblFloat aspectRatio);
+    fblFloat GetAspectRatio() const;
 
 protected:
     fblV3F m_Position;
     fblV3F m_LookAtDirection;
     fblV3F m_UpDirection;
 
+    fblFloat m_AspectRatio;
     fblFloat m_Far;
     fblFloat m_Near;
 };

@@ -39,19 +39,29 @@ void Camera::SetFar(const fblFloat far)
     m_Far = far;
 }
 
-void Camera::SetNear(const fblFloat near)
-{
-    m_Near = near;
-}
-
 fblFloat Camera::GetFar() const
 {
     return m_Far;
 }
 
+void Camera::SetNear(const fblFloat near)
+{
+    m_Near = near;
+}
+
 fblFloat Camera::GetNear() const
 {
     return m_Near;
+}
+
+void Camera::SetAspectRatio(const fblFloat aspectRatio)
+{
+    m_AspectRatio = aspectRatio;
+}
+
+fblFloat Camera::GetAspectRatio() const
+{
+    return m_AspectRatio;
 }
 
 }
