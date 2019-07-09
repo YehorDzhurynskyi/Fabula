@@ -58,10 +58,6 @@ set(Fabula_SRCS
     Fabula/Graphics/Camera/CameraOrtho.h
     Fabula/Graphics/Camera/CameraPerspective.cpp
     Fabula/Graphics/Camera/CameraPerspective.h
-
-    Fabula/Library/Pool.h
-    Fabula/Library/RotatingBuffer.h
-    Fabula/Library/Singleton.h
 )
 
 add_library(Fabula ${Fabula_SRCS})
