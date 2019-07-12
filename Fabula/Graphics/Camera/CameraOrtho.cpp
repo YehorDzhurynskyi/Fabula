@@ -23,10 +23,10 @@ fblMat4x4F CameraOrtho::CalculateProjectionMatrix3D()
     fblAssert(IsValid(), "Ortho Camera's parameters are not valid");
 
     // TODO: consider aspect ratio
-    return glm::ortho(m_FrameDimension.LeftTop.x,
-                      m_FrameDimension.RightBottom.x,
-                      m_FrameDimension.RightBottom.y,
-                      m_FrameDimension.LeftTop.y,
+    return glm::ortho(m_FrameDimension.LeftTop.x * m_Zoom,
+                      m_FrameDimension.RightBottom.x * m_Zoom,
+                      m_FrameDimension.RightBottom.y * m_Zoom,
+                      m_FrameDimension.LeftTop.y * m_Zoom,
                       m_Near,
                       m_Far);
 }

@@ -23,17 +23,7 @@ fblMat4x4F CameraPerspective::CalculateProjectionMatrix3D()
     return fblMat4x4F();
 }
 
-void CameraPerspective::SetAspectRatio(const fblFloat aspectRatio)
-{
-    m_AspectRatio = aspectRatio;
-}
-
-fblFloat CameraPerspective::GetAspectRatio() const
-{
-    return m_AspectRatio;
-}
-
-void CameraPerspective::SetFOV(const fblFloat fov)
+void CameraPerspective::SetFOV(fblFloat fov)
 {
     m_FOV = fov;
 }

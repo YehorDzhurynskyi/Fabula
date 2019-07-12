@@ -16,15 +16,11 @@ public:
     fblMat3x3F CalculateProjectionMatrix2D() override;
     fblMat4x4F CalculateProjectionMatrix3D() override;
 
-    void SetAspectRatio(const fblFloat aspectRatio);
-    fblFloat GetAspectRatio() const;
-
-    void SetFOV(const fblFloat fov);
+    void SetFOV(fblFloat fov);
     fblFloat GetFOV() const;
 
 protected:
-    fblFloat m_AspectRatio;
-    fblFloat m_FOV;
+    fblFloat m_FOV = 90.0f;
 };
 
 }
