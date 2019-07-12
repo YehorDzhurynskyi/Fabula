@@ -42,6 +42,11 @@ set(Fabula_SRCS
     Fabula/config.h
     Fabula/types.h
 
+    Fabula/View/View.cpp
+    Fabula/View/View.h
+    Fabula/View/ViewSDL.cpp
+    Fabula/View/ViewSDL.h
+
     Fabula/Graphics/types.h
     Fabula/Graphics/VertexArray.cpp
     Fabula/Graphics/VertexArray.h
