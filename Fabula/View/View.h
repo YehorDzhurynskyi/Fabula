@@ -21,6 +21,8 @@ public:
     void Run();
     void Terminate();
 
+    virtual fblV2F GetResolution() const = 0;
+
 protected:
     virtual void Tick() = 0;
     virtual void SwapBuffers() = 0;

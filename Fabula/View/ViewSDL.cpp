@@ -42,8 +42,10 @@ fblBool ViewSDL::Init()
 
     fbl_init_opengl();
 
-    SDL_GL_SetSwapInterval(0);
+    SDL_GL_SetSwapInterval(1);
     SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
+
+    SDL_GetWindowSize(m_SDLWindow, &m_CachedResolution.x, &m_CachedResolution.y);
 
     return true;
 }
@@ -59,6 +61,11 @@ void ViewSDL::Shutdown()
 void ViewSDL::SwapBuffers()
 {
     SDL_GL_SwapWindow(m_SDLWindow);
+}
+
+fblV2F ViewSDL::GetResolution() const
+{
+    return m_CachedResolution;
 }
 
 void ViewSDL::PollEvents()
@@ -91,6 +98,24 @@ void ViewSDL::PollEvents()
                 Terminate();
                 continue;
             }
+
+            switch (event.type)
+            {
+            case SDL_WINDOWEVENT:
+            {
+                switch (event.window.event)
+                {
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                {
+                    fblGLCall(glViewport(0, 0, event.window.data1, event.window.data2));
+                    m_CachedResolution.x = (fblFloat)event.window.data1;
+                    m_CachedResolution.y = (fblFloat)event.window.data2;
+                    break;
+                }
+                }
+            }
+            }
+
             ProcessEvent(event);
         }
     }
