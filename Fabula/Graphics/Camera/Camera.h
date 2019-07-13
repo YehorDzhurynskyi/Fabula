@@ -20,8 +20,6 @@ public:
     virtual fblMat3x3F CalculateProjectionMatrix2D() = 0;
     virtual fblMat4x4F CalculateProjectionMatrix3D() = 0;
 
-    void LookAt(const fblV3F& position, const fblV3F& poi, const fblV3F& up);
-
     void SetPosition(const fblV3F& position);
     const fblV3F& GetPosition() const;
 

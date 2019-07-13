@@ -17,7 +17,7 @@ protected:
     void PollEvents() override final;
     virtual void ProcessEvent(const SDL_Event& event) = 0;
 
-protected:
+private:
     SDL_Window* m_SDLWindow = nullptr;
     SDL_GLContext m_SDL_GLContext = nullptr;
 };

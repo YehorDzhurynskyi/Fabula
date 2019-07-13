@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EpiLib/Clock.h"
+
 namespace fbl
 {
 
@@ -23,6 +25,9 @@ protected:
     virtual void Tick() = 0;
     virtual void SwapBuffers() = 0;
     virtual void PollEvents() = 0;
+
+protected:
+    epi::Clock m_Clock;
 
 private:
     fblBool m_IsRunning;

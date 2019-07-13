@@ -33,11 +33,10 @@ add_subdirectory(Extern/SDL2image)
 fbl_include_script(PrecompiledHeader.cmake)
 
 set(Fabula_SRCS
+
     Fabula/pch.h
     Fabula/pch.cpp
-    Fabula/main.cpp
-    Fabula/IApplication.cpp
-    Fabula/IApplication.h
+
     Fabula/common.h
     Fabula/config.h
     Fabula/types.h

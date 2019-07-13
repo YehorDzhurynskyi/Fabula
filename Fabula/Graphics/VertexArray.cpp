@@ -6,13 +6,24 @@ namespace fbl
 
 VertexArray::VertexArray()
     : m_VAO(0)
-{
-    fblGLCall(glGenVertexArrays(1, &m_VAO));
-}
+{}
 
 VertexArray::~VertexArray()
 {
-    fblGLCall(glDeleteVertexArrays(1, &m_VAO));
+    if (IsValid())
+    {
+        fblGLCall(glDeleteVertexArrays(1, &m_VAO));
+    }
+}
+
+fblBool VertexArray::IsValid() const
+{
+    return m_VAO != 0;
+}
+
+void VertexArray::Init()
+{
+    fblGLCall(glGenVertexArrays(1, &m_VAO));
 }
 
 void VertexArray::Bind()

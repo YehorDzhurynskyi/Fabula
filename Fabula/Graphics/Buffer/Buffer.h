@@ -31,21 +31,32 @@ public:
         , m_MappedData(nullptr)
         , m_Offset(0)
         , m_Bounded(false)
-    {
-        fblGLCall(glGenBuffers(1, &m_BufferID));
-        fblGLCall(glBindBuffer((GLenum)Target, m_BufferID));
-        fblGLCall(glBufferData((GLenum)Target, m_Capacity, nullptr, (GLenum)Usage));
-    }
+    {}
 
     ~Buffer()
     {
-        fblGLCall(glDeleteBuffers(1, &m_BufferID));
+        if (IsValid())
+        {
+            fblGLCall(glDeleteBuffers(1, &m_BufferID));
+        }
     }
 
     Buffer(const Buffer& rhs) = delete;
     Buffer& operator=(const Buffer& rhs) = delete;
     Buffer(Buffer&& rhs) = delete;
     Buffer& operator=(Buffer&& rhs) = delete;
+
+    fblBool IsValid() const
+    {
+        return m_BufferID != 0;
+    }
+
+    void Init()
+    {
+        fblGLCall(glGenBuffers(1, &m_BufferID));
+        fblGLCall(glBindBuffer((GLenum)Target, m_BufferID));
+        fblGLCall(glBufferData((GLenum)Target, m_Capacity, nullptr, (GLenum)Usage));
+    }
 
     void Bind()
     {

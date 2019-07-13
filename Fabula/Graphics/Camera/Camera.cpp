@@ -1,6 +1,8 @@
 #include "Fabula/pch.h"
 #include "Camera.h"
 
+#include "glm/ext/matrix_transform.inl"
+
 namespace fbl
 {
 
@@ -28,12 +30,9 @@ fblMat3x3F Camera::CalculateViewMatrix2D()
 fblMat4x4F Camera::CalculateViewMatrix3D()
 {
     fblAssert(IsValid(), "Camera's parameters are not valid");
-    return fblMat4x4F();
-}
-
-void Camera::LookAt(const fblV3F& position, const fblV3F& poi, const fblV3F& up)
-{
-    // TODO: implement
+    return glm::lookAt(m_Position,
+                       fblV3F{ m_Position.x, m_Position.y, m_Position.z - 1.0f },
+                       { 0.0f, 1.0f, 0.0f });
 }
 
 void Camera::SetPosition(const fblV3F& position)

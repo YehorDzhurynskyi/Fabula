@@ -11,6 +11,10 @@ public:
     VertexArray();
     ~VertexArray();
 
+    void Init();
+
+    fblBool IsValid() const;
+
     void Bind();
     void Unbind();
 
