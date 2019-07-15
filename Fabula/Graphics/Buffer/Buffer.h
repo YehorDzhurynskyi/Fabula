@@ -27,6 +27,7 @@ class Buffer
 public:
     explicit Buffer(fblSize_t capacity)
         : m_Capacity(capacity)
+        , m_Size(0)
         , m_BufferID(0)
         , m_MappedData(nullptr)
         , m_Offset(0)
@@ -76,9 +77,14 @@ public:
         fblGLCall(glBindBuffer((GLenum)Target, 0));
     }
 
-    size_t GetCapacity() const
+    fblSize_t GetCapacity() const
     {
         return m_Capacity;
+    }
+
+    fblSize_t GetSize() const
+    {
+        return m_Size;
     }
 
     template<typename T>
@@ -95,10 +101,13 @@ public:
 
         memcpy(m_MappedData + m_Offset, &value, sizeof(T));
         m_Offset += sizeof(T);
+        ++m_Size;
     }
 
     void Flush()
     {
+        assert(IsMapped());
+
         Bind();
 
         if (IsMapped())
@@ -124,6 +133,7 @@ protected:
         const fblBool status = fblGLCall(glUnmapBuffer((GLenum)Target));
         fblAssert(status, "Error on buffer object unmapping");
 
+        m_Size = 0;
         m_Offset = 0;
         m_MappedData = nullptr;
     }
@@ -135,6 +145,7 @@ protected:
 
 protected:
     const fblSize_t m_Capacity;
+    fblSize_t m_Size;
     fblBufferID m_BufferID;
 
 private:
