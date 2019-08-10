@@ -12,13 +12,13 @@ fblBool CameraOrtho::IsValid() const
         m_FrameDimension.LeftTop.y > m_FrameDimension.RightBottom.y;
 }
 
-fblMat3x3F CameraOrtho::CalculateProjectionMatrix2D()
+fblMat3x3F CameraOrtho::CalculateProjectionMatrix2D() const
 {
     fblAssert(IsValid(), "Ortho Camera's parameters are not valid");
     return fblMat3x3F();
 }
 
-fblMat4x4F CameraOrtho::CalculateProjectionMatrix3D()
+fblMat4x4F CameraOrtho::CalculateProjectionMatrix3D() const
 {
     fblAssert(IsValid(), "Ortho Camera's parameters are not valid");
 

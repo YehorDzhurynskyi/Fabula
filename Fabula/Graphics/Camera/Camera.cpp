@@ -21,13 +21,13 @@ fblBool Camera::IsValid() const
     return m_Far > m_Near && m_Near > 0.0f && m_Zoom > 0.0f;
 }
 
-fblMat3x3F Camera::CalculateViewMatrix2D()
+fblMat3x3F Camera::CalculateViewMatrix2D() const
 {
     fblAssert(IsValid(), "Camera's parameters are not valid");
     return fblMat3x3F();
 }
 
-fblMat4x4F Camera::CalculateViewMatrix3D()
+fblMat4x4F Camera::CalculateViewMatrix3D() const
 {
     fblAssert(IsValid(), "Camera's parameters are not valid");
     return glm::lookAt(m_Position,

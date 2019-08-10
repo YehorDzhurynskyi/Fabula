@@ -11,13 +11,13 @@ fblBool CameraPerspective::IsValid() const
         m_AspectRatio > 0.0f;
 }
 
-fblMat3x3F CameraPerspective::CalculateProjectionMatrix2D()
+fblMat3x3F CameraPerspective::CalculateProjectionMatrix2D() const
 {
     fblAssert(IsValid(), "Perspective Camera's parameters are not valid");
     return fblMat3x3F();
 }
 
-fblMat4x4F CameraPerspective::CalculateProjectionMatrix3D()
+fblMat4x4F CameraPerspective::CalculateProjectionMatrix3D() const
 {
     fblAssert(IsValid(), "Perspective Camera's parameters are not valid");
     return fblMat4x4F();

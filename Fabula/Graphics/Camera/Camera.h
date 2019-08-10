@@ -15,10 +15,10 @@ public:
 
     virtual fblBool IsValid() const;
 
-    fblMat3x3F CalculateViewMatrix2D();
-    fblMat4x4F CalculateViewMatrix3D();
-    virtual fblMat3x3F CalculateProjectionMatrix2D() = 0;
-    virtual fblMat4x4F CalculateProjectionMatrix3D() = 0;
+    fblMat3x3F CalculateViewMatrix2D() const;
+    fblMat4x4F CalculateViewMatrix3D() const;
+    virtual fblMat3x3F CalculateProjectionMatrix2D() const = 0;
+    virtual fblMat4x4F CalculateProjectionMatrix3D() const = 0;
 
     void SetPosition(const fblV3F& position);
     const fblV3F& GetPosition() const;
